@@ -7,10 +7,10 @@ function Auth() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Study Tracker
+            Sessions
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Sign in to track your study sessions
+            Sign in to track your sessions
           </p>
         </div>
         <form className="mt-8 space-y-6">

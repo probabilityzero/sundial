@@ -4,12 +4,12 @@ import { Layout } from './components/layout/Layout';
 
 // Lazy load pages
 const Auth = React.lazy(() => import('./pages/Auth'));
-const Dashboard = React.lazy(() => import('./pages/Dashboard'));
-const Calendar = React.lazy(() => import('./pages/Calendar'));
-const Analytics = React.lazy(() => import('./pages/Analytics'));
-const Settings = React.lazy(() => import('./pages/Settings'));
-const Profile = React.lazy(() => import('./pages/Profile'));
-const Tasks = React.lazy(() => import('./pages/Tasks'));
+const DashboardPage = React.lazy(() => import('./pages/Dashboard'));
+const CalendarPage = React.lazy(() => import('./pages/Calendar'));
+const AnalyticsPage = React.lazy(() => import('./pages/Analytics'));
+const SettingsPage = React.lazy(() => import('./pages/Settings'));
+const ProfilePage = React.lazy(() => import('./pages/Profile'));
+const TasksPage = React.lazy(() => import('./pages/Tasks'));
 
 function App() {
   return (
@@ -23,12 +23,12 @@ function App() {
       >
         <Routes>
           <Route path="/auth" element={<Auth />} />
-          <Route path="/" element={<Layout><Dashboard /></Layout>} />
-          <Route path="/profile" element={<Layout><Profile /></Layout>} />
-          <Route path="/calendar" element={<Layout><Calendar /></Layout>} />
-          <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
-          <Route path="/tasks" element={<Layout><Tasks /></Layout>} />
-          <Route path="/settings" element={<Layout><Settings /></Layout>} />
+          <Route path="/" element={<Layout pageTitle="Dashboard"><DashboardPage /></Layout>} />
+          <Route path="/profile" element={<Layout pageTitle="Profile"><ProfilePage /></Layout>} />
+          <Route path="/calendar" element={<Layout pageTitle="Calendar"><CalendarPage /></Layout>} />
+          <Route path="/analytics" element={<Layout pageTitle="History"><AnalyticsPage /></Layout>} />
+          <Route path="/tasks" element={<Layout pageTitle="Tasks"><TasksPage /></Layout>} />
+          <Route path="/settings" element={<Layout pageTitle="Settings"><SettingsPage /></Layout>} />
         </Routes>
       </React.Suspense>
     </Router>

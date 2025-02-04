@@ -4,7 +4,7 @@ import { useStudyStore } from '../store/useStudyStore';
 
 function Dashboard() {
   const [newTask, setNewTask] = React.useState('');
-  const { 
+  const {
     currentSession,
     isStudying,
     isPaused,
@@ -63,7 +63,7 @@ function Dashboard() {
             ) : (
               <>
                 <Play className="w-5 h-5" />
-                Start Studying
+                Start Session
               </>
             )}
           </button>

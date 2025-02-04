@@ -19,12 +19,12 @@ function Profile() {
         </div>
 
         <div className="border-t pt-6">
-          <h3 className="text-lg font-semibold mb-4">Study Statistics</h3>
+          <h3 className="text-lg font-semibold mb-4">Session Statistics</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-gray-50 p-4 rounded-lg">
               <div className="flex items-center gap-2 text-gray-600 mb-2">
                 <Clock className="w-5 h-5" />
-                <span>Total Study Time</span>
+                <span>Total Session Time</span>
               </div>
               <p className="text-2xl font-bold">124h 30m</p>
             </div>
@@ -53,7 +53,7 @@ function Profile() {
             <div key={i} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
               <div>
-                <p className="font-medium">Mathematics Study Session</p>
+                <p className="font-medium">Mathematics Session</p>
                 <p className="text-sm text-gray-600">2 hours ago • 1h 30m</p>
               </div>
             </div>

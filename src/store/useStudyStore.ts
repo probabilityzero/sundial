@@ -62,7 +62,7 @@ export const useStudyStore = create<StudyState>((set, get) => ({
   },
 
   pauseStudying: () => set({ isPaused: true }),
-  
+
   resumeStudying: () => set({ isPaused: false }),
 
   endStudying: async () => {
@@ -70,7 +70,7 @@ export const useStudyStore = create<StudyState>((set, get) => ({
     if (!currentSession) return;
 
     const endTime = new Date();
-    
+
     await supabase
       .from('study_sessions')
       .update({
