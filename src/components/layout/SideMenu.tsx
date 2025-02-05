@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, LayoutList, Home } from 'lucide-react';
 import { MenuItem } from './MenuItem';
 import { IconButton } from './IconButton'; 
-import { SecondaryIconButton } from './SecondaryIconButton'; 
+import { SecondaryIconButton } from './IconButtonSecondary'; 
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -28,23 +28,22 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
 
   return (
     <div
-      className={`fixed inset-y-0 left-0 transform ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      } bg-white shadow-lg transition-transform duration-300 ease-in-out z-50 flex flex-col w-64`}
+      className={`fixed inset-y-0 left-0 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+      bg-white shadow-lg transition-transform duration-300 ease-in-out z-50 flex ${isCompact ? 'w-16' : 'w-64'} flex-col`}
     >
-      <div className={`flex-grow flex flex-col p-1 overflow-y-auto justify-between`} >
+      <div className={`flex-grow flex flex-col p-1 overflow-y-auto justify-between transition-all duration-300`}>
         <div>
           {!isCompact && (
-            <div className="flex justify-end items-center mb-2">
-              <IconButton onClick={onClose} icon={<X className="w-6 h-6" />} />
+            <div className="flex items-center mb-2 p-1.5">
+              <IconButton onClick={onClose} icon={<X className="w-5 h-5" />} />
             </div>
           )}
 
-          <Link to="/profile" className={`block mb-4 mx-auto `} onClick={handleMenuItemClick}>
+          <Link to="/profile" className={`block mb-4 mx-auto`} onClick={handleMenuItemClick}>
             <div className={`w-20 h-20 rounded-full bg-gray-200 mx-auto overflow-hidden flex items-center justify-center`}>
               <User className={`w-12 h-12 text-gray-400`} />
             </div>
-            <h3 className="text-center font-semibold">John Doe</h3>
+            {!isCompact && <h3 className="text-center font-semibold">John Doe</h3>}
           </Link>
 
           {!isCompact && <hr className="border-gray-200 my-2" />}
@@ -59,10 +58,9 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
           </nav>
         </div>
 
-
-        <div className="flex items-center justify-between border-t p-2">
+        <div className="flex items-center justify-between border-t p-1">
           <SecondaryIconButton
-            onClick={handleCompactToggle} // Use handleCompactToggle to close menu and toggle compact
+            onClick={handleCompactToggle} 
             isActive={isCompact}
             icon={<LayoutList className="w-6 h-6" />}
           />

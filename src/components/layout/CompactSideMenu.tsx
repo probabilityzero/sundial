@@ -2,7 +2,7 @@ import React from 'react';
 import { Moon, LayoutList, User, Calendar, BarChart, ListChecks, Settings as SettingIcon, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { IconButton } from './IconButton'; 
-import { SecondaryIconButton } from './SecondaryIconButton'; 
+import { SecondaryIconButton } from './IconButtonSecondary'; 
 
 interface CompactSideMenuProps {
   isCompact: boolean;
@@ -23,9 +23,13 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
   };
 
   return (
-    <div className={`fixed top-14 inset-y-0 left-0 transform ${isCompact ? 'translate-x-0' : '-translate-x-full'} bg-white transition-transform duration-300 ease-in-out z-40 flex flex-col w-14 border rounded-none shadow-none`}> {/* Fixed position, added border, removed shadow, z-index */}
+    <div 
+      className={`fixed top-14 inset-y-0 left-0 transform ${isCompact ? 'translate-x-0' : '-translate-x-full'} 
+      bg-white transition-transform duration-300 ease-in-out z-40 flex flex-col ${isCompact ? 'w-14' : 'w-64'} 
+      border rounded-none shadow-none`}
+    >
       <div className="flex-grow flex flex-col p-1 pt-4">
-        <Link to="/profile" className="block mb-1 mx-auto " >
+        <Link to="/profile" className="block mb-1 mx-auto ">
           <div className={`w-10 h-10 rounded-full bg-gray-200 mx-auto overflow-hidden flex items-center justify-center`}>
             <User className={`w-5 h-5 text-gray-400`} />
           </div>
@@ -43,19 +47,19 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
           <Link to="/tasks" style={menuItemStyle} className={`flex justify-center rounded-md transition-colors block`}>
             <IconButton isActive={location.pathname === '/tasks'} icon={<ListChecks className="w-6 h-6" />} />
           </Link>
-          <div className="my-2 border-t"></div> {/* Added gap before settings */}
+          <div className="my-2 border-t"></div>
           <Link to="/settings" style={menuItemStyle} className={`flex justify-center rounded-md transition-colors block`}>
             <IconButton isActive={location.pathname === '/settings'} icon={<SettingIcon className="w-6 h-6" />} />
           </Link>
         </nav>
       </div>
-			
-      <div className="flex flex-col border-t p-2">
+      
+      <div className="flex flex-col space-y-2 border-t p-2">
         <SecondaryIconButton onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
         <SecondaryIconButton
           onClick={toggleCompact}
           isActive={isCompact}
-          icon={<LayoutList className="w-6 h-6 mt-1" />}
+          icon={<LayoutList className="w-6 h-6" />}
         />
       </div>
     </div>

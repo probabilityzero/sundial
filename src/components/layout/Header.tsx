@@ -19,9 +19,16 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const handleBackClick = () => {
     navigate('/');
   };
+
   const handleToggleCompact = () => {
-    toggleCompactMenu();
+    if (isCompact) {
+      toggleCompactMenu();  
+      toggleMenu();        
+    } else {
+      toggleMenu();       
+    }
   };
+
   const handleGoHome = () => {
     navigate('/');
   };
@@ -43,7 +50,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
             ) : (
               <div className="w-14 h-14 flex items-center justify-center">
                 <IconButton
-                  onClick={toggleMenu}
+                  onClick={handleToggleCompact}  // This will handle both opening and closing of the menu
                   icon={<MenuIcon className="w-6 h-6" />}
                 />
               </div>
@@ -51,7 +58,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
           ) : (
             <div className="w-14 h-14 flex items-center justify-center">
               <IconButton
-                onClick={handleToggleCompact}
+                onClick={handleToggleCompact}  // This will handle both opening and closing of the menu
                 icon={<MenuIcon className="w-6 h-6" />}
               />
             </div>
@@ -62,4 +69,3 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
     </header>
   );
 }
-
