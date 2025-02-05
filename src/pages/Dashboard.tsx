@@ -86,7 +86,7 @@ function DashboardPage() {
               </li>
             ))}
             {tasks.length === 0 && !isLoadingTasks && !taskError && (
-              <li>No tasks yet. Add your first task above!</li>
+              <li>No tasks yet.</li>
             )}
           </ul>
         )}
