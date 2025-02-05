@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, LayoutList, Home } from 'lucide-react';
 import { MenuItem } from './MenuItem';
+import { IconButton } from './IconButton'; // Import IconButton
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -34,9 +35,7 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
         <div>
           {!isCompact && (
             <div className="flex justify-end items-center mb-2">
-              <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full">
-                <X className="w-5 h-5" />
-              </button>
+              <IconButton onClick={onClose} icon={<X className="w-6 h-6" />} />
             </div>
           )}
 
@@ -61,15 +60,12 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
 
 
         <div className="flex items-center justify-between border-t pt-4 mt-4">
-          <button
+          <IconButton
             onClick={handleCompactToggle} // Use handleCompactToggle to close menu and toggle compact
-            className={`p-2 text-gray-700 hover:bg-gray-100 rounded-lg  justify-center flex items-center space-x-2 ${isCompact ? 'bg-gray-100' : ''}`}
-          >
-            <LayoutList className="w-5 h-5" />
-          </button>
-          <button className="p-2 text-gray-700 hover:bg-gray-100 rounded-lg  justify-center flex items-center space-x-2"  onClick={toggleDarkMode}>
-            <Moon className="w-5 h-5" />
-          </button>
+            isActive={isCompact}
+            icon={<LayoutList className="w-6 h-6" />}
+          />
+          <IconButton onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
         </div>
       </div>
     </div>

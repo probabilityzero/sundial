@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowLeft, Menu as MenuIcon, Home } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../../store/useSideMenu';
+import { IconButton } from './IconButton'; // Import IconButton
 
 interface HeaderProps {
   pageTitle: string;
@@ -34,37 +35,25 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
           {!isCompact ? (
             !isDashboard ? (
               <div className="w-14 h-14 flex items-center justify-center">
-                <button
+                <IconButton
                   onClick={handleBackClick}
-                  className="p-2 hover:bg-gray-100 rounded-md flex items-center justify-center h-full w-full"
-                  aria-label="Back"
-                  style={{ marginLeft: '0px' }} // Ensure no margin
-                >
-                  <ArrowLeft className="w-6 h-6" />
-                </button>
+                  icon={<ArrowLeft className="w-6 h-6" />}
+                />
               </div>
             ) : (
               <div className="w-14 h-14 flex items-center justify-center">
-                <button
+                <IconButton
                   onClick={toggleMenu}
-                  className="p-2 hover:bg-gray-100 rounded-md flex items-center justify-center h-full w-full"
-                  aria-label="Menu"
-                  style={{ marginLeft: '0px' }} // Ensure no margin
-                >
-                  <MenuIcon className="w-6 h-6" />
-                </button>
+                  icon={<MenuIcon className="w-6 h-6" />}
+                />
               </div>
             )
           ) : (
             <div className="w-14 h-14 flex items-center justify-center">
-              <button
+              <IconButton
                 onClick={handleToggleCompact}
-                className="p-2 hover:bg-gray-100 rounded-md flex items-center justify-center h-full w-full"
-                aria-label="Menu"
-                style={{ marginLeft: '0px' }} // Ensure no margin
-              >
-                <MenuIcon className="w-6 h-6" />
-              </button>
+                icon={<MenuIcon className="w-6 h-6" />}
+              />
             </div>
           )}
           <h1 className="text-xl font-semibold ml-2">{displayTitle}</h1>
@@ -73,3 +62,4 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
     </header>
   );
 }
+
