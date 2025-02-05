@@ -2,7 +2,7 @@ import React from 'react';
 import { Play, Pause, Plus, Tag } from 'lucide-react';
 import { useStudyStore } from '../store/useStudyStore';
 
-function Dashboard() {
+function DashboardPage() {
   const [newTask, setNewTask] = React.useState('');
   const {
     currentSession,
@@ -129,4 +129,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default DashboardPage;

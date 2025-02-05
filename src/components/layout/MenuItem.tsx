@@ -13,15 +13,15 @@ interface MenuItemProps {
 export function MenuItem({ to, label, icon: Icon, onClick, isCompact, darkMode }: MenuItemProps) {
   const location = useLocation();
   const isActive = location.pathname === to;
+  const activeClass = isActive ? 'bg-gray-100' : '';
+  const hoverClass = isActive ? '' : 'hover:bg-gray-100';
+  const textColorClass = isActive ? 'text-blue-600' : 'text-gray-700';
+
 
   return (
     <Link
       to={to}
-      className={`flex ${isCompact ? 'justify-center' : 'gap-2'} px-2 py-2 rounded-md transition-colors ${
-        isActive
-          ? 'bg-blue-50 text-blue-600'
-          : 'text-gray-700 hover:bg-gray-100'
-      } ${isCompact ? 'px-1 py-1' : 'px-4 py-2'} ${isCompact ? 'block' : 'flex'} hover:bg-gray-100 ${darkMode ? 'border border-gray-700' : ''} ${darkMode && !isActive ? 'hover:border-gray-500 rounded-md' : ''}`}
+      className={`flex ${isCompact ? 'justify-center' : 'gap-2'} px-2 py-2 rounded-md transition-colors ${activeClass} ${textColorClass} ${hoverClass} ${isCompact ? 'px-1 py-1' : 'px-4 py-2'} ${isCompact ? 'block' : 'flex'}  ${darkMode ? 'border border-gray-700' : ''} ${darkMode && !isActive ? 'hover:border-gray-500 rounded-md' : ''}`}
       onClick={onClick}
     >
       {Icon && <Icon className="w-6 h-6" />}

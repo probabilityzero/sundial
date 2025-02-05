@@ -11,7 +11,7 @@ interface LayoutProps {
 
 export function Layout({ children, pageTitle }: LayoutProps) {
   const { isMenuOpen, closeMenu } = useSideMenu();
-  const [isCompactMenu, setIsCompactMenu]  = React.useState(false);
+  const [isCompactMenu, setIsCompactMenu]  = React.useState(true); // default to compact menu
   const [darkMode, setDarkMode] = React.useState(false);
 
   const toggleCompactMenu = () => {
@@ -28,7 +28,7 @@ export function Layout({ children, pageTitle }: LayoutProps) {
         isOpen={isMenuOpen}
         onClose={closeMenu}
         isCompact={isCompactMenu}
-        toggleCompact={toggleCompactMenu} // Pass toggleCompactMenu to SideMenu
+        toggleCompact={toggleCompactMenu}
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
       />

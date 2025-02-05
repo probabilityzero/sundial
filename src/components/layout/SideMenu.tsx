@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, LayoutList } from 'lucide-react';
+import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, LayoutList, Home } from 'lucide-react';
 import { MenuItem } from './MenuItem';
 
 interface SideMenuProps {
@@ -50,6 +50,7 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
           {!isCompact && <hr className="border-gray-200 my-2" />}
 
           <nav className="flex-grow space-y-2">
+            <MenuItem to="/" label="Home" icon={Home} onClick={handleMenuItemClick} isCompact={isCompact} darkMode={darkMode} />
             <MenuItem to="/calendar" label="Calendar" icon={Calendar} onClick={handleMenuItemClick} isCompact={isCompact} darkMode={darkMode} />
             <MenuItem to="/analytics" label="History" icon={BarChart} onClick={handleMenuItemClick} isCompact={isCompact} darkMode={darkMode} />
             <MenuItem to="/tasks" label="Tasks" icon={ListChecks} onClick={handleMenuItemClick} isCompact={isCompact} darkMode={darkMode} />
