@@ -2,7 +2,7 @@ import React from 'react';
 import { Header } from './Header';
 import { SideMenu } from './SideMenu';
 import { useSideMenu } from '../../store/useSideMenu';
-import { CompactSideMenu } from './CompactSideMenu';
+import { CompactSideMenu } from './SideMenuCompact';
 
 interface LayoutProps {
   children: React.ReactNode;

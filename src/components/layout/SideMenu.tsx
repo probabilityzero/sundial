@@ -34,7 +34,7 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
       <div className={`flex-grow flex flex-col p-1 overflow-y-auto justify-between transition-all duration-300`}>
         <div>
           {!isCompact && (
-            <div className="flex items-center p-1.5 pm-0 pb-0">
+            <div className="flex items-center p-1.5 mb-0 pb-0">
               <IconButton onClick={onClose} icon={<X className="w-5 h-5" />} />
             </div>
           )}
@@ -48,7 +48,7 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
 
           {!isCompact && <hr className="border-gray-200 my-2" />}
 
-          <nav className="flex-grow space-y-2">
+          <nav className="flex-grow font-semibold space-y-2">
             <MenuItem to="/" label="Home" icon={Home} onClick={handleMenuItemClick} isCompact={isCompact} />
             <MenuItem to="/calendar" label="Calendar" icon={Calendar} onClick={handleMenuItemClick} isCompact={isCompact} />
             <MenuItem to="/analytics" label="History" icon={BarChart} onClick={handleMenuItemClick} isCompact={isCompact} />
