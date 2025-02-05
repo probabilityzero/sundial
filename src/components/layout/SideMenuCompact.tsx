@@ -28,7 +28,7 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
       bg-white transition-transform duration-300 ease-in-out z-40 flex flex-col ${isCompact ? 'w-14' : 'w-64'} 
       border rounded-none shadow-none`}
     >
-      <div className="flex-grow flex flex-col p-1 pt-4">
+      <div className="flex-grow flex flex-col p-1 pt-3">
         <Link to="/profile" className="block mb-1 mx-auto ">
           <div className={`w-10 h-10 rounded-full bg-gray-200 mx-auto overflow-hidden flex items-center justify-center`}>
             <User className={`w-5 h-5 text-gray-400`} />
@@ -54,7 +54,7 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
         </nav>
       </div>
       
-      <div className="flex flex-col space-y-2 border-t p-2">
+      <div className="flex flex-col space-y-0.5 border-t p-2.5">
         <SecondaryIconButton onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
         <SecondaryIconButton
           onClick={toggleCompact}

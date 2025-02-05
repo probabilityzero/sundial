@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, LayoutList, Home } from 'lucide-react';
-import { MenuItem } from './MenuItem';
+import { MenuItem } from './SideMenuItem';
 import { IconButton } from './IconButton'; 
 import { SecondaryIconButton } from './IconButtonSecondary'; 
 
@@ -34,7 +34,7 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
       <div className={`flex-grow flex flex-col p-1 overflow-y-auto justify-between transition-all duration-300`}>
         <div>
           {!isCompact && (
-            <div className="flex items-center mb-2 p-1.5">
+            <div className="flex items-center p-1.5 pm-0 pb-0">
               <IconButton onClick={onClose} icon={<X className="w-5 h-5" />} />
             </div>
           )}
