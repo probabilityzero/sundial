@@ -25,7 +25,7 @@ interface StudyState {
 
 const anonymousUserId = uuidv4(); // Still using anonymous user ID for simplicity, remove if not needed
 
-export const useStudyStore = create<StudyState>((set, get) => ({
+export const useSessionStore = create<StudyState>((set, get) => ({
   tasks: [], // Initialize tasks array in store
 
   fetchTasks: async () => {
@@ -35,13 +35,13 @@ export const useStudyStore = create<StudyState>((set, get) => ({
         .select('*'); // Fetch all tasks
 
       if (error) {
-        console.error("useStudyStore: Error fetching tasks:", error);
+        console.error("useSessionStore: Error fetching tasks:", error);
         throw error;
       }
 
       set({ tasks: data || [] }); // Update tasks in store with fetched data
     } catch (error) {
-      console.error("useStudyStore: Error in fetchTasks:", error);
+      console.error("useSessionStore: Error in fetchTasks:", error);
     }
   },
 
@@ -57,7 +57,7 @@ export const useStudyStore = create<StudyState>((set, get) => ({
         .single();
 
       if (error) {
-        console.error("useStudyStore: Error adding task to Supabase:", error);
+        console.error("useSessionStore: Error adding task to Supabase:", error);
         throw error;
       }
 
@@ -65,7 +65,7 @@ export const useStudyStore = create<StudyState>((set, get) => ({
         tasks: [...state.tasks, data], // Add new task to the tasks array in store
       }));
     } catch (error) {
-      console.error("useStudyStore: Error in addTask:", error);
+      console.error("useSessionStore: Error in addTask:", error);
       throw error; // Re-throw to be caught in component
     }
   },
@@ -86,7 +86,7 @@ export const useStudyStore = create<StudyState>((set, get) => ({
         .eq('id', taskId);
 
       if (error) {
-        console.error("useStudyStore: Error completing task in Supabase:", error);
+        console.error("useSessionStore: Error completing task in Supabase:", error);
         throw error;
       }
 
@@ -96,7 +96,7 @@ export const useStudyStore = create<StudyState>((set, get) => ({
         ),
       }));
     } catch (error) {
-      console.error("useStudyStore: Error in completeTask:", error);
+      console.error("useSessionStore: Error in completeTask:", error);
       throw error; // Re-throw to be caught in component
     }
   },

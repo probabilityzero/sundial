@@ -6,7 +6,7 @@ import { Layout } from './components/layout/Layout';
 const Auth = React.lazy(() => import('./pages/Auth'));
 const DashboardPage = React.lazy(() => import('./pages/Dashboard')); // Verify path and casing
 const CalendarPage = React.lazy(() => import('./pages/Calendar'));
-const AnalyticsPage = React.lazy(() => import('./pages/Analytics'));
+const AnalyticsPage = React.lazy(() => import('./pages/Report'));
 const SettingsPage = React.lazy(() => import('./pages/Settings'));
 const ProfilePage = React.lazy(() => import('./pages/Profile'));
 const TasksPage = React.lazy(() => import('./pages/Tasks'));
@@ -18,7 +18,6 @@ function App() {
         fallback={
           <div className="flex items-center justify-center min-h-screen">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
-            {/* Log error within fallback */}
             {console.error("Fallback UI rendered due to Suspense error")}
           </div>
         }
