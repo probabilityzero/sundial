@@ -1,3 +1,7 @@
 {
-  "template": "bolt-vite-react-ts"
+  "template": "bolt-vite-react-ts",
+  "env": {
+    "VITE_SUPABASE_URL": "https://nkfvvpmrkjopdfjogdud.supabase.co",
+    "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rZnZ2cG1ya2pvcGRmam9nZHVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg2NjAzMzQsImV4cCI6MjA1NDIzNjMzNH0.JmzssOLM-xGfG5MtV__SnEmRtmeKhEAqK3SwomXQv9k"
+  }
 }

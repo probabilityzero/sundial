@@ -58,13 +58,22 @@ CREATE POLICY "Users can CRUD their own study sessions"
 
 -- Tasks Table
 CREATE TABLE tasks (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES auth.users NOT NULL,
-  session_id uuid REFERENCES study_sessions,
-  title text NOT NULL,
-  completed boolean DEFAULT false,
-  created_at timestamptz DEFAULT now()
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users NOT NULL, -- Will be updated when auth is implemented
+  session_id UUID REFERENCES study_sessions,
+  title TEXT NOT NULL,
+  description TEXT,
+  is_started BOOLEAN DEFAULT FALSE,
+  is_cancelled BOOLEAN DEFAULT FALSE,
+  is_finished BOOLEAN DEFAULT FALSE,
+  is_rescheduled BOOLEAN DEFAULT FALSE,
+  rescheduled_date DATE,
+  session_block TEXT CHECK (session_block IN ('morning', 'afternoon', 'evening', 'full_day')),
+  reminder_time TIME,
+  due_time TIME,
+  created_at TIMESTAMPTZ DEFAULT now()
 );
+
 
 ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
 
@@ -72,8 +81,8 @@ CREATE POLICY "Users can CRUD their own tasks"
   ON tasks
   FOR ALL
   TO authenticated
-  USING (auth.uid() = user_id)
-  WITH CHECK (auth.uid() = user_id);
+  USING (auth.uid() = user_id) -- Will be updated when auth is implemented
+  WITH CHECK (auth.uid() = user_id); -- Will be updated when auth is implemented
 
 -- Tags Table
 CREATE TABLE tags (
