@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
-import { v4 as uuidv4 } from 'uuid'; // Import UUID
+import { v4 as uuidv4 } from 'uuid';
 
 interface Task {
   id: string;
@@ -16,188 +16,88 @@ interface Task {
   due_time?: string;
 }
 
-interface StudySession {
-  id: string;
-  title: string;
-  startTime: Date;
-  endTime?: Date;
-  totalDuration?: string;
-  breakDuration: string;
-  tasks: Task[];
-  tags: string[];
-}
-
 interface StudyState {
-  currentSession: StudySession | null;
-  isStudying: boolean;
-  isPaused: boolean;
-  startStudying: (title: string) => Promise<void>;
-  pauseStudying: () => void;
-  resumeStudying: () => void;
-  endStudying: () => Promise<void>;
+  tasks: Task[]; // Tasks array in store
   addTask: (title: string) => Promise<void>;
   completeTask: (taskId: string) => Promise<void>;
-  addTag: (tag: string) => Promise<void>;
-  fetchTasksForSession: (sessionId: string) => Promise<void>;
+  fetchTasks: () => Promise<void>; // Fetch all tasks
 }
 
-// Generate a consistent user ID for anonymous access (for now)
-const anonymousUserId = uuidv4(); // Generate UUID here and outside the store
+const anonymousUserId = uuidv4(); // Still using anonymous user ID for simplicity, remove if not needed
 
 export const useStudyStore = create<StudyState>((set, get) => ({
-  currentSession: null,
-  isStudying: false,
-  isPaused: false,
+  tasks: [], // Initialize tasks array in store
 
-  startStudying: async (title) => {
-    const { data, error } = await supabase
-      .from('study_sessions')
-      .insert({
-        title,
-        user_id: anonymousUserId, // Use consistent anonymous user ID
-        start_time: new Date().toISOString(),
-      })
-      .select()
-      .single();
+  fetchTasks: async () => {
+    try {
+      const { data, error } = await supabase
+        .from('tasks')
+        .select('*'); // Fetch all tasks
 
-    if (error) throw error;
+      if (error) {
+        console.error("useStudyStore: Error fetching tasks:", error);
+        throw error;
+      }
 
-    set({
-      currentSession: {
-        id: data.id,
-        title: data.title,
-        startTime: new Date(data.start_time),
-        breakDuration: '0',
-        tasks: [],
-        tags: [],
-      },
-      isStudying: true,
-    });
-  },
-
-  pauseStudying: () => set({ isPaused: true }),
-
-  resumeStudying: () => set({ isPaused: false }),
-
-  endStudying: async () => {
-    const { currentSession } = get();
-    if (!currentSession) return;
-
-    const endTime = new Date();
-
-    await supabase
-      .from('study_sessions')
-      .update({
-        end_time: endTime.toISOString(),
-      })
-      .eq('id', currentSession.id);
-
-    set({
-      currentSession: null,
-      isStudying: false,
-      isPaused: false,
-    });
-  },
-
-  addTask: async (title) => {
-    const { currentSession } = get();
-    if (!currentSession) return;
-
-    console.log("addTask called with title:", title, "and session:", currentSession); // Debugging log
-
-    const { data, error } = await supabase
-      .from('tasks')
-      .insert({
-        session_id: currentSession.id,
-        title,
-        user_id: anonymousUserId, // Use consistent anonymous user ID
-      })
-      .select()
-      .single();
-
-    if (error) {
-      console.error("Error adding task to Supabase:", error); // Debugging log
-    } else {
-      console.log("Task added successfully:", data); // Debugging log
+      set({ tasks: data || [] }); // Update tasks in store with fetched data
+    } catch (error) {
+      console.error("useStudyStore: Error in fetchTasks:", error);
     }
-
-
-    if (error) throw error;
-
-    set((state) => ({
-      currentSession: state.currentSession ? {
-        ...state.currentSession,
-        tasks: [...state.currentSession.tasks, {
-          id: data.id,
-          title: data.title,
-          is_cancelled: false,
-          is_finished: false,
-          is_rescheduled: false,
-          is_started: false,
-        }],
-      } : null,
-    }));
   },
 
-  completeTask: async (taskId) => {
-    const { currentSession } = get();
-    if (!currentSession) return;
+  addTask: async (title: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('tasks')
+        .insert({
+          title,
+          // user_id: anonymousUserId, // If you re-add user_id to tasks table
+        })
+        .select()
+        .single();
 
-    await supabase
-      .from('tasks')
-      .update({ is_finished: true })
-      .eq('id', taskId);
+      if (error) {
+        console.error("useStudyStore: Error adding task to Supabase:", error);
+        throw error;
+      }
 
-    set((state) => ({
-      currentSession: state.currentSession ? {
-        ...state.currentSession,
-        tasks: state.currentSession.tasks.map(task =>
-          task.id === taskId ? { ...task, is_finished: true } : task
+      set((state) => ({
+        tasks: [...state.tasks, data], // Add new task to the tasks array in store
+      }));
+    } catch (error) {
+      console.error("useStudyStore: Error in addTask:", error);
+      throw error; // Re-throw to be caught in component
+    }
+  },
+
+  completeTask: async (taskId: string) => {
+    try {
+      const taskToUpdate = get().tasks.find(task => task.id === taskId);
+      if (!taskToUpdate) {
+        console.error(`Task with id ${taskId} not found in local state.`);
+        return;
+      }
+      const updatedIsFinished = !taskToUpdate.is_finished;
+
+
+      const { error } = await supabase
+        .from('tasks')
+        .update({ is_finished: updatedIsFinished }) // Toggle is_finished status
+        .eq('id', taskId);
+
+      if (error) {
+        console.error("useStudyStore: Error completing task in Supabase:", error);
+        throw error;
+      }
+
+      set((state) => ({
+        tasks: state.tasks.map(task =>
+          task.id === taskId ? { ...task, is_finished: updatedIsFinished } : task
         ),
-      } : null,
-    }));
-  },
-
-  addTag: async (tag) => {
-    const { currentSession } = get();
-    if (!currentSession) return;
-
-    set((state) => ({
-      currentSession: state.currentSession ? {
-        ...state.currentSession,
-        tags: [...state.currentSession.tags, tag],
-      } : null,
-    }));
-  },
-  fetchTasksForSession: async (sessionId) => {
-    const { data, error } = await supabase
-      .from('tasks')
-      .select('*')
-      .eq('session_id', sessionId);
-
-    if (error) {
-      console.error("Error fetching tasks:", error);
-      return;
+      }));
+    } catch (error) {
+      console.error("useStudyStore: Error in completeTask:", error);
+      throw error; // Re-throw to be caught in component
     }
-
-    set(state => ({
-      currentSession: state.currentSession ? {
-        ...state.currentSession,
-        tasks: data.map(task => ({
-          id: task.id,
-          title: task.title,
-          description: task.description,
-          is_started: task.is_started,
-          is_cancelled: task.is_cancelled,
-          is_finished: task.is_finished,
-          is_rescheduled: task.is_rescheduled,
-          rescheduled_date: task.rescheduled_date,
-          session_block: task.session_block,
-          reminder_time: task.reminder_time,
-          due_time: task.due_time,
-        })) || [],
-      } : state.currentSession,
-    }));
   },
-
 }));

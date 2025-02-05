@@ -1,68 +1,55 @@
-import React from 'react';
-import { Play, Tag, Check } from 'lucide-react';
-import { useStudyStore } from '../store/useStudyStore';
+import React, { useState, useEffect } from 'react';
+import { Check } from 'lucide-react';
 import { TaskItem } from '../components/shared/TaskItem';
+import { useStudyStore } from '../store/useStudyStore'; // Import the store
 
 function DashboardPage() {
-  const [newTask, setNewTask] = React.useState('');
-  const [taskError, setTaskError] = React.useState(''); // State for task error message
-  const {
-    currentSession,
-    isStudying,
-    startStudying,
-    addTask,
-    completeTask,
-    fetchTasksForSession, // Ensure fetchTasksForSession is available
-  } = useStudyStore();
+  const [newTask, setNewTask] = useState('');
+  const [taskError, setTaskError] = useState('');
+  const [isLoadingTasks, setIsLoadingTasks] = useState(false); // Loading state for tasks
+  const { tasks, addTask, completeTask, fetchTasks } = useStudyStore(); // Use store actions and state
 
-  React.useEffect(() => {
-    if (currentSession?.id) {
-      fetchTasksForSession(currentSession.id);
-    }
-  }, [currentSession?.id, fetchTasksForSession]);
+  useEffect(() => {
+    const loadTasks = async () => {
+      setIsLoadingTasks(true); // Start loading
+      setTaskError(''); // Clear any previous errors
+      try {
+        await fetchTasks(); // Fetch tasks from database
+      } catch (error) {
+        console.error('DashboardPage: Error fetching tasks:', error);
+        setTaskError('Failed to load tasks. Please try again later.'); // Set error message
+      } finally {
+        setIsLoadingTasks(false); // End loading, whether success or error
+      }
+    };
 
-  const getTimeOfDay = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Morning';
-    if (hour < 17) return 'Afternoon';
-    return 'Evening';
-  };
-
-  const sessionType = getTimeOfDay();
-
-  const handleStartSession = () => {
-    startStudying(`${sessionType} Session`);
-  };
+    loadTasks();
+  }, [fetchTasks]);
 
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
-    setTaskError(''); // Clear any previous error
+    setTaskError(''); // Clear previous error
     if (newTask.trim()) {
       try {
-        await addTask(newTask);
-        setNewTask('');
+        await addTask(newTask); // Call addTask from store to add to database
+        setNewTask(''); // Clear input field on success
       } catch (error) {
-        console.error('Failed to add task:', error);
+        console.error('DashboardPage: Failed to add task:', error);
         setTaskError('Failed to add task. Please try again.'); // Set error message
       }
     } else {
-      setTaskError('Task description cannot be empty.'); // Set error for empty task
+      setTaskError('Task description cannot be empty.');
     }
+  };
+
+  const handleCompleteTask = (taskId: string) => {
+    completeTask(taskId); // Call completeTask from store to update database
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen pb-24">
       <div className="text-center">
-        <button
-          onClick={handleStartSession}
-          className="group relative h-32 w-32 rounded-full bg-primary-500 hover:bg-primary-700 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500"
-        >
-          <Play className="w-12 h-12 text-white mx-auto transition-transform transform group-hover:scale-110" />
-        </button>
-        <div className="mt-4 flex items-center justify-center space-x-2">
-          <span className="text-lg font-medium">{sessionType} Session</span>
-          <Tag className="w-4 h-4 text-gray-500" />
-        </div>
+        <h2 className="text-2xl font-semibold mb-4">My Tasks</h2>
       </div>
 
       <div className="mt-8 w-full max-w-md">
@@ -83,18 +70,26 @@ function DashboardPage() {
           </button>
         </form>
         {taskError && <p className="text-red-500 text-sm mb-2">{taskError}</p>}
-        <ul className="space-y-2">
-          {currentSession?.tasks.map((task) => (
-            <li key={task.id}>
-              <TaskItem
-                id={task.id}
-                title={task.title}
-                completed={task.is_finished}
-                onComplete={completeTask}
-              />
-            </li>
-          ))}
-        </ul>
+
+        {isLoadingTasks ? (
+          <div className="text-center">Loading tasks...</div>
+        ) : (
+          <ul className="space-y-2">
+            {tasks.map((task) => (
+              <li key={task.id}>
+                <TaskItem
+                  id={task.id}
+                  title={task.title}
+                  completed={task.is_finished}
+                  onComplete={handleCompleteTask}
+                />
+              </li>
+            ))}
+            {tasks.length === 0 && !isLoadingTasks && !taskError && (
+              <li>No tasks yet. Add your first task above!</li>
+            )}
+          </ul>
+        )}
       </div>
     </div>
   );
