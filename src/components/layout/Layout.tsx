@@ -33,7 +33,7 @@ export function Layout({ children, pageTitle }: LayoutProps) {
         toggleDarkMode={toggleDarkMode}
       />}
       {isCompactMenu && <CompactSideMenu isCompact={isCompactMenu} toggleCompact={toggleCompactMenu} darkMode={darkMode} toggleDarkMode={toggleDarkMode} /> }
-      <div className="flex-grow flex flex-col" style={{ marginLeft: !isCompactMenu ? '256px' : '56px' }}>
+      <div className="flex-grow flex flex-col" style={{ marginLeft: isCompactMenu ? '56px' : '0px' }}>
           <Header pageTitle={pageTitle} isCompact={isCompactMenu} toggleCompactMenu={toggleCompactMenu} />
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {children}

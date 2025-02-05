@@ -1,9 +1,7 @@
 /*
-  # Initial Schema Setup for Study Tracker
-
   1. New Tables
     - users (managed by Supabase Auth)
-    - study_sessions
+    - sessions
       - id (uuid, primary key)
       - user_id (references auth.users)
       - title (text)
@@ -29,14 +27,13 @@
       - session_id (references study_sessions)
       - tag_id (references tags)
       - created_at (timestamptz)
-
   2. Security
     - Enable RLS on all tables
     - Add policies for authenticated users
 */
 
--- Study Sessions Table
-CREATE TABLE study_sessions (
+-- Sessions Table
+CREATE TABLE sessions (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid REFERENCES auth.users NOT NULL,
   title text NOT NULL,
@@ -46,9 +43,7 @@ CREATE TABLE study_sessions (
   break_duration interval DEFAULT '0'::interval,
   created_at timestamptz DEFAULT now()
 );
-
-ALTER TABLE study_sessions ENABLE ROW LEVEL SECURITY;
-
+ALTER TABLE sessions ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can CRUD their own study sessions"
   ON study_sessions
   FOR ALL
@@ -73,10 +68,7 @@ CREATE TABLE tasks (
   due_time TIME,
   created_at TIMESTAMPTZ DEFAULT now()
 );
-
-
 ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
-
 CREATE POLICY "Users can CRUD their own tasks"
   ON tasks
   FOR ALL
@@ -93,9 +85,7 @@ CREATE TABLE tags (
   created_at timestamptz DEFAULT now(),
   UNIQUE(user_id, name)
 );
-
 ALTER TABLE tags ENABLE ROW LEVEL SECURITY;
-
 CREATE POLICY "Users can CRUD their own tags"
   ON tags
   FOR ALL
@@ -110,9 +100,7 @@ CREATE TABLE session_tags (
   created_at timestamptz DEFAULT now(),
   PRIMARY KEY (session_id, tag_id)
 );
-
 ALTER TABLE session_tags ENABLE ROW LEVEL SECURITY;
-
 CREATE POLICY "Users can CRUD their own session tags"
   ON session_tags
   FOR ALL

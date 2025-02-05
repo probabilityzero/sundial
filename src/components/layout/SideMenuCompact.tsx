@@ -1,8 +1,8 @@
 import React from 'react';
 import { Moon, LayoutList, User, Calendar, BarChart, ListChecks, Settings as SettingIcon, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { IconButton } from './IconButton'; 
-import { SecondaryIconButton } from './IconButtonSecondary'; 
+import { IconButton } from './IconButton';
+import { SecondaryIconButton } from './IconButtonSecondary';
 
 interface CompactSideMenuProps {
   isCompact: boolean;
@@ -23,9 +23,9 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
   };
 
   return (
-    <div 
-      className={`fixed top-14 inset-y-0 left-0 transform ${isCompact ? 'translate-x-0' : '-translate-x-full'} 
-      bg-white transition-transform duration-300 ease-in-out z-40 flex flex-col ${isCompact ? 'w-14' : 'w-64'} 
+    <div
+      className={`fixed top-14 inset-y-0 left-0 transform ${isCompact ? 'translate-x-0' : '-translate-x-full'}
+      bg-white transition-transform duration-300 ease-in-out z-40 flex flex-col ${isCompact ? 'w-14' : 'w-64'}
       border rounded-none shadow-none`}
     >
       <div className="flex-grow flex flex-col p-1 pt-3">
@@ -34,7 +34,7 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
             <User className={`w-5 h-5 text-gray-400`} />
           </div>
         </Link>
-        <nav className="flex-grow space-y-0.5 mt-2">
+        <nav className="flex-grow space-y-1 mt-1">
           <Link to="/" style={menuItemStyle} className={`flex justify-center rounded-md transition-colors block`}>
             <IconButton isActive={location.pathname === '/'} icon={<Home className="w-6 h-6" />} />
           </Link>
@@ -53,8 +53,8 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
           </Link>
         </nav>
       </div>
-      
-      <div className="flex flex-col space-y-0.5 border-t p-2.5">
+
+      <div className="flex flex-col space-y-1 border-t p-2">
         <SecondaryIconButton onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
         <SecondaryIconButton
           onClick={toggleCompact}
