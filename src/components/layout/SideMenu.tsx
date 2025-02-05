@@ -2,7 +2,8 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, LayoutList, Home } from 'lucide-react';
 import { MenuItem } from './MenuItem';
-import { IconButton } from './IconButton'; // Import IconButton
+import { IconButton } from './IconButton'; 
+import { SecondaryIconButton } from './SecondaryIconButton'; 
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -29,9 +30,9 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
     <div
       className={`fixed inset-y-0 left-0 transform ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
-      } bg-white shadow-lg transition-transform duration-300 ease-in-out z-50 flex flex-col w-64 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}
+      } bg-white shadow-lg transition-transform duration-300 ease-in-out z-50 flex flex-col w-64`}
     >
-      <div className={`flex-grow flex flex-col p-4 overflow-y-auto justify-between`} >
+      <div className={`flex-grow flex flex-col p-1 overflow-y-auto justify-between`} >
         <div>
           {!isCompact && (
             <div className="flex justify-end items-center mb-2">
@@ -40,7 +41,7 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
           )}
 
           <Link to="/profile" className={`block mb-4 mx-auto `} onClick={handleMenuItemClick}>
-            <div className={`w-20 h-20 rounded-full bg-gray-200 mx-auto overflow-hidden flex items-center justify-center ${darkMode ? 'border border-gray-700' : ''}`}>
+            <div className={`w-20 h-20 rounded-full bg-gray-200 mx-auto overflow-hidden flex items-center justify-center`}>
               <User className={`w-12 h-12 text-gray-400`} />
             </div>
             <h3 className="text-center font-semibold">John Doe</h3>
@@ -49,23 +50,23 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
           {!isCompact && <hr className="border-gray-200 my-2" />}
 
           <nav className="flex-grow space-y-2">
-            <MenuItem to="/" label="Home" icon={Home} onClick={handleMenuItemClick} isCompact={isCompact} darkMode={darkMode} />
-            <MenuItem to="/calendar" label="Calendar" icon={Calendar} onClick={handleMenuItemClick} isCompact={isCompact} darkMode={darkMode} />
-            <MenuItem to="/analytics" label="History" icon={BarChart} onClick={handleMenuItemClick} isCompact={isCompact} darkMode={darkMode} />
-            <MenuItem to="/tasks" label="Tasks" icon={ListChecks} onClick={handleMenuItemClick} isCompact={isCompact} darkMode={darkMode} />
+            <MenuItem to="/" label="Home" icon={Home} onClick={handleMenuItemClick} isCompact={isCompact} />
+            <MenuItem to="/calendar" label="Calendar" icon={Calendar} onClick={handleMenuItemClick} isCompact={isCompact} />
+            <MenuItem to="/analytics" label="History" icon={BarChart} onClick={handleMenuItemClick} isCompact={isCompact} />
+            <MenuItem to="/tasks" label="Tasks" icon={ListChecks} onClick={handleMenuItemClick} isCompact={isCompact} />
             <hr className="border-gray-200 my-2" />
-            <MenuItem to="/settings" label="Settings" icon={SettingIcon} onClick={handleMenuItemClick}  isCompact={isCompact} darkMode={darkMode}/>
+            <MenuItem to="/settings" label="Settings" icon={SettingIcon} onClick={handleMenuItemClick}  isCompact={isCompact} />
           </nav>
         </div>
 
 
-        <div className="flex items-center justify-between border-t pt-4 mt-4">
-          <IconButton
+        <div className="flex items-center justify-between border-t p-2">
+          <SecondaryIconButton
             onClick={handleCompactToggle} // Use handleCompactToggle to close menu and toggle compact
             isActive={isCompact}
             icon={<LayoutList className="w-6 h-6" />}
           />
-          <IconButton onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
+          <SecondaryIconButton onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
         </div>
       </div>
     </div>
