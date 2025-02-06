@@ -13,6 +13,7 @@ function DashboardPage() {
   const taskItemRefs = useRef<HTMLElement[]>([]);
   const { tasks, addTask, updateTaskStatus, fetchTasks } = useSessionStore(); // Use store actions and state
   const [isLoadingTasks, setIsLoadingTasks] = useState(false);
+  const [showTick, setShowTick] = useState(false);
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -38,6 +39,10 @@ function DashboardPage() {
       try {
         await addTask(newTask);
         setNewTask('');
+        setShowTick(true); // Show the tick
+        setTimeout(() => {
+          setShowTick(false); // Hide the tick after a delay
+        }, 700); // Adjust the delay as needed
       } catch (error) {
         console.error('DashboardPage: Failed to add task:', error);
         setTaskError('Failed to add task. Please try again later.');
@@ -72,8 +77,8 @@ function DashboardPage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="mb-8" style={{ width: '30%' }}>
-        <SessionCard />
+      <div className="mb-8 w-full max-w-lg px-4" >
+        <SessionCard  />
       </div>
       <div className="w-full max-w-lg bg-gray-100 rounded-md p-4">
         <div className="mb-4 text-left">
@@ -87,7 +92,7 @@ function DashboardPage() {
           taskItemRefs={taskItemRefs}
         />
 
-        <form onSubmit={handleAddTask} className="mt-2 flex items-center rounded-md">
+        <form onSubmit={handleAddTask} className="mt-2 flex items-center rounded-md relative">
           <button
             type="button"
             className="text-gray-500 focus:outline-none px-3"
@@ -103,12 +108,17 @@ function DashboardPage() {
             className="w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none bg-transparent"
           />
           {newTask && (
-            <button
+            <motion.button
               type="submit"
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-r-md focus:outline-none focus:shadow-outline"
+              className="text-green-500  font-bold py-2 px-4 rounded-r-md focus:outline-none focus:shadow-outline absolute right-0"
+              style={{paddingRight: '10px'}}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
             >
               <Check className="h-4 w-4 inline-block mr-1" />
-            </button>
+            </motion.button>
           )}
         </form>
         {taskError && <p className="text-red-500 text-sm mt-2">{taskError}</p>}

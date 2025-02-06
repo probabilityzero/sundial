@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Edit, Check } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Check } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface EditableTitleProps {
   title: string;
@@ -9,8 +10,15 @@ interface EditableTitleProps {
 export function EditableTitle({ title, onSave }: EditableTitleProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleEditClick = () => {
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
+  const handleTitleClick = () => {
     setIsEditing(true);
   };
 
@@ -23,27 +31,49 @@ export function EditableTitle({ title, onSave }: EditableTitleProps) {
     setNewTitle(e.target.value);
   };
 
+  // Handle pressing Enter key to save
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSaveClick();
+    }
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      handleSaveClick();
+    }, 100); // Small delay
+  };
+
   return (
-    <div className="flex items-center">
+    <div className="flex items-center relative">
       {isEditing ? (
         <>
           <input
             type="text"
+            ref={inputRef}
             value={newTitle}
             onChange={handleInputChange}
-            className="text-3xl font-semibold mr-2 focus:outline-none border-b-2 border-gray-300"
+            onKeyDown={handleKeyDown}
+            className="text-3xl font-semibold mr-2 focus:outline-none border-b-2 border-gray-300 bg-transparent"
+            onBlur={handleBlur} // Save when focus is lost
           />
-          <button onClick={handleSaveClick} className="text-green-600 hover:text-green-800 focus:outline-none">
+          <motion.button
+            onClick={handleSaveClick}
+            className="text-green-600 hover:text-green-800 focus:outline-none absolute right-0"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.2 }}
+          >
             <Check className="h-5 w-5" />
-          </button>
+          </motion.button>
         <>
       ) : (
-        <>
-          <h2 className="text-3xl font-semibold mr-2">{title}</h2>
-          <button onClick={handleEditClick} className="text-gray-600 hover:text-gray-800 focus:outline-none">
-            <Edit className="h-5 w-5" />
-          </button>
-        <>
+        <h2
+          className="text-3xl font-semibold mr-2 cursor-pointer"
+          onClick={handleTitleClick}
+        >
+          {title}
+        </h2>
       )}
     </div>
   );
