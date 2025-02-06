@@ -9,16 +9,15 @@ interface TaskItemProps {
 
 export function TaskItem({ id, title, completed, onComplete }: TaskItemProps) {
   return (
-    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-      <input
-        type="checkbox"
-        checked={completed}
-        onChange={() => onComplete(id)}
-        className="w-5 h-5 text-blue-500 rounded focus:ring-blue-500"
-      />
-      <span className={completed ? 'line-through text-gray-500' : ''}>
+    <div className="flex items-center justify-between w-full">
+      <span className={`text-gray-700 ${completed ? 'line-through text-gray-500' : ''} w-full`}>
         {title}
       </span>
+      {completed && (
+        <span className="bg-green-200 text-green-700 rounded-full px-2 py-1 text-sm font-medium">
+          Completed
+        </span>
+      )}
     </div>
   );
 }

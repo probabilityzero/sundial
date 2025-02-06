@@ -6,10 +6,11 @@ interface Task {
   id: string;
   title: string;
   description?: string;
-  is_started: boolean;
-  is_cancelled: boolean;
-  is_finished: boolean;
-  is_rescheduled: boolean;
+  status: 'created' | 'started' | 'completed' | 'pending' | 'migrated'; // Updated status type
+  is_started: boolean; // No longer needed, remove later
+  is_cancelled: boolean; // No longer needed, remove later
+  is_finished: boolean; // No longer needed, remove later
+  is_rescheduled: boolean; // No longer needed, remove later
   rescheduled_date?: string;
   session_block?: 'morning' | 'afternoon' | 'evening' | 'midnight' | 'full_day';
   reminder_time?: string;
@@ -17,29 +18,30 @@ interface Task {
 }
 
 interface StudyState {
-  tasks: Task[]; // Tasks array in store
+  tasks: Task[];
   addTask: (title: string) => Promise<void>;
-  completeTask: (taskId: string) => Promise<void>;
-  fetchTasks: () => Promise<void>; // Fetch all tasks
+  updateTaskStatus: (taskId: string, status: Task['status']) => Promise<void>; // Renamed and updated
+  fetchTasks: () => Promise<void>;
 }
 
-const anonymousUserId = uuidv4(); // Still using anonymous user ID for simplicity, remove if not needed
+const anonymousUserId = uuidv4();
 
 export const useSessionStore = create<StudyState>((set, get) => ({
-  tasks: [], // Initialize tasks array in store
+  tasks: [],
 
   fetchTasks: async () => {
     try {
       const { data, error } = await supabase
         .from('tasks')
-        .select('*'); // Fetch all tasks
+        .select('*')
+        .order('created_at', { ascending: false }); // Order by created_at desc for newest tasks first
 
       if (error) {
         console.error("useSessionStore: Error fetching tasks:", error);
         throw error;
       }
 
-      set({ tasks: data || [] }); // Update tasks in store with fetched data
+      set({ tasks: data || [] });
     } catch (error) {
       console.error("useSessionStore: Error in fetchTasks:", error);
     }
@@ -51,7 +53,7 @@ export const useSessionStore = create<StudyState>((set, get) => ({
         .from('tasks')
         .insert({
           title,
-          // user_id: anonymousUserId, // If you re-add user_id to tasks table
+          // user_id: anonymousUserId,
         })
         .select()
         .single();
@@ -62,42 +64,37 @@ export const useSessionStore = create<StudyState>((set, get) => ({
       }
 
       set((state) => ({
-        tasks: [...state.tasks, data], // Add new task to the tasks array in store
+        tasks: [...state.tasks, data],
       }));
     } catch (error) {
       console.error("useSessionStore: Error in addTask:", error);
-      throw error; // Re-throw to be caught in component
+      throw error;
     }
   },
 
-  completeTask: async (taskId: string) => {
+  updateTaskStatus: async (taskId: string, status: Task['status']) => { // Updated function
     try {
-      const taskToUpdate = get().tasks.find(task => task.id === taskId);
-      if (!taskToUpdate) {
-        console.error(`Task with id ${taskId} not found in local state.`);
-        return;
-      }
-      const updatedIsFinished = !taskToUpdate.is_finished;
-
-
-      const { error } = await supabase
+      const { data, error } = await supabase // Log data as well
         .from('tasks')
-        .update({ is_finished: updatedIsFinished }) // Toggle is_finished status
-        .eq('id', taskId);
+        .update({ status }) // Update status column
+        .eq('id', taskId)
+        .select() // Selecting to get the updated data back
 
       if (error) {
-        console.error("useSessionStore: Error completing task in Supabase:", error);
+        console.error(`useSessionStore: Error updating task status to ${status} in Supabase:`, error, error.message, error.details, error.hint); // More detailed error log
         throw error;
       }
 
+      console.log("Task status updated successfully in Supabase:", taskId, status, data); // Log success and data
+
       set((state) => ({
         tasks: state.tasks.map(task =>
-          task.id === taskId ? { ...task, is_finished: updatedIsFinished } : task
+          task.id === taskId ? { ...task, status: data ? data[0].status : status } : task // Update status in local state from returned data
         ),
       }));
     } catch (error) {
-      console.error("useSessionStore: Error in completeTask:", error);
-      throw error; // Re-throw to be caught in component
+      console.error("useSessionStore: Error in updateTaskStatus:", error);
+      throw error;
     }
   },
 }));
