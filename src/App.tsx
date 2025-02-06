@@ -4,7 +4,7 @@ import { Layout } from './components/layout/Layout';
 
 // Lazy load pages
 const Auth = React.lazy(() => import('./pages/Auth'));
-const DashboardPage = React.lazy(() => import('./pages/Dashboard')); // Verify path and casing
+const DashboardPage = React.lazy(() => import('./pages/Home')); // Verify path and casing
 const CalendarPage = React.lazy(() => import('./pages/Calendar'));
 const AnalyticsPage = React.lazy(() => import('./pages/Report'));
 const SettingsPage = React.lazy(() => import('./pages/Settings'));

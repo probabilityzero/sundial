@@ -55,7 +55,7 @@ function DashboardPage() {
       <div className="mt-8 w-full max-w-md">
 
         {isLoadingTasks ? (
-          <div className="text-center">Loading tasks...</div>
+          <div className="text-left">Loading tasks...</div>
         ) : (
           <ul className="space-y-1">
             {tasks.map((task) => (
