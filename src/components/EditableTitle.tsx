@@ -47,14 +47,14 @@ export function EditableTitle({ title, onSave }: EditableTitleProps) {
   return (
     <div className="flex items-center relative">
       {isEditing ? (
-        <>
+        <div className="flex items-center">
           <input
             type="text"
             ref={inputRef}
             value={newTitle}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            className="text-3xl font-semibold mr-2 focus:outline-none border-b-2 border-gray-300 bg-transparent"
+            className="text-3xl font-semibold mr-2 focus:outline-none border-b-2 border-gray-300 bg-transparent w-48" // Added w-48
             onBlur={handleBlur} // Save when focus is lost
           />
           <motion.button
@@ -66,7 +66,7 @@ export function EditableTitle({ title, onSave }: EditableTitleProps) {
           >
             <Check className="h-5 w-5" />
           </motion.button>
-        <>
+        </div>
       ) : (
         <h2
           className="text-3xl font-semibold mr-2 cursor-pointer"

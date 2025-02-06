@@ -66,7 +66,7 @@ function DashboardPage() {
       await updateTaskStatus(taskId, 'completed');
     } catch (error) {
       console.error('DashboardPage: Failed to complete task:', error);
-      setTaskError('Failed to complete task. Please try again later.');
+      setTaskError('Failed to complete task:', error);
     }
   };
 
@@ -77,10 +77,10 @@ function DashboardPage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="mb-8 w-full max-w-lg px-4" >
-        <SessionCard  />
+      <div className="mb-8 w-full max-w-lg px-4 ml-auto" >
+        <SessionCard />
       </div>
-      <div className="w-full max-w-lg bg-gray-100 rounded-md p-4">
+      <div className="w-full max-w-lg bg-gray-100 rounded-md p-4 mt-12 sm:w-9/10 md:w-4/5 lg:w-1/2">
         <div className="mb-4 text-left">
           <h2 className="text-3xl font-semibold text-gray-800">Goals</h2>
         </div>
