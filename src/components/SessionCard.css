@@ -1,0 +1,82 @@
+.session-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.session-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #667eea; /* Example circle color */
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  /* Add any content or styling for the circle itself */
+}
+
+.session-info {
+  text-align: center;
+}
+
+.session-name-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.session-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.session-edit-button {
+  background: none;
+  border: none;
+  color: #718096;
+  cursor: pointer;
+}
+
+.session-edit-icon {}
+
+
+.session-name-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.session-name-input {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 0.5rem;
+  outline: none;
+}
+
+.session-name-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.session-name-save, .session-name-cancel {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.session-name-save {
+  background-color: #48bb78;
+  color: white;
+  border: none;
+}
+
+.session-name-cancel {
+  background-color: #edf2f7;
+  color: #718096;
+  border: none;
+}

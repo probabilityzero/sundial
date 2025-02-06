@@ -1,7 +1,7 @@
 -- Tasks Table
 CREATE TABLE tasks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---  user_id UUID REFERENCES auth.users NOT NULL,
+--  user_id UUID REFERENCES auth.users NOT NULL, -- Uncomment if you need user-specific tasks
   session_id UUID REFERENCES sessions,
   project_id UUID REFERENCES projects,
   title TEXT NOT NULL,
@@ -9,19 +9,9 @@ CREATE TABLE tasks (
   label TEXT,
   reminder TIMESTAMPTZ,
   deadline TIMESTAMPTZ DEFAULT now(),
-  created_at TIMESTAMPTZ DEFAULT now()
+  created_at TIMESTAMPTZ DEFAULT now(),
+  status TEXT DEFAULT 'created' -- Added status column with default 'created'
 );
-
--- Task Status Table
-CREATE TABLE taskstatuses (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  task_id UUID REFERENCES tasks NOT NULL,
-  status TEXT NOT NULL, -- e.g., 'started', 'cancelled', 'finished', 'rescheduled', 'migrated', 'deleted'
-  status_changed_at TIMESTAMPTZ DEFAULT now(),
-  previous_status TEXT
-);
-
-
 
 -- Projects Table (Simplified)
 CREATE TABLE projects (
@@ -31,7 +21,6 @@ CREATE TABLE projects (
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
-
 -- Sessions Table
 CREATE TABLE sessions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -39,3 +28,6 @@ CREATE TABLE sessions (
   title TEXT NOT NULL,
   created_at TIMESTAMPTZ DEFAULT now()
 );
+
+-- Removed taskstatuses table
+-- DROP TABLE taskstatuses; -- Uncomment this line to drop the old table if it exists
