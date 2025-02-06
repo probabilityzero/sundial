@@ -46,35 +46,44 @@ export function EditableTitle({ title, onSave }: EditableTitleProps) {
 
   return (
     <div className="flex items-center relative">
-      {isEditing ? (
-        <div className="flex items-center">
-          <input
-            type="text"
-            ref={inputRef}
-            value={newTitle}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            className="text-3xl font-semibold mr-2 focus:outline-none border-b-2 border-gray-300 bg-transparent w-48" // Added w-48
-            onBlur={handleBlur} // Save when focus is lost
-          />
-          <motion.button
-            onClick={handleSaveClick}
-            className="text-green-600 hover:text-green-800 focus:outline-none absolute right-0"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.2 }}
+      <div className="relative">
+        {isEditing ? (
+          <div className="flex items-center">
+            <input
+              type="text"
+              ref={inputRef}
+              value={newTitle}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              className="text-3xl font-semibold mr-2 focus:outline-none bg-transparent relative"
+              onBlur={handleBlur} // Save when focus is lost
+            />
+            <motion.button
+              onClick={handleSaveClick}
+              className="text-green-600 hover:text-green-800 focus:outline-none absolute right-0"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Check className="h-5 w-5" />
+            </motion.button>
+          </div>
+        ) : (
+          <h2
+            className="text-3xl font-semibold mr-2 cursor-pointer relative"
+            onClick={handleTitleClick}
           >
-            <Check className="h-5 w-5" />
-          </motion.button>
-        </div>
-      ) : (
-        <h2
-          className="text-3xl font-semibold mr-2 cursor-pointer"
-          onClick={handleTitleClick}
-        >
-          {title}
-        </h2>
-      )}
+            {title}
+          </h2>
+        )}
+        <motion.div
+          className="absolute left-0 bottom-0 h-[2px] bg-blue-500 origin-center"
+          style={{ width: isEditing ? '100%' : '0%' }}
+          initial={{ x: "-50%" }}
+          animate={{ x: "-50%" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        />
+      </div>
     </div>
   );
 }
