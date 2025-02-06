@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, Play, Loader2, Circle } from 'lucide-react';
-import { TaskItem } from '../components/shared/TaskItem';
+import { TodaysGoals } from '../components/shared/GoalsList';
 import { useSessionStore } from '../store/useSessionStore'; // Import the store
-import { SessionCard } from '../components/SessionCard';
+import { SessionCard } from '../components/DashboardSession';
 import { motion } from 'framer-motion';
-import { TaskList } from '../components/TaskList'; // Import TaskList
-import { EditableTitle } from '../components/EditableTitle'; // Import EditableTitle
+import { TaskList } from '../components/DashboardGoal'; // Import TaskList
+import { EditableTitle } from '../components/shared/TitleEditor';
 
 function DashboardPage() {
   const [newTask, setNewTask] = useState('');
@@ -48,7 +48,7 @@ function DashboardPage() {
         setTaskError('Failed to add task. Please try again later.');
       }
     } else {
-      setTaskError('Task description cannot be empty.');
+      setTaskError('This cannot be empty.');
     }
   };
 
@@ -66,32 +66,32 @@ function DashboardPage() {
       await updateTaskStatus(taskId, 'completed');
     } catch (error) {
       console.error('DashboardPage: Failed to complete task:', error);
-      setTaskError('Failed to complete task:', error);
     }
   };
 
   return (
     <motion.div
-      className="flex flex-col items-center py-8"
+      className="flex flex-col items-center my-10 mt-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="mb-8 w-full max-w-lg px-4 ml-auto" >
+      <div className="mb-8 w-full ml-auto" >
         <SessionCard />
       </div>
-      <div className="w-full max-w-lg bg-gray-100 rounded-md p-4 mt-12 sm:w-9/10 md:w-4/5 lg:w-1/2">
-        <div className="mb-4 text-left">
+      <div className="w-full bg-gray-100 rounded-md p-4">
+        <div className="mb-4 sm:w-9/10 md:w-4/5 lg:w-4/5 xl:w-3/4 text-left border-b-2 pb-2">
           <h2 className="text-3xl font-semibold text-gray-800">Goals</h2>
         </div>
-        <TaskList
-          isLoadingTasks={isLoadingTasks}
-          tasks={tasks}
-          handleCompleteTask={handleCompleteTask}
-          handleStartTask={handleStartTask}
-          taskItemRefs={taskItemRefs}
-        />
-
+        <div className="h-2/5 overflow-y-auto"> {/* Set height and enable scrolling */}
+          <TaskList
+            isLoadingTasks={isLoadingTasks}
+            tasks={tasks}
+            handleCompleteTask={handleCompleteTask}
+            handleStartTask={handleStartTask}
+            taskItemRefs={taskItemRefs}
+          />
+        </div>
         <form onSubmit={handleAddTask} className="mt-2 flex items-center rounded-md relative">
           <button
             type="button"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check, Play, Loader2, Circle, CheckCircle, PauseCircle } from 'lucide-react';
-import { TaskItem } from './shared/TaskItem';
+import { TodaysGoals } from './shared/GoalsList';
 import { motion } from 'framer-motion';
 
 interface TaskListProps {
@@ -22,20 +22,27 @@ export function TaskList({
     <>
       {isLoadingTasks ? (
         <div className="text-gray-600 flex items-center justify-center">
-          <Loader2 className="mr-2 animate-spin" />
-          Loading tasks...
+          <div className="w-full h-12 bg-gray-200 rounded-md relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full shimmer"></div>
+          </div>
+          <div className="w-full h-12 bg-gray-200 rounded-md relative overflow-hidden mt-2">
+            <div className="absolute top-0 left-0 w-full h-full shimmer"></div>
+          </div>
+          <div className="w-full h-12 bg-gray-200 rounded-md relative overflow-hidden mt-2">
+            <div className="absolute top-0 left-0 w-full h-full shimmer"></div>
+          </div>
         </div>
       ) : (
         <ul className="space-y-1 w-full">
           {tasks.map((task, index) => (
-            <li
-              key={task.id}
-              ref={(el) => (taskItemRefs.current[index] = el)}
-              className="flex items-center justify-start px-3 py-2 gap-2 w-full"
-            >
+              <li
+                key={task.id}
+                ref={(el) => (taskItemRefs.current[index] = el)}
+                className="flex items-start justify-start px-3 py-2 gap-2 w-full"
+              >
               <button
                 onClick={() => handleTaskClick(task.id, index, task.status)}
-                className="text-gray-500 focus:outline-none"
+                className="text-gray-500 focus:outline-none flex-shrink-0"
               >
                 {task.status === 'completed' ? (
                   <CheckCircle className="h-6 w-6 text-green-500" />
@@ -45,7 +52,7 @@ export function TaskList({
                   <Circle className="h-6 w-6" />
                 )}
               </button>
-              <TaskItem
+              <TodaysGoals
                 id={task.id}
                 title={task.title}
                 completed={task.status === 'completed'}

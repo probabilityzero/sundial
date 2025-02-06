@@ -23,7 +23,6 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const handleToggleCompact = () => {
     if (isCompact) {
       toggleCompactMenu();  
-      toggleMenu();        
     } else {
       toggleMenu();       
     }
@@ -36,8 +35,8 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const displayTitle = isDashboard ? 'Session' : pageTitle;
 
   return (
-    <header className="bg-white shadow-sm fixed top-0 left-0 w-full z-30">
-      <div className="w-full h-14 flex items-center"> {/* Container */}
+    <header className="backdrop-filter backdrop-blur-md shadow-sm fixed top-0 left-0 w-full z-30">
+      <div className="w-full h-12 flex items-center"> {/* Container */}
         <div className="flex items-center h-full" style={{ minWidth: '3.5rem' }}> {/* Button container */}
           {!isCompact ? (
             !isDashboard ? (

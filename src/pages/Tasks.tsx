@@ -1,6 +1,6 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
-import { TaskItem } from '../components/shared/TaskItem';
+import { TodaysGoals } from '../components/shared/GoalsList';
 
 function Tasks() {
   const [tasks] = React.useState([
@@ -27,7 +27,7 @@ function Tasks() {
       <div className="bg-white rounded-lg shadow p-6">
         <div className="space-y-4">
           {tasks.map((task) => (
-            <TaskItem
+            <TodaysGoals
               key={task.id}
               id={task.id}
               title={task.title}

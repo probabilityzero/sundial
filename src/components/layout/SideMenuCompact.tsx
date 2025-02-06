@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Moon, LayoutList, User, Calendar, BarChart, ListChecks, Settings as SettingIcon, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { IconButton } from './IconButton';
@@ -13,6 +13,7 @@ interface CompactSideMenuProps {
 
 export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDarkMode }: CompactSideMenuProps) {
   const location = useLocation();
+  const [isMainMenuOpen, setIsMainMenuOpen] = useState(false); // State to control the main menu
 
   const menuItemStyle = {
     borderRadius: '0.375rem',
@@ -22,11 +23,16 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
     padding: '0.5rem',
   };
 
+  const handleCompactToggle = () => {
+    toggleCompact(); // Toggle compact mode
+    setIsMainMenuOpen(!isMainMenuOpen); // Toggle main menu state
+  };
+
   return (
     <div
-      className={`fixed top-14 inset-y-0 left-0 transform ${isCompact ? 'translate-x-0' : '-translate-x-full'}
-      bg-white transition-transform duration-300 ease-in-out z-40 flex flex-col ${isCompact ? 'w-14' : 'w-64'}
-      border rounded-none shadow-none`}
+      className={`fixed top-12 inset-y-0 left-0 transform ${isCompact || isMainMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+       backdrop-filter backdrop-blur-xl transition-transform duration-300 ease-in-out z-40 flex flex-col ${isCompact ? 'w-14' : 'w-64'}
+      rounded-none shadow-md`}
     >
       <div className="flex-grow flex flex-col p-1 pt-3">
         <Link to="/profile" className="block mb-1 mx-auto ">
@@ -57,7 +63,7 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
       <div className="flex flex-col space-y-1 border-t p-2">
         <SecondaryIconButton onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
         <SecondaryIconButton
-          onClick={toggleCompact}
+          onClick={handleCompactToggle} // Use the updated handleCompactToggle function
           isActive={isCompact}
           icon={<LayoutList className="w-6 h-6" />}
         />

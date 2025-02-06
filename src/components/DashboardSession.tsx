@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion'; // Import Framer Motion
-import { EditableTitle } from './EditableTitle';
+import { EditableTitle } from './shared/TitleEditor';
 
 interface SessionCardProps {
   // Add any props if needed later
@@ -18,7 +18,7 @@ export function SessionCard({ }: SessionCardProps) {
     } else if (currentHour >= 17 && currentHour < 22) {
       return "Evening Session";
     } else {
-      return "Night Session";
+      return "Midnight Session";
     }
   }
 

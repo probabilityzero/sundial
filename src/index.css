@@ -6,7 +6,32 @@ body {
   @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white;
   margin: 0;
   padding: 0;
-  font-family: 'sans', sans-serif;
+  font-family: 'Georgia', 'sans', sans-serif;
 }
 
-/* Custom components or styles can be added here */
+/* Hide scrollbar for all elements */
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+
+.shimmer {
+  @apply bg-gradient-to-r from-transparent via-white to-transparent;
+  background-size: 2000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
