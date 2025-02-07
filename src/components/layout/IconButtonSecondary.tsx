@@ -6,7 +6,7 @@ interface SecondaryIconButtonProps {
   isActive?: boolean;
 }
 
-export function SecondaryIconButton({ icon, onClick, isActive }: SecondaryIconButtonProps) {
+export function IconButtonSecondary({ icon, onClick, isActive }: SecondaryIconButtonProps) {
   const activeClass = isActive ? 'bg-gray-100' : '';
   const hoverClass = 'hover:bg-gray-100';
   const baseClass = `p-2 text-gray-700 rounded-md transition-colors flex items-center justify-center`;

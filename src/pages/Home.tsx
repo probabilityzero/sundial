@@ -1,36 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, Play, Loader2, Circle } from 'lucide-react';
-import { TodaysGoals } from '../components/shared/GoalsList';
 import { useSessionStore } from '../store/useSessionStore'; // Import the store
-import { SessionCard } from '../components/DashboardSession';
+import { DashboardSession } from '../components/DashboardSession';
+import { DashboardGoal } from '../components/DashboardGoal';
 import { motion } from 'framer-motion';
-import { TaskList } from '../components/DashboardGoal'; // Import TaskList
-import { EditableTitle } from '../components/shared/TitleEditor';
 
-function DashboardPage() {
+function HomePage() {
   const [newTask, setNewTask] = useState('');
   const [taskError, setTaskError] = useState('');
   const taskItemRefs = useRef<HTMLElement[]>([]);
   const { tasks, addTask, updateTaskStatus, fetchTasks } = useSessionStore(); // Use store actions and state
   const [isLoadingTasks, setIsLoadingTasks] = useState(false);
   const [showTick, setShowTick] = useState(false);
-
-  useEffect(() => {
-    const loadTasks = async () => {
-      setIsLoadingTasks(true);
-      setTaskError('');
-      try {
-        await fetchTasks();
-      } catch (error) {
-        console.error('DashboardPage: Error fetching tasks:', error);
-        setTaskError('Failed to load tasks. Please try again later.');
-      } finally {
-        setIsLoadingTasks(false);
-      }
-    };
-
-    loadTasks();
-  }, [fetchTasks]);
 
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,60 +52,15 @@ function DashboardPage() {
 
   return (
     <motion.div
-      className="flex flex-col items-center my-10 mt-20"
+      className="flex flex-col items-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="mb-8 w-full ml-auto" >
-        <SessionCard />
-      </div>
-      <div className="w-full bg-gray-100 rounded-md p-4">
-        <div className="mb-4 sm:w-9/10 md:w-4/5 lg:w-4/5 xl:w-3/4 text-left border-b-2 pb-2">
-          <h2 className="text-3xl font-semibold text-gray-800">Goals</h2>
-        </div>
-        <div className="h-2/5 overflow-y-auto"> {/* Set height and enable scrolling */}
-          <TaskList
-            isLoadingTasks={isLoadingTasks}
-            tasks={tasks}
-            handleCompleteTask={handleCompleteTask}
-            handleStartTask={handleStartTask}
-            taskItemRefs={taskItemRefs}
-          />
-        </div>
-        <form onSubmit={handleAddTask} className="mt-2 flex items-center rounded-md relative">
-          <button
-            type="button"
-            className="text-gray-500 focus:outline-none px-3"
-            disabled={!newTask}
-          >
-            <Circle className="h-5 w-5" />
-          </button>
-          <input
-            type="text"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            placeholder=""
-            className="w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none bg-transparent"
-          />
-          {newTask && (
-            <motion.button
-              type="submit"
-              className="text-green-500  font-bold py-2 px-4 rounded-r-md focus:outline-none focus:shadow-outline absolute right-0"
-              style={{paddingRight: '10px'}}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Check className="h-4 w-4 inline-block mr-1" />
-            </motion.button>
-          )}
-        </form>
-        {taskError && <p className="text-red-500 text-sm mt-2">{taskError}</p>}
-      </div>
+        <DashboardSession />
+        <DashboardGoal />
     </motion.div>
   );
 }
 
-export default DashboardPage;
+export default HomePage;

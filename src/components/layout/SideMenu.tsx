@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, LayoutList, Home } from 'lucide-react';
 import { MenuItem } from './SideMenuItem';
 import { IconButton } from './IconButton'; 
-import { SecondaryIconButton } from './IconButtonSecondary'; 
+import { IconButtonSecondary } from './IconButtonSecondary'; 
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -59,12 +59,12 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
         </div>
 
         <div className="flex items-center justify-between border-t p-1">
-          <SecondaryIconButton
+          <IconButtonSecondary
             onClick={handleCompactToggle} 
             isActive={isCompact}
             icon={<LayoutList className="w-6 h-6" />}
           />
-          <SecondaryIconButton onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
+          <IconButtonSecondary onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
         </div>
       </div>
     </div>

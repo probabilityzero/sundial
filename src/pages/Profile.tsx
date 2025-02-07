@@ -1,7 +1,7 @@
 import React from 'react';
 import { User, Mail, Clock } from 'lucide-react';
 import { StatCard } from '../components/shared/StatCard';
-import { ActivityItem } from '../components/shared/ActivityItem';
+import { ActivityItem } from '../components/ActivityItem';
 
 function Profile() {
   return (

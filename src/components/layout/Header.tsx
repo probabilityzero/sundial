@@ -62,7 +62,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
               />
             </div>
           )}
-          <h1 className="text-xl font-semibold ml-2">{displayTitle}</h1>
+          <h1 className="text-xl font-semibold">{displayTitle}</h1>
         </div>
       </div>
     </header>

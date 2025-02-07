@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, Play, Loader2, Circle } from 'lucide-react';
-import { ViewGoalToday } from './shared/ViewGoalToday';
-import { useSessionStore } from '../store/useSessionStore'; // Import the store
+import { useSessionStore } from '../../store/useSessionStore'; // Import the store
 import { motion } from 'framer-motion';
-import { ViewGoals } from './shared/ViewGoals'; 
-import { NewGoalFormBullet } from './shared/NewGoalFormBulltet'; 
 
-export function DashboardGoal() {
+export function NewGoalFormBullet() {
   const [newTask, setNewTask] = useState('');
   const [taskError, setTaskError] = useState('');
   const taskItemRefs = useRef<HTMLElement[]>([]);
@@ -69,26 +66,40 @@ export function DashboardGoal() {
   };
 
   return (
-    <main className="min-w-full items-center bg-gray-100 rounded-xl p-4 pt-2">
+    <main className=''>
+ 
+      <form onSubmit={handleAddTask} className="flex items-center rounded-md relative">
+        <button
+          type="button"
+          className="text-gray-500 focus:outline-none pl-3 mr-2"
+          disabled={!newTask}
+        >
+          <Circle className="h-6 w-6" />
+        </button>
 
-    <div className="flex justify-between border-b-2 p-2">
-    <h2 className="text-3xl  text-left font-semibold text-gray-800">Goals</h2>
-    </div>
-
-    <div className="overflow-y-auto pt-4"> 
-        <ViewGoals
-          isLoadingTasks={isLoadingTasks}
-          tasks={tasks}
-          handleCompleteTask={handleCompleteTask}
-          handleStartTask={handleStartTask}
-          taskItemRefs={taskItemRefs}
+        <input
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          placeholder="Add entry..."
+          className="w-full py-2 text-gray-700 leading-tight focus:outline-none bg-transparent"
         />
-    </div>
+        {newTask && (
+          <motion.button
+            type="submit"
+            className="text-green-500 font-bold py-2 px-4 rounded-r-md focus:outline-none focus:shadow-outline absolute right-0"
+            style={{ paddingRight: '10px' }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Check className="h-4 w-4 inline-block mr-1" />
+          </motion.button>
+        )}
+      </form>
 
-    <div className="overflow-y-auto"> 
-        <NewGoalFormBullet />
-    </div>
-
+      {taskError && <p className="text-red-500 text-sm">{taskError}</p>}
     </main>
   );
 }

@@ -4,7 +4,7 @@ import { Layout } from './components/layout/Layout';
 
 // Lazy load pages
 const Auth = React.lazy(() => import('./pages/Auth'));
-const DashboardPage = React.lazy(() => import('./pages/Home')); // Verify path and casing
+const HomePage = React.lazy(() => import('./pages/Home')); // Verify path and casing
 const CalendarPage = React.lazy(() => import('./pages/Calendar'));
 const AnalyticsPage = React.lazy(() => import('./pages/Report'));
 const SettingsPage = React.lazy(() => import('./pages/Settings'));
@@ -24,7 +24,7 @@ function App() {
       >
         <Routes>
           <Route path="/auth" element={<Auth />} />
-          <Route path="/" element={<Layout pageTitle="Dashboard"><DashboardPage /></Layout>} />
+          <Route path="/" element={<Layout pageTitle="Home"><HomePage /></Layout>} />
           <Route path="/profile" element={<Layout pageTitle="Profile"><ProfilePage /></Layout>} />
           <Route path="/calendar" element={<Layout pageTitle="Calendar"><CalendarPage /></Layout>} />
           <Route path="/analytics" element={<Layout pageTitle="History"><AnalyticsPage /></Layout>} />

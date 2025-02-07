@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-interface EditableTitleProps {
+interface NewSessionTitleProps {
   title: string;
   onSave: (newTitle: string) => void;
 }
 
-export function EditableTitle({ title, onSave }: EditableTitleProps) {
+export function NewSessionTitle({ title, onSave }: NewSessionTitleProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -45,22 +45,22 @@ export function EditableTitle({ title, onSave }: EditableTitleProps) {
   };
 
   return (
-    <div className="flex items-center relative">
+    <div className="flex items-center">
       <div className="relative">
         {isEditing ? (
-          <div className="flex items-center">
+          <div className="justify-between">
             <input
               type="text"
               ref={inputRef}
               value={newTitle}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
-              className="text-3xl font-semibold mr-2 focus:outline-none bg-transparent relative"
+              className="text-3xl font-semibold text-center focus:outline-none bg-transparent"
               onBlur={handleBlur} // Save when focus is lost
             />
             <motion.button
               onClick={handleSaveClick}
-              className="text-green-600 hover:text-green-800 focus:outline-none absolute right-0"
+              className="text-green-600 hover:text-green-800 focus:outline-none right-0"
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.2 }}
@@ -70,18 +70,18 @@ export function EditableTitle({ title, onSave }: EditableTitleProps) {
           </div>
         ) : (
           <h2
-            className="text-3xl font-semibold mr-2 cursor-pointer relative"
+            className="text-3xl font-semibold mr-2 cursor-pointer"
             onClick={handleTitleClick}
           >
             {title}
           </h2>
         )}
         <motion.div
-          className="absolute left-0 bottom-0 h-[2px] bg-blue-500 origin-center"
+          className="items-center bottom-0 h-[2px] bg-blue-500 origin-center"
           style={{ width: isEditing ? '100%' : '0%' }}
           initial={{ x: "-50%" }}
           animate={{ x: "-50%" }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: 2, ease: "easeInOut" }}
         />
       </div>
     </div>

@@ -42,6 +42,8 @@ export function Layout({ children, pageTitle }: LayoutProps) {
           toggleDarkMode={toggleDarkMode}
         />
       )}
+
+      
       <div
         className="flex-grow flex flex-col"
         style={{
@@ -50,7 +52,7 @@ export function Layout({ children, pageTitle }: LayoutProps) {
         }}
       >
         <Header pageTitle={pageTitle} isCompact={isCompactMenu} toggleCompactMenu={toggleCompactMenu} />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="mt-12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {children}
         </main>
       </div>

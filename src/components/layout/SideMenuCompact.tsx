@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Moon, LayoutList, User, Calendar, BarChart, ListChecks, Settings as SettingIcon, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { IconButton } from './IconButton';
-import { SecondaryIconButton } from './IconButtonSecondary';
+import { IconButtonSecondary } from './IconButtonSecondary';
 
 interface CompactSideMenuProps {
   isCompact: boolean;
@@ -61,8 +61,8 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
       </div>
 
       <div className="flex flex-col space-y-1 border-t p-2">
-        <SecondaryIconButton onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
-        <SecondaryIconButton
+        <IconButtonSecondary onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
+        <IconButtonSecondary
           onClick={handleCompactToggle} // Use the updated handleCompactToggle function
           isActive={isCompact}
           icon={<LayoutList className="w-6 h-6" />}

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion'; // Import Framer Motion
-import { EditableTitle } from './shared/TitleEditor';
+import { NewSessionTitle } from './shared/NewSessionTitle';
 
 interface SessionCardProps {
   // Add any props if needed later
 }
 
-export function SessionCard({ }: SessionCardProps) {
+export function DashboardSession({ }: SessionCardProps) {
   const [sessionName, setSessionName] = useState(getDefaultSessionName());
 
   function getDefaultSessionName() {
@@ -26,25 +26,30 @@ export function SessionCard({ }: SessionCardProps) {
     setSessionName(newSessionName);
     // In a real app, you would save the session name to a database or state management
     console.log("Session name updated:", newSessionName);
-  };
+  }; 
 
   return (
     <motion.div
-      className="flex flex-col items-center mb-8"
-      initial={{ opacity: 0, y: -20 }}
+      className="flex flex-col items-center p-8"
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <motion.div
-        className="w-40 h-40 rounded-full bg-blue-400 mb-4 shadow-md flex items-center justify-center"
+        className="h-64 w-64 rounded-full bg-blue-200 m-4 shadow-md flex items-center justify-center"
         whileHover={{ scale: 1.1 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
         {/* Circle content or icon can go here */}
       </motion.div>
-      <div className="text-center">
-        <EditableTitle title={sessionName} onSave={handleSaveSessionName} />
-      </div>
+      <motion.div
+        className="text-center p-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        <NewSessionTitle title={sessionName} onSave={handleSaveSessionName} />
+      </motion.div>
     </motion.div>
   );
-}
+}; 
