@@ -69,13 +69,13 @@ export function DashboardGoal() {
   };
 
   return (
-    <div className='p-4'>
-    <main className="min-w-full items-center bg-gray-100 rounded-xl p-2">
-      <div className="flex justify-between border-b-2 p-2">
-      <h2 className="text-3xl  text-left font-semibold text-gray-800">Goals</h2>
-      </div>
+    <div className="p-4">
+      <main className="min-w-[320px] max-w-full w-full mx-auto bg-gray-100 rounded-xl p-2 flex flex-col">
+        <div className="flex justify-between border-b-2 p-2">
+          <h2 className="text-xl text-left font-semibold text-gray-800">Goals</h2>
+        </div>
 
-      <div className="overflow-y-auto pt-2"> 
+        <div className="overflow-y-auto pt-2"> 
           <ViewGoals
             isLoadingTasks={isLoadingTasks}
             tasks={tasks}
@@ -83,11 +83,11 @@ export function DashboardGoal() {
             handleStartTask={handleStartTask}
             taskItemRefs={taskItemRefs}
           />
-      </div>
-      <div className="overflow-y-auto"> 
+        </div>
+        <div className="overflow-y-auto"> 
           <NewGoalFormBullet />
-      </div>
-    </main>
+        </div>
+      </main>
     </div>
   );
 }

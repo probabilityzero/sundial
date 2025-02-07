@@ -10,8 +10,7 @@ interface NewGoalBulletProps {
   handleStartTask: (taskId: string, index: number) => Promise<void>;
   taskItemRefs: React.MutableRefObject<HTMLElement[]>;
 }
-
-export function ViewGoals ({
+export function ViewGoals({
   isLoadingTasks,
   tasks,
   handleCompleteTask,
@@ -28,7 +27,7 @@ export function ViewGoals ({
           >
             <Circle className="h-6 w-6" />
           </button>
-  
+
           <div className="w-full h-10 bg-gray-200 rounded-md overflow-hidden">
             <div className="flex top-0 left-0 w-full h-full shimmer"></div>
           </div>
@@ -36,11 +35,11 @@ export function ViewGoals ({
       ) : (
         <ul className="w-full">
           {tasks.map((task, index) => (
-              <li
-                key={task.id}
-                ref={(el) => (taskItemRefs.current[index] = el)}
-                className="flex items-start justify-start px-3 py-1.5 gap-2 w-full"
-              >
+            <li
+              key={task.id}
+              ref={(el) => (taskItemRefs.current[index] = el)}
+              className="flex items-start justify-start px-3 py-1.5 gap-2 w-full"
+            >
               <button
                 onClick={() => handleTaskClick(task.id, index, task.status)}
                 className="text-gray-500 focus:outline-none flex-shrink-0"

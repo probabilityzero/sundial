@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion'; // Import Framer Motion
 import { NewSessionTitle } from './shared/NewSessionTitle';
+import { useSessionStore } from '../store/useSessionStore'; // Import the store
 
 interface SessionCardProps {
   // Add any props if needed later

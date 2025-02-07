@@ -29,7 +29,7 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
   return (
     <div
       className={`fixed inset-y-0 left-0 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
-      bg-white shadow-lg transition-transform duration-300 ease-in-out z-50 flex ${isCompact ? 'w-16' : 'w-64'} flex-col`}
+      bg-white shadow-xl transition-transform duration-300 ease-in-out z-50 flex ${isCompact ? 'w-16' : 'w-64'} flex-col`}
     >
       <div className={`flex-grow flex flex-col p-1 overflow-y-auto justify-between transition-all duration-300`}>
         <div>
