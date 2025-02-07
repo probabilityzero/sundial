@@ -58,7 +58,8 @@ function HomePage() {
       transition={{ duration: 0.5 }}
     >
         <DashboardSession />
-        <DashboardGoal />
+        <DashboardGoal /> 
+        
     </motion.div>
   );
 }

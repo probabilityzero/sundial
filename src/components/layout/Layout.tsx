@@ -23,7 +23,7 @@ export function Layout({ children, pageTitle }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <main className="min-h-screen bg-gray-50 flex">
       {!isCompactMenu && (
         <SideMenu
           isOpen={isMenuOpen}
@@ -52,10 +52,10 @@ export function Layout({ children, pageTitle }: LayoutProps) {
         }}
       >
         <Header pageTitle={pageTitle} isCompact={isCompactMenu} toggleCompactMenu={toggleCompactMenu} />
-        <main className="mt-12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="mt-12 mx-auto">
           {children}
         </main>
       </div>
-    </div>
+    </main>
   );
 }
