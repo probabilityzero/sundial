@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class', // enable dark mode
   theme: {
@@ -20,9 +20,12 @@ export default {
         },
       },
       fontFamily: {
-        'sans': ['ui-sans-serif', 'system-ui', ...require('tailwindcss/defaultTheme').fontFamily.sans],
+        'sans': ['Inter', 'ui-sans-serif', 'system-ui', ...require('tailwindcss/defaultTheme').fontFamily.sans],
         'serif': ['ui-serif', 'Georgia', ...require('tailwindcss/defaultTheme').fontFamily.serif],
         'mono': ['ui-monospace', 'SFMono-Regular', ...require('tailwindcss/defaultTheme').fontFamily.mono],
+      },
+      height: {
+        'screen-minus-12': 'calc(100vh - 3rem)', // Custom height class
       },
     },
   },

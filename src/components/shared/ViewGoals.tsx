@@ -39,7 +39,7 @@ export function ViewGoals ({
               <li
                 key={task.id}
                 ref={(el) => (taskItemRefs.current[index] = el)}
-                className="flex items-start justify-start px-3 py-2 gap-2 w-full"
+                className="flex items-start justify-start px-3 py-1.5 gap-2 w-full"
               >
               <button
                 onClick={() => handleTaskClick(task.id, index, task.status)}

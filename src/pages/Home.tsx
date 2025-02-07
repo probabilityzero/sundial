@@ -52,7 +52,7 @@ function HomePage() {
 
   return (
     <motion.div
-      className="flex flex-col items-center"
+      className="h-screen-minus-12 flex flex-col overflow-hidden items-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

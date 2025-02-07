@@ -52,8 +52,10 @@ export function Layout({ children, pageTitle }: LayoutProps) {
         }}
       >
         <Header pageTitle={pageTitle} isCompact={isCompactMenu} toggleCompactMenu={toggleCompactMenu} />
-        <main className="mt-12 mx-auto">
+        <main className="mx-auto">
+          <div className='mt-12'>
           {children}
+          </div>
         </main>
       </div>
     </main>

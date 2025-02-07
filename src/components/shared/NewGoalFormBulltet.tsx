@@ -66,35 +66,38 @@ export function NewGoalFormBullet() {
   };
 
   return (
-    <main className=''>
- 
-      <form onSubmit={handleAddTask} className="flex items-center rounded-md relative">
+    <main className='py-1.5 px-3 gap-2'>
+      <form onSubmit={handleAddTask} className="flex items-start rounded-md relative">
         <button
           type="button"
-          className="text-gray-500 focus:outline-none pl-3 mr-2"
+          className="text-gray-500 focus:outline-none"
           disabled={!newTask}
         >
           <Circle className="h-6 w-6" />
         </button>
 
-        <input
+        <motion.input
           type="text"
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
           placeholder="Add entry..."
-          className="w-full py-2 text-gray-700 leading-tight focus:outline-none bg-transparent"
+          className="w-full text-gray-700 leading-tight focus:outline-none bg-transparent border-b-2 border-transparent ml-2 pr-6 pb-1"
+          initial={{ borderColor: 'transparent' }}
+          animate={{ borderColor: 'transparent' }}
+          whileFocus={{ borderColor: '#3b82f6' }}
+          transition={{ duration: 0.3 }}
         />
+        
         {newTask && (
           <motion.button
             type="submit"
-            className="text-green-500 font-bold py-2 px-4 rounded-r-md focus:outline-none focus:shadow-outline absolute right-0"
-            style={{ paddingRight: '10px' }}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
+            className="text-green-500 font-bold py-auto rounded-r-md focus:outline-none mr-0.5 focus:shadow-outline absolute right-0"
+            initial={{ opacity: 0, x: 0, scale: 0.5 }}
+            animate={{ opacity: 1, x: 0, scale: 1.1 }}
+            exit={{ opacity: 0, x: 20, scale: 0.8 }}
             transition={{ duration: 0.2 }}
           >
-            <Check className="h-4 w-4 inline-block mr-1" />
+            <Check className="h-4 w-4 inline-block" />
           </motion.button>
         )}
       </form>

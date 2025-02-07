@@ -69,26 +69,25 @@ export function DashboardGoal() {
   };
 
   return (
-    <main className="min-w-full items-center bg-gray-100 rounded-xl p-4 pt-2">
+    <div className='p-4'>
+    <main className="min-w-full items-center bg-gray-100 rounded-xl p-2">
+      <div className="flex justify-between border-b-2 p-2">
+      <h2 className="text-3xl  text-left font-semibold text-gray-800">Goals</h2>
+      </div>
 
-    <div className="flex justify-between border-b-2 p-2">
-    <h2 className="text-3xl  text-left font-semibold text-gray-800">Goals</h2>
-    </div>
-
-    <div className="overflow-y-auto pt-4"> 
-        <ViewGoals
-          isLoadingTasks={isLoadingTasks}
-          tasks={tasks}
-          handleCompleteTask={handleCompleteTask}
-          handleStartTask={handleStartTask}
-          taskItemRefs={taskItemRefs}
-        />
-    </div>
-
-    <div className="overflow-y-auto"> 
-        <NewGoalFormBullet />
-    </div>
-
+      <div className="overflow-y-auto pt-2"> 
+          <ViewGoals
+            isLoadingTasks={isLoadingTasks}
+            tasks={tasks}
+            handleCompleteTask={handleCompleteTask}
+            handleStartTask={handleStartTask}
+            taskItemRefs={taskItemRefs}
+          />
+      </div>
+      <div className="overflow-y-auto"> 
+          <NewGoalFormBullet />
+      </div>
     </main>
+    </div>
   );
 }

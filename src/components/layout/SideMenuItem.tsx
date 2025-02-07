@@ -21,7 +21,7 @@ export function MenuItem({ to, label, icon: Icon, onClick, isCompact, darkMode }
   return (
     <Link
       to={to}
-      className={`flex ${isCompact ? 'justify-center' : 'gap-2'} px-2 py-2 rounded-md transition-colors ${activeClass} ${textColorClass} ${hoverClass} ${isCompact ? 'px-1 py-1' : 'px-4 py-2'} ${isCompact ? 'block' : 'flex'}  ${darkMode ? 'border border-gray-700' : ''} ${darkMode && !isActive ? 'hover:border-gray-500 rounded-md' : ''}`}
+      className={`flex ${isCompact ? 'justify-center' : 'gap-2'} p-2 rounded-md transition-colors ${activeClass} ${textColorClass} ${hoverClass} ${isCompact ? 'p-1' : 'px-4 py-2'} ${isCompact ? 'block' : 'flex'}  ${darkMode ? 'border border-gray-700' : ''} ${darkMode && !isActive ? 'hover:border-gray-500 rounded-md' : ''}`}
       onClick={onClick}
     >
       {Icon && <Icon className="w-6 h-6" />}
