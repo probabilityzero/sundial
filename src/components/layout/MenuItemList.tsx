@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-interface MenuItemProps {
+interface MenuItemListProps {
   to: string;
   label: string;
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -10,7 +10,7 @@ interface MenuItemProps {
   darkMode?: boolean;
 }
 
-export function MenuItem({ to, label, icon: Icon, onClick, isCompact, darkMode }: MenuItemProps) {
+export function MenuItemList({ to, label, icon: Icon, onClick, isCompact, darkMode }: MenuItemListProps) {
   const location = useLocation();
   const isActive = location.pathname === to;
   const activeClass = isActive ? 'bg-gray-100' : '';

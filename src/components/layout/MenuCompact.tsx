@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Moon, LayoutList, User, Calendar, BarChart, ListChecks, Settings as SettingIcon, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { IconButton } from './IconButton';
-import { IconButtonSecondary } from './IconButtonSecondary';
+import { MenuItemIcon } from './MenuItemIcon';
+import { MenuItemIconSecondary } from './MenuItemIconSecondary';
 
-interface CompactSideMenuProps {
+interface MenuCompactProps {
   isCompact: boolean;
   toggleCompact: () => void;
   darkMode: boolean;
   toggleDarkMode: () => void;
 }
 
-export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDarkMode }: CompactSideMenuProps) {
+export function MenuCompact ({ isCompact, toggleCompact, darkMode, toggleDarkMode }: MenuCompactProps) {
   const location = useLocation();
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false); // State to control the main menu
 
@@ -41,31 +41,31 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
         </Link>
         <nav className="flex-grow space-y-1 mt-1">
           <Link to="/" style={menuItemStyle} className={`flex justify-center rounded-md transition-colors block`}>
-            <IconButton isActive={location.pathname === '/'} icon={<Home className="w-6 h-6" />} />
+            <MenuItemIcon isActive={location.pathname === '/'} icon={<Home className="w-6 h-6" />} />
           </Link>
           <Link to="/calendar" style={menuItemStyle} className={`flex justify-center rounded-md transition-colors block`}>
-            <IconButton isActive={location.pathname === '/calendar'} icon={<Calendar className="w-6 h-6" />} />
+            <MenuItemIcon isActive={location.pathname === '/calendar'} icon={<Calendar className="w-6 h-6" />} />
           </Link>
           <Link to="/analytics" style={menuItemStyle} className={`flex justify-center rounded-md transition-colors block`}>
-            <IconButton isActive={location.pathname === '/analytics'} icon={<BarChart className="w-6 h-6" />} />
+            <MenuItemIcon isActive={location.pathname === '/analytics'} icon={<BarChart className="w-6 h-6" />} />
           </Link>
           <Link to="/tasks" style={menuItemStyle} className={`flex justify-center rounded-md transition-colors block`}>
-            <IconButton isActive={location.pathname === '/tasks'} icon={<ListChecks className="w-6 h-6" />} />
+            <MenuItemIcon isActive={location.pathname === '/tasks'} icon={<ListChecks className="w-6 h-6" />} />
           </Link>
           <div className="my-2 border-t"></div>
-          <Link to="/settings" style={menuItemStyle} className={`flex justify-center rounded-md transition-colors block`}>
-            <IconButton isActive={location.pathname === '/settings'} icon={<SettingIcon className="w-6 h-6" />} />
-          </Link>
         </nav>
       </div>
 
-      <div className="flex flex-col space-y-1 border-t p-2">
-        <IconButtonSecondary onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
-        <IconButtonSecondary
+      <div className="flex flex-col border-t p-2">
+      <Link to="/settings" className={`flex justify-center rounded-md transition-colors block`}>
+            <MenuItemIconSecondary isActive={location.pathname === '/settings'} icon={<SettingIcon className="w-6 h-6" />} />
+      </Link>
+        {/* <MenuItemIconSecondary onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
+        <MenuItemIconSecondary
           onClick={handleCompactToggle} // Use the updated handleCompactToggle function
           isActive={isCompact}
           icon={<LayoutList className="w-6 h-6" />}
-        />
+        /> */}
       </div>
     </div>
   );

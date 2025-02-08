@@ -1,8 +1,8 @@
 import React from 'react';
 import { Header } from './Header';
-import { SideMenu } from './SideMenu';
+import { Menu } from './Menu';
 import { useSideMenu } from '../../store/useSideMenu';
-import { CompactSideMenu } from './SideMenuCompact';
+import { MenuCompact } from './MenuCompact';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -25,7 +25,7 @@ export function Layout({ children, pageTitle }: LayoutProps) {
   return (
     <main className="min-h-screen bg-gray-50 flex">
       {!isCompactMenu && (
-        <SideMenu
+        <Menu
           isOpen={isMenuOpen}
           onClose={closeMenu}
           isCompact={isCompactMenu}
@@ -35,7 +35,7 @@ export function Layout({ children, pageTitle }: LayoutProps) {
         />
       )}
       {isCompactMenu && (
-        <CompactSideMenu
+        <MenuCompact
           isCompact={isCompactMenu}
           toggleCompact={toggleCompactMenu}
           darkMode={darkMode}

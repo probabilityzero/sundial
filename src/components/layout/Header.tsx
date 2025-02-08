@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowLeft, Menu as MenuIcon, Home } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../../store/useSideMenu';
-import { IconButton } from './IconButton'; // Import IconButton
+import { MenuItemIcon } from './MenuItemIcon'; // Import IconButton
 
 interface HeaderProps {
   pageTitle: string;
@@ -23,6 +23,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const handleToggleCompact = () => {
     if (isCompact) {
       toggleCompactMenu();  
+      toggleMenu();       
     } else {
       toggleMenu();       
     }
@@ -41,14 +42,14 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
           {!isCompact ? (
             !isDashboard ? (
               <div className="w-14 h-14 flex items-center justify-center">
-                <IconButton
+                <MenuItemIcon
                   onClick={handleBackClick}
                   icon={<ArrowLeft className="w-6 h-6" />}
                 />
               </div>
             ) : (
               <div className="w-14 h-14 flex items-center justify-center">
-                <IconButton
+                <MenuItemIcon
                   onClick={handleToggleCompact}  // This will handle both opening and closing of the menu
                   icon={<MenuIcon className="w-6 h-6" />}
                 />
@@ -56,7 +57,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
             )
           ) : (
             <div className="w-14 h-14 flex items-center justify-center">
-              <IconButton
+              <MenuItemIcon
                 onClick={handleToggleCompact}  // This will handle both opening and closing of the menu
                 icon={<MenuIcon className="w-6 h-6" />}
               />

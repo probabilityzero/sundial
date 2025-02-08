@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface SecondaryIconButtonProps {
+interface MenuItemIconSecondaryProps {
   icon: React.ReactNode;
   onClick?: () => void;
   isActive?: boolean;
 }
 
-export function IconButtonSecondary({ icon, onClick, isActive }: SecondaryIconButtonProps) {
+export function MenuItemIconSecondary({ icon, onClick, isActive }: MenuItemIconSecondaryProps) {
   const activeClass = isActive ? 'bg-gray-100' : '';
   const hoverClass = 'hover:bg-gray-100';
   const baseClass = `p-2 text-gray-700 rounded-md transition-colors flex items-center justify-center`;
