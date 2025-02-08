@@ -17,10 +17,11 @@ export function ViewGoals({
   handleStartTask,
   taskItemRefs,
 }: NewGoalBulletProps) {
+
   return (
     <>
       {isLoadingTasks ? (
-        <div className="text-gray-600 w-full flex items-center justify-center">
+        <div className="text-gray-600 w-full flex items-center justify-between">
           <button
             type="button"
             className="text-gray-500 focus:outline-none pl-3 mr-2"
@@ -28,7 +29,7 @@ export function ViewGoals({
             <Circle className="h-6 w-6" />
           </button>
 
-          <div className="w-full h-10 bg-gray-200 rounded-md overflow-hidden">
+          <div className="w-full m-w-16 h-8 bg-gray-200 rounded-md overflow-hidden">
             <div className="flex top-0 left-0 w-full h-full shimmer"></div>
           </div>
         </div>
@@ -44,13 +45,15 @@ export function ViewGoals({
                 onClick={() => handleTaskClick(task.id, index, task.status)}
                 className="text-gray-500 focus:outline-none flex-shrink-0"
               >
-                {task.status === 'completed' ? (
-                  <CheckCircle className="h-6 w-6 text-green-500" />
-                ) : task.status === 'started' ? (
-                  <PauseCircle className="h-6 w-6 text-blue-500" />
-                ) : (
-                  <Circle className="h-6 w-6" />
-                )}
+                  {task.status === 'completed' ? (
+                    <CheckCircle className="h-6 w-6 text-green-500" />
+                  ) : task.status === 'started' ? (
+                    <PauseCircle className="h-6 w-6 text-blue-500" />
+                  ) : task.status === 'unfinished' ? (
+                    <Circle className="h-6 w-6 text-red-500" />
+                  ) : (
+                    <Circle className="h-6 w-6" />
+                  )}
               </button>
 
               <ViewGoalToday
@@ -59,6 +62,7 @@ export function ViewGoals({
                 completed={task.status === 'completed'}
                 onComplete={handleCompleteTask}
               />
+
             </li>
           ))}
         </ul>
@@ -67,7 +71,7 @@ export function ViewGoals({
   );
 
   async function handleTaskClick(taskId: string, index: number, currentStatus: string) {
-    if (currentStatus === 'created' || currentStatus === 'pending') {
+    if (currentStatus === 'created' || currentStatus === 'unfinished') {
       await handleStartTask(taskId, index);
     } else if (currentStatus === 'started') {
       await handleCompleteTask(taskId);

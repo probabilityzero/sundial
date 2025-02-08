@@ -6,7 +6,7 @@ interface Task {
   id: string;
   title: string;
   description?: string;
-  status: 'created' | 'started' | 'completed' | 'pending' | 'migrated'; // Updated status type
+  status: 'created' | 'started' | 'completed' | 'unfinished' | 'migrated'; // Updated status type
   is_started: boolean; // No longer needed, remove later
   is_cancelled: boolean; // No longer needed, remove later
   is_finished: boolean; // No longer needed, remove later
