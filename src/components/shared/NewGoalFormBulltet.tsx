@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Check, Play, Loader2, Circle } from 'lucide-react';
-import { useSessionStore } from '../../store/useSessionStore'; // Import the store
+import React, { useState, useEffect } from 'react';
+import { Check, Circle } from 'lucide-react';
+import { useSessionStore } from '../../store/useTaskStore'; // Import the store
 import { motion } from 'framer-motion';
 
 export function NewGoalFormBullet() {
   const [newTask, setNewTask] = useState('');
   const [taskError, setTaskError] = useState('');
-  const taskItemRefs = useRef<HTMLElement[]>([]);
-  const { tasks, addTask, updateTaskStatus, fetchTasks } = useSessionStore(); // Use store actions and state
+  const { addTask, fetchTasks } = useSessionStore(); // Use store actions and state
   const [isLoadingTasks, setIsLoadingTasks] = useState(false);
   const [showTick, setShowTick] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // Track editing state
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -48,25 +48,8 @@ export function NewGoalFormBullet() {
     }
   };
 
-  const handleStartTask = async (taskId: string, index: number) => {
-    try {
-      await updateTaskStatus(taskId, 'started');
-    } catch (error) {
-      console.error('DashboardPage: Failed to start task:', error);
-      setTaskError('Failed to start task. Please try again later.');
-    }
-  };
-
-  const handleCompleteTask = async (taskId: string) => {
-    try {
-      await updateTaskStatus(taskId, 'completed');
-    } catch (error) {
-      console.error('DashboardPage: Failed to complete task:', error);
-    }
-  };
-
   return (
-    <main className='py-1.5 px-3 gap-2'>
+    <main className='py-2 px-3 gap-2 min-w-full'>
       <form onSubmit={handleAddTask} className="flex items-start rounded-md relative">
         <button
           type="button"
@@ -76,18 +59,25 @@ export function NewGoalFormBullet() {
           <Circle className="h-6 w-6" />
         </button>
 
-        <motion.input
-          type="text"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Add entry..."
-          className="w-full text-gray-700 leading-tight focus:outline-none bg-transparent border-b-2 border-transparent ml-2 pr-6 pb-1"
-          initial={{ borderColor: 'transparent' }}
-          animate={{ borderColor: 'transparent' }}
-          whileFocus={{ borderColor: '#3b82f6' }}
-          transition={{ duration: 0.3 }}
-        />
-        
+        <div className="relative w-full">
+          <motion.input
+            type="text"
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+            placeholder="Add entry..."
+            className="w-full text-gray-700 leading-tight focus:outline-none bg-transparent border-b-2 border-transparent ml-2 pr-6 pb-1"
+            onFocus={() => setIsEditing(true)} // Set editing state on focus
+            onBlur={() => setIsEditing(false)} // Reset editing state on blur
+          />
+          
+          <motion.div
+            className="absolute left-0 bottom-0 h-[2px] bg-blue-500 ml-1" // Add margin-left of 1 unit
+            initial={{ width: '0%' }} // Start with width at 0%
+            animate={{ width: isEditing ? '100%' : '0%' }} // Animate width from 0% to 100%
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          />
+        </div>
+
         {newTask && (
           <motion.button
             type="submit"

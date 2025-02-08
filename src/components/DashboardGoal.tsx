@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, Play, Loader2, Circle } from 'lucide-react';
 import { ViewGoalToday } from './shared/ViewGoalToday';
-import { useSessionStore } from '../store/useSessionStore'; // Import the store
+import { useSessionStore } from '../store/useTaskStore'; // Import the store
 import { motion } from 'framer-motion';
 import { ViewGoals } from './shared/ViewGoals'; 
 import { NewGoalFormBullet } from './shared/NewGoalFormBulltet'; 
@@ -69,8 +69,8 @@ export function DashboardGoal() {
   };
 
   return (
-    <div className="p-4">
-      <main className="min-w-[320px] max-w-full w-full mx-auto bg-gray-100 rounded-xl p-2 flex flex-col">
+    <div className="p-4 w-full max-w-full">
+     <main className="w-full mx-auto bg-gray-100 rounded-xl p-2 flex flex-col">
         <div className="flex justify-between border-b-2 p-2">
           <h2 className="text-xl text-left font-semibold text-gray-800">Goals</h2>
         </div>
