@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, LayoutList, Home } from 'lucide-react';
+import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, PanelRightOpen, Home } from 'lucide-react';
 import { MenuItem } from './SideMenuItem';
 import { IconButton } from './IconButton'; 
 import { IconButtonSecondary } from './IconButtonSecondary'; 
@@ -62,7 +62,7 @@ export function SideMenu({ isOpen, onClose, isCompact, toggleCompact, darkMode, 
           <IconButtonSecondary
             onClick={handleCompactToggle} 
             isActive={isCompact}
-            icon={<LayoutList className="w-6 h-6" />}
+            icon={<PanelRightOpen className="w-6 h-6" />}
           />
           <IconButtonSecondary onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} />
         </div>

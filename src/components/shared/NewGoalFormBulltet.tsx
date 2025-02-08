@@ -60,15 +60,16 @@ export function NewGoalFormBullet() {
         </button>
 
         <div className="relative w-full">
-          <motion.input
-            type="text"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            placeholder="Add entry..."
-            className="w-full text-gray-700 leading-tight focus:outline-none bg-transparent border-b-2 border-transparent ml-2 pr-6 pb-1"
-            onFocus={() => setIsEditing(true)} // Set editing state on focus
-            onBlur={() => setIsEditing(false)} // Reset editing state on blur
-          />
+        <motion.input
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          placeholder="New entry..."
+          className="w-full text-gray-700 leading-tight focus:outline-none bg-transparent border-b-2 border-transparent ml-2 pr-6 pb-0.5"
+          onFocus={() => setIsEditing(true)} // Set editing state on focus
+          onBlur={() => setIsEditing(false)} // Reset editing state on blur
+        />
+
           
           <motion.div
             className="absolute left-0 bottom-0 h-[2px] bg-blue-500 ml-1" // Add margin-left of 1 unit

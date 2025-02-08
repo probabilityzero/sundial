@@ -17,15 +17,14 @@ export function CompactSideMenu({ isCompact, toggleCompact, darkMode, toggleDark
 
   const menuItemStyle = {
     borderRadius: '0.375rem',
-    margin: '0.25rem 0',
     display: 'flex',
     justifyContent: 'center',
-    padding: '0.5rem',
+    padding: '0.5rem 1rem', // Add padding for clickable area
   };
 
   const handleCompactToggle = () => {
     toggleCompact(); // Toggle compact mode
-    setIsMainMenuOpen(!isMainMenuOpen); // Toggle main menu state
+    setIsMainMenuOpen(isMainMenuOpen); // Toggle main menu state
   };
 
   return (
