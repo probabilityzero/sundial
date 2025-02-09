@@ -72,11 +72,18 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
                 <MenuItemIconSecondary isActive={location.pathname === '/settings'} icon={<SettingIcon className="w-6 h-6" />} />
           </Link>
           <MenuItemIconSecondary
-            onClick={handleCompactToggle} 
+            onClick={handleCompactToggle}
             isActive={isCompact}
             icon={<PanelRightOpen className="w-6 h-6" />}
+            className="hidden md:block" // Shows on 'md' and larger screens only
           />
-          {/* <MenuItemIconSecondary onClick={toggleDarkMode} icon={<Moon className="w-6 h-6" />} /> */}
+
+          <MenuItemIconSecondary
+            onClick={toggleDarkMode}
+            icon={<Moon className="w-6 h-6" />}
+            className="block md:hidden" // Shows only on 'sm' screens and below
+          />
+
       </div>
     </div>
   );

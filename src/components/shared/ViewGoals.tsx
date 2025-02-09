@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Play, Loader2, Circle, CheckCircle, PauseCircle } from 'lucide-react';
+import { Circle, CheckCircle, PauseCircle } from 'lucide-react';
 import { ViewGoalToday } from './ViewGoalToday';
 import { motion } from 'framer-motion';
 

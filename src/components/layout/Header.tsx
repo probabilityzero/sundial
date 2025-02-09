@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Menu as MenuIcon, Home } from 'lucide-react';
+import { ArrowLeft, Menu as MenuIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../../store/useSideMenu';
 import { MenuItemIcon } from './MenuItemIcon'; // Import IconButton
@@ -22,10 +22,15 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
 
   const handleToggleCompact = () => {
     if (isCompact) {
-      toggleCompactMenu();  
-      toggleMenu();       
+      // Close the compact menu first with a slide-out animation
+      toggleMenu();
+      setTimeout(() => {
+        // After menu closes, toggle to expanded layout (non-compact)
+        toggleCompactMenu();
+      }, 200); // Matches the duration of the slide-out animation
     } else {
-      toggleMenu();       
+      // If the menu is not compact, just toggle the menu open/close
+      toggleMenu();
     }
   };
 
