@@ -47,11 +47,7 @@ export function Layout({ children, pageTitle }: LayoutProps) {
 
       
       <div
-        className="flex-grow flex flex-col"
-        style={{
-          marginLeft: isCompactMenu ? '4%' : '0%',
-          transition: 'margin-left 0.3s ease'
-        }}
+        className={`flex-grow flex flex-col ${isCompactMenu ? 'ml-2' : 'ml-0'} transition-margin duration-300`}
       >
         <Header pageTitle={pageTitle} isCompact={isCompactMenu} toggleCompactMenu={toggleCompactMenu} />
         <main className="mx-auto">

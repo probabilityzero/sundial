@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Menu as MenuIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../../store/useSideMenu';
@@ -8,6 +8,7 @@ import Timer from '../ui/Timer';
 import { useSessionStore } from '../../store/useSessionStore';
 import TagsPopover from '../TagsPopover';
 import EmojiTag from '../EmojiTag';
+import { useUserSettingsStore } from '../../store/useUserSettingsStore';
 
 interface HeaderProps {
   pageTitle: string;
@@ -21,6 +22,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const isDashboard = location.pathname === '/';
   const { toggleMenu } = useSideMenu();
   const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime, dimension, setDimension, startSession } = useSessionStore();
+  const { availableTags } = useUserSettingsStore();
   const [isTagsPopoverOpen, setIsTagsPopoverOpen] = useState(false);
 
   const handleBackClick = () => {
@@ -69,23 +71,8 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
     'Editing': '✏️',
   };
 
-  const availableTags = [
-    { name: 'Working', selected: true },
-    { name: 'Studying', selected: false },
-    { name: 'Reading', selected: false },
-    { name: 'Meeting', selected: false },
-    { name: 'Research', selected: false },
-    { name: 'Meditation', selected: false },
-    { name: 'Writing', selected: true },
-    { name: 'Coding', selected: true },
-    { name: 'Designing', selected: false },
-    { name: 'Editing', selected: false },
-  ];
-
-  const selectedTags = availableTags.filter(tag => tag.selected).map(tag => tag.name);
-
   const getEmoji = () => {
-    return dimension ? dimensionEmojis[dimension] : '⚙️';
+    return dimension ? dimensionEmojis[dimension] : '⚪';
   };
 
   return (
@@ -115,8 +102,8 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
             isOpen={isTagsPopoverOpen}
             onClose={() => setIsTagsPopoverOpen(false)}
             availableTags={availableTags}
-            selectedTags={selectedTags}
             onTagClick={handleDimensionClick}
+            dimensionEmojis={dimensionEmojis}
           />
         </div>
         {/* Timer */}

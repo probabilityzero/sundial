@@ -1,88 +1,86 @@
-import React, { useState } from 'react';
-import { useAuthStore } from '../../store/useSessionStore';
+<boltAction type="file" filePath="src/components/layout/ControlPanel.tsx">
+import React, { useState, useRef, useEffect } from 'react';
+import { PanelRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import CircleColorSettings from '../ui/ControlPanelBackground';
+import EmojiTagSettings from '../ui/EmojiTagSettings';
+import CalendarComponent from '../ui/ControlPanelCalendar';
+import ControlPanelNavbar from '../ui/ControlPanelNavbar';
+import { MenuItemIcon } from '../ui/MenuItemIcon';
 
-const AuthForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false);
-  const { signUp, signIn, signOut, user } = useAuthStore();
+interface ControlPanelProps {
+  onBackClick?: () => void; // Add onBackClick prop
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      if (isSignUp) {
-        await signUp(email, password);
-      } else {
-        await signIn(email, password);
-      }
-    } catch (error: any) {
-      alert(error.message);
-    }
+const ControlPanel: React.FC<ControlPanelProps> = ({ onBackClick }) => {
+  const [isControlPanelOpen, setIsControlPanelOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('circleColor');
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const handleClick = () => { // Define handleClick function
+    setIsControlPanelOpen(!isControlPanelOpen);
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error: any) {
-      alert(error.message);
+  // Close panel when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        setIsControlPanelOpen(false);
+      }
+    };
+
+    if (isControlPanelOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
     }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isControlPanelOpen]);
+
+  const handleBackClick = () => {
+    setIsControlPanelOpen(false); // Close the panel when back button is clicked
   };
 
   return (
-    <div>
-      {user ? (
-        <div>
-          <p>Welcome, {user.email}!</p>
-          <button onClick={handleSignOut}>Sign Out</button>
+    <div className="relative">
+      {/* Button to open/close the panel */}
+      <button
+        className="text-gray-600 p-2 rounded-md focus:outline-none hover:bg-gray-100 active:bg-gray-200"
+        onClick={handleClick}
+      >
+        <PanelRight className="h-6 w-6" />
+      </button>
+
+      {/* Sliding panel */}
+      <motion.div
+        className="bg-white shadow-xl rounded-md w-80 overflow-hidden absolute top-full right-0 mt-2 flex flex-col"
+        style={{ height: 'calc(100vh - 3rem)', zIndex: 50 }}
+        initial={{ x: 200, opacity: 0 }}
+        animate={{ x: isControlPanelOpen ? 0 : 200, opacity: isControlPanelOpen ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        ref={panelRef}
+      >
+        <div className="p-4 border-b flex-grow flex flex-col overflow-y-auto">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold mb-4">Control Panel</h3>
+            {onBackClick && ( // Conditionally render the button
+              <button onClick={onBackClick} className="text-gray-600 p-2 rounded-md focus:outline-none hover:bg-gray-100 active:bg-gray-200">
+                <span>Back</span>
+              </button>
+            )}
+          </div>
+          <ControlPanelNavbar activeSection={activeSection} setActiveSection={setActiveSection} />
+          {activeSection === 'circleColor' && <CircleColorSettings />}
+          {activeSection === 'emojiTag' && <EmojiTagSettings />}
         </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
-          <h2 className="text-2xl font-bold mb-4">{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              Email
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              {isSignUp ? 'Sign Up' : 'Sign In'}
-            </button>
-            <button
-              className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-              type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
-            >
-              {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
-            </button>
-          </div>
-        </form>
-      )}
+
+        <div className="p-4 border-t">
+          <CalendarComponent />
+        </div>
+      </motion.div>
     </div>
   );
 };
 
-export default AuthForm;
+export default ControlPanel;

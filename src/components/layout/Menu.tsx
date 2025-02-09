@@ -21,15 +21,6 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
   const { user } = useAuthStore(); // Access user data from the store
   const menuItemClass = 'p-2 py-1';
 
-  const handleMenuItemClick = () => {
-    onClose();
-  };
-
-  const handleCompactToggle = () => {
-    onClose();
-    toggleCompact();
-  };
-
   return (
     <div
       className={`fixed inset-y-0 left-0 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -56,16 +47,16 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
 
         <nav className="flex flex-col font-semibold">
           <Link to="/" className={menuItemClass}>
-            <MenuItemList to="/" label="Home" icon={Home} onClick={handleMenuItemClick} isCompact={isCompact} />
+            <MenuItemList to="/" label="Home" icon={Home} onClick={onClose} isCompact={isCompact} />
           </Link>
           <Link to="/calendar" className={menuItemClass}>
-            <MenuItemList to="/calendar" label="Calendar" icon={Calendar} onClick={handleMenuItemClick} isCompact={isCompact} />
+            <MenuItemList to="/calendar" label="Calendar" icon={Calendar} onClick={onClose} isCompact={isCompact} />
           </Link>
           <Link to="/analytics" className={menuItemClass}>
-            <MenuItemList to="/analytics" label="History" icon={BarChart} onClick={handleMenuItemClick} isCompact={isCompact} />
+            <MenuItemList to="/analytics" label="History" icon={BarChart} onClick={onClose} isCompact={isCompact} />
           </Link>
           <Link to="/tasks" className={menuItemClass}>
-            <MenuItemList to="/tasks" label="Tasks" icon={ListChecks} onClick={handleMenuItemClick} isCompact={isCompact} />
+            <MenuItemList to="/tasks" label="Tasks" icon={ListChecks} onClick={onClose} isCompact={isCompact} />
           </Link>
           <hr className="border-gray-200 my-1" />
         </nav>
@@ -77,7 +68,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
           <MenuItemIconSecondary isActive={location.pathname === '/settings'} icon={<SettingIcon className="w-6 h-6" />} />
         </Link>
         <MenuItemIconSecondary
-          onClick={handleCompactToggle}
+          onClick={toggleCompact}
           isActive={isCompact}
           icon={<PanelRightOpen className="w-6 h-6" />}
           className="hidden md:block"
@@ -93,5 +84,3 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
     </div>
   );
 }
-
-export default Menu;

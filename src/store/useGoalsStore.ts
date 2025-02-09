@@ -1,100 +1,124 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
-import { v4 as uuidv4 } from 'uuid';
+import { useAuthStore } from './useAuthStore';
 
 interface Task {
   id: string;
   title: string;
   description?: string;
-  status: 'created' | 'started' | 'completed' | 'unfinished' | 'migrated'; // Updated status type
-  is_started: boolean; // No longer needed, remove later
-  is_cancelled: boolean; // No longer needed, remove later
-  is_finished: boolean; // No longer needed, remove later
-  is_rescheduled: boolean; // No longer needed, remove later
-  rescheduled_date?: string;
-  session_block?: 'morning' | 'afternoon' | 'evening' | 'midnight' | 'full_day';
-  reminder_time?: string;
-  due_time?: string;
+  status: 'created' | 'started' | 'completed' | 'unfinished' | 'migrated';
+  created_at: string;
+  user_id: string; // Ensure user_id is present in the Task interface
 }
 
-interface StudyState {
+interface GoalsState {
   tasks: Task[];
-  addTask: (title: string) => Promise<void>;
-  updateTaskStatus: (taskId: string, status: Task['status']) => Promise<void>; // Renamed and updated
+  isLoading: boolean;
+  error: string | null;
   fetchTasks: () => Promise<void>;
+  addTask: (title: string) => Promise<void>;
+  updateTaskStatus: (taskId: string, status: Task['status']) => Promise<void>;
 }
 
-const anonymousUserId = uuidv4();
-
-export const useGoalsStore = create<StudyState>((set, get) => ({
+export const useGoalsStore = create<GoalsState>((set) => ({
   tasks: [],
+  isLoading: false,
+  error: null,
 
   fetchTasks: async () => {
+    set({ isLoading: true, error: null });
     try {
+      const { user } = useAuthStore.getState();
+      if (!user) {
+        console.warn("useGoalsStore: No user logged in, not fetching tasks.");
+        set({ tasks: [], isLoading: false, error: 'Not authenticated' });
+        return;
+      }
+
       const { data, error } = await supabase
         .from('tasks')
         .select('*')
-        .order('created_at', { ascending: false }); // Order by created_at desc for newest tasks first
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
 
       if (error) {
         console.error("useGoalsStore: Error fetching tasks:", error);
-        throw error;
+        set({ error: error.message, isLoading: false });
+        return;
       }
 
-      set({ tasks: data || [] });
-    } catch (error) {
+      set({ tasks: data || [], isLoading: false, error: null });
+    } catch (error: any) {
       console.error("useGoalsStore: Error in fetchTasks:", error);
+      set({ error: error.message, isLoading: false });
     }
   },
 
   addTask: async (title: string) => {
     try {
+      const { user } = useAuthStore.getState();
+      if (!user) {
+        console.warn("useGoalsStore: No user logged in, cannot add task.");
+        set({ error: 'Not authenticated' });
+        return;
+      }
+
       const { data, error } = await supabase
         .from('tasks')
         .insert({
           title,
-          // user_id: anonymousUserId,
+          user_id: user.id,
         })
         .select()
         .single();
 
       if (error) {
         console.error("useGoalsStore: Error adding task to Supabase:", error);
-        throw error;
+        set({ error: `Supabase error: ${error.message} - ${error.details}` });
+        return;
       }
 
       set((state) => ({
         tasks: [...state.tasks, data],
+        error: null,
       }));
-    } catch (error) {
+    } catch (error: any) {
       console.error("useGoalsStore: Error in addTask:", error);
-      throw error;
+      set({ error: `Error adding task: ${error.message}` });
     }
   },
 
-  updateTaskStatus: async (taskId: string, status: Task['status']) => { // Updated function
+  updateTaskStatus: async (taskId: string, status: Task['status']) => {
     try {
-      const { data, error } = await supabase // Log data as well
-        .from('tasks')
-        .update({ status }) // Update status column
-        .eq('id', taskId)
-        .select() // Selecting to get the updated data back
-
-      if (error) {
-        console.error(`useGoalsStore: Error updating task status to ${status} in Supabase:`, error, error.message, error.details, error.hint); // More detailed error log
-        throw error;
+      const { user } = useAuthStore.getState();
+      if (!user) {
+        console.warn("useGoalsStore: No user logged in, cannot update task status.");
+        set({ error: 'Not authenticated' });
+        return;
       }
 
-      console.log("Task status updated successfully in Supabase:", taskId, status, data); // Log success and data
+      const { error } = await supabase
+        .from('tasks')
+        .update({ status })
+        .eq('id', taskId)
+        .eq('user_id', user.id) // Ensure user owns the task
+        .select()
+
+      if (error) {
+        console.error(`useGoalsStore: Error updating task status to ${status} in Supabase:`, error);
+        set({ error: error.message });
+        return;
+      }
 
       set((state) => ({
         tasks: state.tasks.map(task =>
-          task.id === taskId ? { ...task, status: data ? data[0].status : status } : task // Update status in local state from returned data
+          task.id === taskId ? { ...task, status: status } : task
         ),
+        error: null,
       }));
-    } catch (error) {
+    } catch (error: any) {
       console.error("useGoalsStore: Error in updateTaskStatus:", error);
-      throw error;
+      set({ error: error.message });
     }
   },
 }));

@@ -113,7 +113,7 @@ export function DashboardGoal() {
           />
         </div>
         <div className={`sticky bottom-0 bg-gray-100 p-2 z-10 ${isScrolled ? 'shadow-sm' : ''}`}>
-          <NewGoalFormBullet />
+          <NewGoalFormBullet handleAddTask={handleAddTask} />
         </div>
       </main>
     </div>

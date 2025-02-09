@@ -7,7 +7,7 @@ interface SessionCardProps {}
 
 export function DashboardSession({}: SessionCardProps) {
   const [sessionName, setSessionName] = useState(getDefaultSessionName());
-  const { startSession, isSessionActive, resumeSession, isPaused } = useSessionStore();
+  const { isSessionActive, resumeSession, isPaused } = useSessionStore();
 
   function getDefaultSessionName() {
     const currentHour = new Date().getHours();

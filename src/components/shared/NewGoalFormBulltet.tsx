@@ -1,48 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Check, Circle } from 'lucide-react';
-import { useSessionStore } from '../../store/useTaskStore'; // Import the store
+import { useGoalsStore } from '../../store/useGoalsStore'; // Import the store
 import { motion } from 'framer-motion';
 
-export function NewGoalFormBullet() {
+interface NewGoalFormBulletProps {
+  handleAddTask: (e: React.FormEvent) => Promise<void>;
+}
+
+export function NewGoalFormBullet({ handleAddTask }: NewGoalFormBulletProps) {
   const [newTask, setNewTask] = useState('');
   const [taskError, setTaskError] = useState('');
-  const { addTask, fetchTasks } = useSessionStore(); // Use store actions and state
-  const [isLoadingTasks, setIsLoadingTasks] = useState(false);
-  const [showTick, setShowTick] = useState(false);
   const [isEditing, setIsEditing] = useState(false); // Track editing state
 
-  useEffect(() => {
-    const loadTasks = async () => {
-      setIsLoadingTasks(true);
-      setTaskError('');
-      try {
-        await fetchTasks();
-      } catch (error) {
-        console.error('DashboardPage: Error fetching tasks:', error);
-        setTaskError('Failed to load tasks. Please try again later.');
-      } finally {
-        setIsLoadingTasks(false);
-      }
-    };
-
-    loadTasks();
-  }, [fetchTasks]);
-
-  const handleAddTask = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setTaskError('');
     if (newTask.trim()) {
-      try {
-        await addTask(newTask);
-        setNewTask('');
-        setShowTick(true); // Show the tick
-        setTimeout(() => {
-          setShowTick(false); // Hide the tick after a delay
-        }, 700); // Adjust the delay as needed
-      } catch (error) {
-        console.error('DashboardPage: Failed to add task:', error);
-        setTaskError('Failed to add task. Please try again later.');
-      }
+      handleAddTask(e);
+      setNewTask('');
     } else {
       setTaskError('This cannot be empty.');
     }
@@ -50,7 +25,7 @@ export function NewGoalFormBullet() {
 
   return (
     <main className='py-2 px-3 gap-2 min-w-full'>
-      <form onSubmit={handleAddTask} className="flex items-start rounded-md relative">
+      <form onSubmit={handleSubmit} className="flex items-start rounded-md relative">
         <button
           type="button"
           className="text-gray-500 focus:outline-none"
@@ -76,6 +51,7 @@ export function NewGoalFormBullet() {
             initial={{ width: '0%' }} // Start with width at 0%
             animate={{ width: isEditing ? '100%' : '0%' }} // Animate width from 0% to 100%
             transition={{ duration: 0.2, ease: "easeInOut" }}
+            style={{ originX: 0.5 }} // Set transform origin to center
           />
         </div>
 

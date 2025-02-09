@@ -20,11 +20,6 @@ export function MenuCompact ({ isCompact, toggleCompact, darkMode, toggleDarkMod
 
   const MenuItemClass = 'flex justify-center rounded-md transition-colors block py-2';
 
-  const handleCompactToggle = () => {
-    toggleCompact(); 
-    setIsMainMenuOpen(isMainMenuOpen); 
-  };
-
   return (
     <div
       className={`fixed top-12 inset-y-0 left-0 transform ${isCompact || isMainMenuOpen ? 'translate-x-0' : '-translate-x-full'}
