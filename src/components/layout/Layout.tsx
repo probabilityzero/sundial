@@ -3,6 +3,7 @@ import { Header } from './Header';
 import { Menu } from './Menu';
 import { useSideMenu } from '../../store/useSideMenu';
 import { MenuCompact } from './MenuCompact';
+import { motion } from 'framer-motion';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -58,6 +59,16 @@ export function Layout({ children, pageTitle }: LayoutProps) {
           </div>
         </main>
       </div>
+      {isMenuOpen && (
+        <motion.div
+          className="fixed top-0 left-0 w-full h-full bg-black opacity-25 z-40"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.25 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          onClick={closeMenu} // Use closeMenu to close the menu
+        />
+      )}
     </main>
   );
 }

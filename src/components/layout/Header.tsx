@@ -3,6 +3,7 @@ import { ArrowLeft, Menu as MenuIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../../store/useSideMenu';
 import { MenuItemIcon } from './MenuItemIcon'; // Import IconButton
+import ControlPanel from '../ControlPanel'; // Import ControlPanel
 
 interface HeaderProps {
   pageTitle: string;
@@ -14,7 +15,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const navigate = useNavigate();
   const location = useLocation();
   const isDashboard = location.pathname === '/';
-  const { toggleMenu } = useSideMenu();
+  const { toggleMenu } = useSideMenu(); // Get isMenuOpen from store
 
   const handleBackClick = () => {
     navigate('/');
@@ -42,7 +43,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
 
   return (
     <header className="backdrop-filter backdrop-blur-md shadow-sm fixed top-0 left-0 w-full z-30">
-      <div className="w-full h-12 flex items-center"> {/* Container */}
+      <div className="w-full h-12 flex items-center justify-between"> {/* Container */}
         <div className="flex items-center h-full" style={{ minWidth: '3.5rem' }}> {/* Button container */}
           {!isCompact ? (
             !isDashboard ? (
@@ -70,6 +71,8 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
           )}
           <h1 className="text-xl font-semibold">{displayTitle}</h1>
         </div>
+        {/* Control Panel */}
+        <ControlPanel />
       </div>
     </header>
   );
