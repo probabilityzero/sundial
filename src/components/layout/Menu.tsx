@@ -5,6 +5,7 @@ import { MenuItemList } from '../ui/MenuItemList';
 import { MenuItemIcon } from '../ui/MenuItemIcon';
 import { MenuItemIconSecondary } from '../ui/MenuItemIconSecondary';
 import { useAuthStore } from '../../store/useAuthStore'; // Import useAuthStore
+import { getDisplayName, getAvatarUrl } from '../../utils/user-helpers'; // Import helper functions
 
 interface MenuProps {
   isOpen: boolean;
@@ -41,16 +42,16 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
           </div>
         )}
 
-        <div className={`block px-auto`} onClick={handleMenuItemClick}>
+        <Link to="/profile" className={`block px-auto`}>
           <div className={`w-20 h-20 rounded-full bg-gray-200 mx-auto overflow-hidden flex items-center justify-center`}>
-            {user?.user_metadata?.avatar_url ? ( // Check if avatar URL exists
-              <img src={user.user_metadata.avatar_url} alt="Profile Picture" className="w-full h-full object-cover rounded-full" />
+            {getAvatarUrl(user) ? (
+              <img src={getAvatarUrl(user)} alt="Profile Picture" className="w-full h-full object-cover rounded-full" />
             ) : (
-              <UserIcon className={`w-12 h-12 text-gray-400`} /> // Default UserIcon if no avatar
+              <UserIcon className={`w-12 h-12 text-gray-400`} />
             )}
           </div>
-          <h3 className="text-center font-semibold">{user?.user_metadata?.full_name || 'User'}</h3> {/* Display name or "User" */}
-        </div>
+          <h3 className="text-center font-semibold">{getDisplayName(user) || 'User'}</h3>
+        </Link>
         <div className="my-2 border-t"></div>
 
         <nav className="flex flex-col font-semibold">

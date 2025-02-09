@@ -18,13 +18,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
+
+      // Fetch profile data
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', data.user.id)
         .single();
-      if (profileError) console.error("Error fetching profile:", profileError);
-      set({ user: { ...data.user, ...profileData }, loading: false }); // Merge profile data
+
+      if (profileError) {
+        console.error("Error fetching profile:", profileError);
+      }
+
+      // Merge user and profile data
+      set({ user: { ...data.user, ...profileData }, loading: false });
     } catch (error: any) {
       console.error("Error in signIn:", error);
       throw error;
@@ -37,18 +44,25 @@ export const useAuthStore = create<AuthState>((set) => ({
         password,
         options: {
           data: {
-            name,
+            full_name: name, // Store name as full_name in user_metadata
           },
         },
       });
       if (error) throw error;
+
+      // Create profile data
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .insert([{ id: data.user.id, name }]) // Use data.user.id
+        .insert([{ id: data.user.id, full_name: name }]) // Store name as full_name in profiles table
         .select()
         .single();
-      if (profileError) console.error("Error creating profile:", profileError);
-      set({ user: { ...data.user, ...profileData }, loading: false }); // Merge profile data
+
+      if (profileError) {
+        console.error("Error creating profile:", profileError);
+      }
+
+      // Merge user and profile data
+      set({ user: { ...data.user, ...profileData }, loading: false });
     } catch (error: any) {
       console.error("Error in signUp:", error);
       throw error;

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Moon, LayoutList, User, Calendar, BarChart, ListChecks, Settings as SettingIcon, Home } from 'lucide-react';
+import { Moon, LayoutList, User as UserIcon, Calendar, BarChart, ListChecks, Settings as SettingIcon, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { MenuItemIcon } from '../ui/MenuItemIcon';
 import { MenuItemIconSecondary } from '../ui/MenuItemIconSecondary';
+import { useAuthStore } from '../../store/useAuthStore';
+import { getAvatarUrl } from '../../utils/user-helpers'; // Import getAvatarUrl
 
 interface MenuCompactProps {
   isCompact: boolean;
@@ -14,6 +16,7 @@ interface MenuCompactProps {
 export function MenuCompact ({ isCompact, toggleCompact, darkMode, toggleDarkMode }: MenuCompactProps) {
   const location = useLocation();
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false); // State to control the main menu
+  const { user } = useAuthStore(); // Access user data
 
   const MenuItemClass = 'flex justify-center rounded-md transition-colors block py-2';
 
@@ -47,7 +50,11 @@ export function MenuCompact ({ isCompact, toggleCompact, darkMode, toggleDarkMod
       <div className="flex flex-col border-t">
         <Link to="/profile" className="block pb-1 p-2 " title="Profile">
           <div className={`w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex items-center p-2 justify-center`}>
-            <User className={`w-5 h-5 text-gray-400`} />
+            {getAvatarUrl(user) ? (
+              <img src={getAvatarUrl(user)} alt="Profile Picture" className="w-full h-full object-cover rounded-full" />
+            ) : (
+              <UserIcon className={`w-5 h-5 text-gray-400`} />
+            )}
           </div>
         </Link>
 
