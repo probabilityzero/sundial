@@ -7,12 +7,16 @@ import CalendarComponent from '../ui/ControlPanelCalendar';
 import ControlPanelNavbar from '../ui/ControlPanelNavbar';
 import { MenuItemIcon } from '../ui/MenuItemIcon';
 
-const ControlPanel = () => {
+interface ControlPanelProps {
+  onBackClick?: () => void; // Add onBackClick prop
+}
+
+const ControlPanel: React.FC<ControlPanelProps> = ({ onBackClick }) => {
   const [isControlPanelOpen, setIsControlPanelOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('circleColor');
   const panelRef = useRef<HTMLDivElement>(null);
 
-  const togglePanel = () => {
+  const handleClick = () => { // Define handleClick function
     setIsControlPanelOpen(!isControlPanelOpen);
   };
 
@@ -33,9 +37,8 @@ const ControlPanel = () => {
     };
   }, [isControlPanelOpen]);
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    togglePanel();
+  const handleBackClick = () => {
+    setIsControlPanelOpen(false); // Close the panel when back button is clicked
   };
 
   return (
@@ -47,10 +50,6 @@ const ControlPanel = () => {
       >
         <PanelRight className="h-6 w-6" />
       </button>
-      <div className="w-14 h-14 flex items-center justify-center">
-        <MenuItemIcon onClick={handleBackClick} icon={<ArrowLeft className="w-6 h-6" />} />
-      </div>
-
 
       {/* Sliding panel */}
       <motion.div
@@ -62,7 +61,14 @@ const ControlPanel = () => {
         ref={panelRef}
       >
         <div className="p-4 border-b flex-grow flex flex-col overflow-y-auto">
-          <h3 className="text-lg font-semibold mb-4">Control Panel</h3>
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold mb-4">Control Panel</h3>
+            {onBackClick && ( // Conditionally render the button
+              <button onClick={onBackClick} className="text-gray-600 p-2 rounded-md focus:outline-none hover:bg-gray-100 active:bg-gray-200">
+                <span>Back</span>
+              </button>
+            )}
+          </div>
           <ControlPanelNavbar activeSection={activeSection} setActiveSection={setActiveSection} />
           {activeSection === 'circleColor' && <CircleColorSettings />}
           {activeSection === 'emojiTag' && <EmojiTagSettings />}

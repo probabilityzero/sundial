@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, PanelRightOpen, Home } from 'lucide-react';
+import { X, User as UserIcon, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, PanelRightOpen, Home } from 'lucide-react';
 import { MenuItemList } from '../ui/MenuItemList';
 import { MenuItemIcon } from '../ui/MenuItemIcon';
 import { MenuItemIconSecondary } from '../ui/MenuItemIconSecondary';
+import { useAuthStore } from '../../store/useAuthStore'; // Import useAuthStore
 
 interface MenuProps {
   isOpen: boolean;
@@ -16,7 +17,7 @@ interface MenuProps {
 
 export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, toggleDarkMode }: MenuProps) {
   const location = useLocation();
-
+  const { user } = useAuthStore(); // Access user data from the store
   const menuItemClass = 'p-2 py-1';
 
   const handleMenuItemClick = () => {
@@ -42,9 +43,13 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
 
         <div className={`block px-auto`} onClick={handleMenuItemClick}>
           <div className={`w-20 h-20 rounded-full bg-gray-200 mx-auto overflow-hidden flex items-center justify-center`}>
-            <User className={`w-12 h-12 text-gray-400`} />
+            {user?.user_metadata?.avatar_url ? ( // Check if avatar URL exists
+              <img src={user.user_metadata.avatar_url} alt="Profile Picture" className="w-full h-full object-cover rounded-full" />
+            ) : (
+              <UserIcon className={`w-12 h-12 text-gray-400`} /> // Default UserIcon if no avatar
+            )}
           </div>
-          <h3 className="text-center font-semibold">John Doe</h3>
+          <h3 className="text-center font-semibold">{user?.user_metadata?.full_name || 'User'}</h3> {/* Display name or "User" */}
         </div>
         <div className="my-2 border-t"></div>
 
@@ -87,3 +92,5 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
     </div>
   );
 }
+
+export default Menu;
