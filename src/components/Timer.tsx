@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Play, Pause, StopCircle } from 'lucide-react';
 import './Timer.css';
-import TagsPopover from './TagsPopover';
 
 interface TimerProps {
   startTime: Date | null;
@@ -13,7 +12,6 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, isPaused, isSessionActive }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [showTagsPopover, setShowTagsPopover] = useState(false);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -41,10 +39,6 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, isPaused, i
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const handleTagClick = () => {
-    setShowTagsPopover(!showTagsPopover);
-  };
-
   return (
     <div className="flex items-center rounded-full bg-gray-100 p-2">
       {isSessionActive && isPaused ? (
@@ -56,14 +50,10 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, isPaused, i
           <StopCircle className="w-4 h-4" />
         </button>
       ) : (
-        <div className="relative">
-          <button
-            onClick={handleTagClick}
-            className="tag-button"
-          >
-            <div className="radar-circle"></div>
-          </button>
-          {showTagsPopover && <TagsPopover />}
+        <div
+          className="tag-button"
+        >
+          <div className="radar-circle"></div>
         </div>
       )}
       <span>{formatTime(elapsedTime)}</span>

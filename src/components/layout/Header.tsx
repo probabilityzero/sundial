@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowLeft, Menu as MenuIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../../store/useSideMenu';
@@ -6,7 +6,7 @@ import { MenuItemIcon } from './MenuItemIcon';
 import ControlPanel from './ControlPanel';
 import Timer from '../Timer';
 import { useSessionStore } from '../../store/useSessionStore';
-import EmojiTag from '../EmojiTag';
+import TagsPopover from '../TagsPopover';
 
 interface HeaderProps {
   pageTitle: string;
@@ -20,6 +20,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const isDashboard = location.pathname === '/';
   const { toggleMenu } = useSideMenu();
   const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime } = useSessionStore();
+  const [isTagsPopoverOpen, setIsTagsPopoverOpen] = useState(false);
 
   const handleBackClick = () => {
     navigate('/');
@@ -44,7 +45,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
 
   return (
     <header className="backdrop-filter backdrop-blur-md shadow-sm fixed top-0 left-0 w-full z-30">
-      <div className="w-full h-12 flex items-center justify-between">
+      <div className="w-full h-12 flex items-center justify-between relative">
         {/* Container */}
         <div className="flex items-center h-full" style={{ minWidth: '3.5rem' }}>
           {/* Button container */}
@@ -64,7 +65,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
             </div>
           )}
           <h1 className="text-xl font-semibold">{displayTitle}</h1>
-          <EmojiTag />
+          <TagsPopover isOpen={isTagsPopoverOpen} onClose={() => setIsTagsPopoverOpen(false)} />
         </div>
         {/* Dimension and Timer */}
         {isSessionActive && startTime && (
