@@ -6,6 +6,7 @@ import { MenuItemIcon } from '../ui/MenuItemIcon';
 import ControlPanel from './ControlPanel';
 import Timer from '../ui/Timer';
 import { useSessionStore } from '../../store/useSessionStore';
+import { useAuthStore } from '../../store/useAuthStore';
 import SessionTag from './SessionTag';
 
 interface HeaderProps {
@@ -19,7 +20,8 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const location = useLocation();
   const isDashboard = location.pathname === '/';
   const { toggleMenu } = useSideMenu();
-  const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime } = useSessionStore();
+  const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime, resetSession: onReset } = useSessionStore();
+  const { user } = useAuthStore(); // Get user from AuthStore
 
   const handleBackClick = () => {
     navigate('/');
@@ -64,19 +66,20 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
           <h1 className="text-xl font-semibold">{displayTitle}</h1>
           <SessionTag />
         </div>
-        <div className="flex items-center h-full w-12 h-12 flex items-center justify-center">
-          {isSessionActive && startTime && (
+        <div className="flex items-center h-full">
+          {isSessionActive && (
             <div className="flex-grow flex justify-end items-center space-x-2">
               <Timer
                 startTime={startTime}
                 onPause={pauseSession}
                 onResume={resumeSession}
+                onReset={onReset}
                 isPaused={isPaused}
                 isSessionActive={isSessionActive}
               />
             </div>
           )}
-          <ControlPanel />
+          {user && <ControlPanel />}
         </div>
       </div>
     </header>

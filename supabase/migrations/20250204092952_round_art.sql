@@ -93,11 +93,11 @@ ALTER TABLE user_settings ENABLE ROW LEVEL SECURITY;
 
 -- Create policy to allow users to read their own settings
 CREATE POLICY "Enable read access for users based on user_id" ON user_settings
-ON user_settings FOR SELECT TO authenticated
+FOR SELECT TO authenticated
 USING (auth.uid() = user_id);
 
 -- Create policy to allow users to update their own settings
 CREATE POLICY "Enable update access for users based on user_id" ON user_settings
-ON user_settings FOR UPDATE TO authenticated
+FOR UPDATE TO authenticated
 USING (auth.uid() = user_id)
 WITH CHECK (auth.uid() = user_id);

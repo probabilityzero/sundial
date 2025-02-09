@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
 import { useAuthStore } from './useAuthStore';
-import { useSessionStore } from './useSessionStore';
 
 interface Task {
   id: string;
@@ -37,10 +36,14 @@ export const useGoalsStore = create<GoalsState>((set) => ({
         return;
       }
 
+      const today = new Date().toISOString().slice(0, 10);
+
       const { data, error } = await supabase
         .from('tasks')
         .select('*')
         .eq('user_id', user.id)
+        .gte('created_at', `${today}T00:00:00+00:00`)
+        .lt('created_at', `${today}T23:59:59+00:00`)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -72,13 +75,17 @@ export const useGoalsStore = create<GoalsState>((set) => ({
     }
 
     try {
+      const newTask = {
+        title,
+        user_id: user.id,
+        tag: tag,
+      };
+
+      console.log("useGoalsStore: Attempting to insert task with:", newTask);
+
       const { data, error } = await supabase
         .from('tasks')
-        .insert({
-          title,
-          user_id: user.id,
-          tag: tag,
-        })
+        .insert([newTask]) // Insert as an array
         .select()
         .single();
 

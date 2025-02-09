@@ -11,9 +11,10 @@ interface MenuCompactProps {
   toggleCompact: () => void;
   darkMode: boolean;
   toggleDarkMode: () => void;
+  onClose: () => void;
 }
 
-export function MenuCompact ({ isCompact, toggleCompact, darkMode, toggleDarkMode }: MenuCompactProps) {
+export function MenuCompact ({ isCompact, toggleCompact, darkMode, toggleDarkMode, onClose }: MenuCompactProps) {
   const location = useLocation();
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false); // State to control the main menu
   const { user } = useAuthStore(); // Access user data

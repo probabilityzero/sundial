@@ -5,7 +5,8 @@ import CircleColorSettings from '../ui/ControlPanelBackground';
 import ControlPanelTags from '../ui/ControlPanelTags';
 import CalendarComponent from '../ui/ControlPanelCalendar';
 import ControlPanelNavbar from '../ui/ControlPanelNavbar';
-import { MenuItemIcon } from '../ui/MenuItemIcon';
+import { useUserSettingsStore } from '../../store/useUserSettingsStore';
+import { useAuthStore } from '../../store/useAuthStore';
 
 interface ControlPanelProps {
   onBackClick?: () => void; // Add onBackClick prop
@@ -15,9 +16,17 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ onBackClick }) => {
   const [isControlPanelOpen, setIsControlPanelOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('circleColor');
   const panelRef = useRef<HTMLDivElement>(null);
+  const { fetchUserSettings, availableTags } = useUserSettingsStore();
+  const { user } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleClick = () => { // Define handleClick function
+  const handleClick = async () => {
     setIsControlPanelOpen((isControlPanelOpen) => !isControlPanelOpen);
+    if (!isControlPanelOpen && user) {
+      setIsLoading(true);
+      await fetchUserSettings(user.id);
+      setIsLoading(false);
+    }
   };
 
   // Close panel when clicking outside

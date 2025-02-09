@@ -1,11 +1,13 @@
 import React from 'react';
 import { useUserSettingsStore } from '../../store/useUserSettingsStore';
 import { supabase } from '../../lib/supabase'; // Import supabase
+import { useAuthStore } from '../../store/useAuthStore';
 
 interface ControlPanelTagsProps {}
 
 const ControlPanelTags: React.FC<ControlPanelTagsProps> = () => {
   const { availableTags, setAvailableTags } = useUserSettingsStore();
+  const { user } = useAuthStore();
 
   const handleTagClick = async (tagName: string) => {
     const newTags = availableTags.some(tag => tag.name === tagName)
@@ -13,21 +15,15 @@ const ControlPanelTags: React.FC<ControlPanelTagsProps> = () => {
       : [...availableTags, { name: tagName }];
 
     setAvailableTags(newTags);
-    console.log("EmojiTagSettings: New tags after click:", newTags);
 
     // Update Supabase
-    const userId = supabase.auth.currentUser?.id;
-    if (userId) {
+    if (user) {
       try {
-        console.log("EmojiTagSettings: Attempting to update tags for userId:", userId);
         const { data, error } = await supabase
           .from('user_settings')
           .update({ available_tags: newTags.map(tag => tag.name) })
-          .eq('user_id', userId)
+          .eq('user_id', user.id)
           .select()
-
-        console.log("EmojiTagSettings: Supabase update data:", data);
-        console.log("EmojiTagSettings: Supabase update error:", error);
 
         if (error) {
           console.error("EmojiTagSettings: Error updating available tags:", error);

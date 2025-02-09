@@ -6,7 +6,7 @@ import { useSessionStore } from '../../store/useSessionStore';
 interface SessionTagProps {
 }
 
-const SessionTag: React.FC<SessionTagProps> = () => {
+const SessionTag: React.FC<SessionTagProps> = ({ }) => {
   const [isTagsPopoverOpen, setIsTagsPopoverOpen] = useState(false);
   const { availableTags } = useUserSettingsStore();
   const { setTag, startSession, isSessionActive, tag } = useSessionStore();
@@ -19,7 +19,7 @@ const SessionTag: React.FC<SessionTagProps> = () => {
     setTag(newTag);
     setIsTagsPopoverOpen(false);
     if (!isSessionActive) {
-      await startSession('New Session', newTag);
+      await startSession(newTag);
     }
   };
 

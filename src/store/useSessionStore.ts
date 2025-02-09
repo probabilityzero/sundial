@@ -15,11 +15,13 @@ interface TimerState {
   totalPausedTime: number;
   tag: string | null;
 
-  startSession: (sessionName: string, tag: string) => Promise<void>;
+  startSession: ( sessionName: string) => Promise<void>;
   pauseSession: () => Promise<void>;
   resumeSession: () => Promise<void>;
   resetSession: () => Promise<void>;
   setTag: (tag: string) => Promise<void>;
+  setSessionName: (sessionName: string) => Promise<void>;
+  fetchActiveSession: () => Promise<void>;
 }
 
 export const useSessionStore = create<TimerState>()(
@@ -35,12 +37,12 @@ export const useSessionStore = create<TimerState>()(
       totalPausedTime: 0,
       tag: null,
 
-      startSession: async (sessionName: string, tag: string) => {
+      startSession: async ( sessionName: string) => {
         const sessionId = uuidv4();
         const startTime = new Date();
         const { user } = useAuthStore.getState();
 
-        console.log("useSessionStore: startSession called with name:", sessionName, "tag:", tag);
+        console.log("useSessionStore: startSession called with name:", sessionName);
         console.log("useSessionStore: user:", user);
 
         if (!user) {
@@ -52,7 +54,7 @@ export const useSessionStore = create<TimerState>()(
           console.log("useSessionStore: Attempting to insert session into database");
           const { data, error } = await supabase
             .from('sessions')
-            .insert({ id: sessionId, title: sessionName, start_time: startTime.toISOString(), tag, user_id: user.id })
+            .insert({ id: sessionId, title: sessionName, start_time: startTime.toISOString(), tag: get().tag, user_id: user.id, status: 'active' })
             .select();
 
           console.log("useSessionStore: Supabase insert data:", data);
@@ -74,51 +76,44 @@ export const useSessionStore = create<TimerState>()(
           endTime: null,
           pauseTime: null,
           totalPausedTime: 0,
-          tag,
+          tag: get().tag,
         });
       },
 
       pauseSession: async () => {
         const sessionId = get().sessionId;
-        const endTime = new Date();
-        const duration = endTime.getTime() - (get().startTime?.getTime() || endTime.getTime());
+        const pauseTime = new Date();
 
         try {
           const { error } = await supabase
             .from('sessions')
-            .update({ end_time: endTime.toISOString(), total_duration: duration, status: 'completed' })
+            .update({ status: 'paused' })
             .eq('id', sessionId);
 
           if (error) {
-            console.error("useSessionStore: Error ending session:", error);
+            console.error("useSessionStore: Error pausing session:", error);
           }
         } catch (error) {
-          console.error("useSessionStore: Error ending session:", error);
+          console.error("useSessionStore: Error pausing session:", error);
         }
 
         set({
-          sessionId: null,
-          sessionName: null,
-          startTime: null,
-          endTime: null,
-          isPaused: false,
-          isSessionActive: false,
-          pauseTime: null,
-          totalPausedTime: 0,
-          tag: null,
+          isPaused: true,
+          pauseTime: pauseTime,
         });
       },
 
       resumeSession: async () => {
         const now = new Date();
         const pausedDuration = now.getTime() - (get().pauseTime?.getTime() || now.getTime());
+        const sessionId = get().sessionId;
 
         try {
           // Update the session status in the database
           const { error } = await supabase
             .from('sessions')
             .update({ status: 'active' })
-            .eq('id', get().sessionId);
+            .eq('id', sessionId);
 
           if (error) {
             console.error("useSessionStore: Error resuming session:", error);
@@ -137,6 +132,7 @@ export const useSessionStore = create<TimerState>()(
       },
 
       resetSession: async () => {
+        const sessionId = get().sessionId;
         const endTime = new Date();
         const duration = endTime.getTime() - (get().startTime?.getTime() || endTime.getTime());
 
@@ -145,7 +141,7 @@ export const useSessionStore = create<TimerState>()(
           const { error } = await supabase
             .from('sessions')
             .update({ end_time: endTime.toISOString(), total_duration: duration, status: 'completed' })
-            .eq('id', get().sessionId);
+            .eq('id', sessionId);
 
           if (error) {
             console.error("useSessionStore: Error ending session:", error);
@@ -180,6 +176,61 @@ export const useSessionStore = create<TimerState>()(
         }
         set({ tag: tag });
       },
+      setSessionName: async (sessionName: string) => {
+        const sessionId = get().sessionId;
+        try {
+          const { error } = await supabase
+            .from('sessions')
+            .update({ title: sessionName })
+            .eq('id', sessionId);
+          if (error) {
+            console.error("Error updating session name:", error);
+          }
+        } catch (error) {
+          console.error("Error updating session name:", error);
+        }
+        set({ sessionName: sessionName });
+      },
+      fetchActiveSession: async () => {
+        const { user } = useAuthStore.getState();
+        if (!user) {
+          console.warn("useSessionStore: No user logged in, cannot fetch active session.");
+          return;
+        }
+
+        try {
+          const { data, error } = await supabase
+            .from('sessions')
+            .select('*')
+            .eq('user_id', user.id)
+            .eq('status', 'active')
+            .single();
+
+          console.log("useSessionStore: fetchActiveSession data:", data);
+          console.log("useSessionStore: fetchActiveSession error:", error);
+
+          if (error && error.code !== 'PGRST116') {
+            console.error("useSessionStore: Error fetching active session:", error);
+            return;
+          }
+
+          if (data) {
+            set({
+              sessionId: data.id,
+              sessionName: data.title,
+              startTime: new Date(data.start_time),
+              endTime: data.end_time ? new Date(data.end_time) : null,
+              isPaused: false,
+              isSessionActive: true,
+              pauseTime: null,
+              totalPausedTime: data.total_duration || 0,
+              tag: data.tag,
+            });
+          }
+        } catch (error) {
+          console.error("useSessionStore: Error in fetchActiveSession:", error);
+        }
+      },
     }),
     {
       name: 'session-storage',
@@ -193,7 +244,12 @@ export const useSessionStore = create<TimerState>()(
           parsed.state.pauseTime = new Date(parsed.state.pauseTime);
         }
         return parsed;
-      }
+      },
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.fetchActiveSession();
+        }
+      },
     }
   )
 );

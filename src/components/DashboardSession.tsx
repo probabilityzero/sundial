@@ -6,20 +6,26 @@ import { useSessionStore } from '../store/useSessionStore';
 interface SessionCardProps {}
 
 export function DashboardSession({}: SessionCardProps) {
-  const [sessionName, setSessionName] = useState(getDefaultSessionName());
-  const { isSessionActive, resumeSession, isPaused } = useSessionStore();
+  const { isSessionActive, resumeSession, isPaused, sessionName, setSessionName, startSession, tag } = useSessionStore();
+  const [defaultSessionName, setDefaultSessionName] = useState(getDefaultSessionName());
+
+  React.useEffect(() => {
+    setDefaultSessionName(getDefaultSessionName());
+  }, []);
 
   function getDefaultSessionName() {
     const currentHour = new Date().getHours();
+    let timeOfDay = "";
     if (currentHour >= 5 && currentHour < 12) {
-      return "Morning Session";
+      timeOfDay = "Morning";
     } else if (currentHour >= 12 && currentHour < 17) {
-      return "Afternoon Session";
+      timeOfDay = "Afternoon";
     } else if (currentHour >= 17 && currentHour < 22) {
-      return "Evening Session";
+      timeOfDay = "Evening";
     } else {
-      return "Midnight Session";
+      timeOfDay = "Midnight";
     }
+    return `${timeOfDay} Session`;
   }
 
   const handleSaveSessionName = async (newSessionName: string) => {
@@ -29,13 +35,10 @@ export function DashboardSession({}: SessionCardProps) {
 
   const handleStartSessionClick = async () => {
     console.log("DashboardSession: handleStartSessionClick called");
-    if (!isSessionActive && isPaused) {
-      try {
-        await resumeSession();
-        console.log("DashboardSession: resumeSession completed successfully");
-      } catch (error) {
-        console.error("DashboardSession: Error resuming session:", error);
-      }
+    if (isSessionActive && isPaused) {
+      await resumeSession();
+    } else if (!isSessionActive) {
+      await startSession(tag || defaultSessionName);
     }
   };
 
@@ -60,7 +63,7 @@ export function DashboardSession({}: SessionCardProps) {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <NewSessionTitle title={sessionName} onSave={handleSaveSessionName} />
+        <NewSessionTitle title={sessionName || defaultSessionName} onSave={handleSaveSessionName} />
       </motion.div>
     </motion.div>
   );

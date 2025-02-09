@@ -65,7 +65,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
 
       <div className="flex items-center justify-between border-t p-2">
         <Link to="/settings" className={`justify-center rounded-md transition-colors block`}>
-          <MenuItemIconSecondary isActive={location.pathname === '/settings'} icon={<SettingIcon className="w-6 h-6" />} />
+          <MenuItemIconSecondary onClick={onClose} isActive={location.pathname === '/settings'} icon={<SettingIcon className="w-6 h-6" />} />
         </Link>
         <MenuItemIconSecondary
           onClick={toggleCompact}
