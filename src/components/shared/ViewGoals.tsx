@@ -8,8 +8,9 @@ interface NewGoalBulletProps {
   tasks: any[]; // Replace 'any' with the actual type of your tasks
   handleCompleteTask: (taskId: string) => Promise<void>;
   handleStartTask: (taskId: string, index: number) => Promise<void>;
-  taskItemRefs: React.MutableRefObject<HTMLElement[]>;
+  taskItemRefs: React.MutableRefObject<(HTMLElement | null)[]>;  // Allow null values here
 }
+
 export function ViewGoals({
   isLoadingTasks,
   tasks,
@@ -17,7 +18,6 @@ export function ViewGoals({
   handleStartTask,
   taskItemRefs,
 }: NewGoalBulletProps) {
-
   return (
     <>
       {isLoadingTasks ? (
@@ -38,22 +38,22 @@ export function ViewGoals({
           {tasks.map((task, index) => (
             <li
               key={task.id}
-              ref={(el) => (taskItemRefs.current[index] = el)}
+              ref={(el) => (taskItemRefs.current[index] = el)}  // Assigning ref here
               className="flex items-start justify-start px-3 py-1.5 gap-2 w-full"
             >
               <button
                 onClick={() => handleTaskClick(task.id, index, task.status)}
                 className="text-gray-500 focus:outline-none flex-shrink-0"
               >
-                  {task.status === 'completed' ? (
-                    <CheckCircle className="h-6 w-6 text-green-500" />
-                  ) : task.status === 'started' ? (
-                    <PauseCircle className="h-6 w-6 text-blue-500" />
-                  ) : task.status === 'unfinished' ? (
-                    <Circle className="h-6 w-6 text-red-500" />
-                  ) : (
-                    <Circle className="h-6 w-6" />
-                  )}
+                {task.status === 'completed' ? (
+                  <CheckCircle className="h-6 w-6 text-green-500" />
+                ) : task.status === 'started' ? (
+                  <PauseCircle className="h-6 w-6 text-blue-500" />
+                ) : task.status === 'unfinished' ? (
+                  <Circle className="h-6 w-6 text-red-500" />
+                ) : (
+                  <Circle className="h-6 w-6" />
+                )}
               </button>
 
               <ViewGoalToday
@@ -62,7 +62,6 @@ export function ViewGoals({
                 completed={task.status === 'completed'}
                 onComplete={handleCompleteTask}
               />
-
             </li>
           ))}
         </ul>

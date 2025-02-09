@@ -68,20 +68,20 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
           </div>
 
         <div className="flex items-center justify-between border-t p-2">
-          <Link to="/settings" className={`flex justify-center rounded-md transition-colors block`}>
+          <Link to="/settings" className={`justify-center rounded-md transition-colors block`}>
                 <MenuItemIconSecondary isActive={location.pathname === '/settings'} icon={<SettingIcon className="w-6 h-6" />} />
           </Link>
           <MenuItemIconSecondary
             onClick={handleCompactToggle}
             isActive={isCompact}
             icon={<PanelRightOpen className="w-6 h-6" />}
-            className="hidden md:block" // Shows on 'md' and larger screens only
+            className="hidden md:block"
           />
 
           <MenuItemIconSecondary
             onClick={toggleDarkMode}
             icon={<Moon className="w-6 h-6" />}
-            className="block md:hidden" // Shows only on 'sm' screens and below
+            className="block md:hidden" 
           />
 
       </div>
