@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, Play, Loader2, Circle } from 'lucide-react';
 import { ViewGoalToday } from './shared/ViewGoalToday';
-import { useSessionStore } from '../store/useTaskStore'; // Import the store
+import { useGoalsStore } from '../store/useGoalsStore'; // Import the store
 import { motion } from 'framer-motion';
-import { ViewGoals } from './shared/ViewGoals'; 
-import { NewGoalFormBullet } from './shared/NewGoalFormBulltet'; 
+import { ViewGoals } from './shared/ViewGoals';
+import { NewGoalFormBullet } from './shared/NewGoalFormBulltet';
 
 export function DashboardGoal() {
   const [newTask, setNewTask] = useState('');
   const [taskError, setTaskError] = useState('');
   const taskItemRefs = useRef<HTMLElement[]>([]);
-  const { tasks, addTask, updateTaskStatus, fetchTasks } = useSessionStore(); // Use store actions and state
+  const { tasks, addTask, updateTaskStatus, fetchTasks } = useGoalsStore(); // Use store actions and state
   const [isLoadingTasks, setIsLoadingTasks] = useState(false);
   const [showTick, setShowTick] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -92,17 +92,18 @@ export function DashboardGoal() {
 
   return (
     <div className="p-4 w-full max-w-full">
-     <main className="mx-auto bg-gray-100 rounded-xl flex flex-col"
-      style={{
-        ...theme => theme('dashboard.goalBox'),
-        padding: '0.5rem',
-      }}
-     >
+      <main
+        className="mx-auto bg-gray-100 rounded-xl flex flex-col"
+        style={{
+          ...theme => theme('dashboard.goalBox'),
+          padding: '0.5rem',
+        }}
+      >
         <div className={`flex justify-between border-b-2 p-2 sticky top-0 bg-gray-100 z-10 ${isScrolled ? 'shadow-sm' : ''}`}>
           <h2 className="text-xl text-left font-semibold text-gray-800">Goals</h2>
         </div>
 
-        <div className="overflow-y-auto pt-2" style={{maxHeight: 'calc(100vh - 12rem - 16rem - 3.25rem - 6rem)'}} ref={scrollContainerRef}> 
+        <div className="overflow-y-auto pt-2" style={{ maxHeight: 'calc(100vh - 12rem - 16rem - 3.25rem - 6rem)' }} ref={scrollContainerRef}>
           <ViewGoals
             isLoadingTasks={isLoadingTasks}
             tasks={tasks}
@@ -111,7 +112,7 @@ export function DashboardGoal() {
             taskItemRefs={taskItemRefs}
           />
         </div>
-        <div className={`sticky bottom-0 bg-gray-100 p-2 z-10 ${isScrolled ? 'shadow-sm' : ''}`}> 
+        <div className={`sticky bottom-0 bg-gray-100 p-2 z-10 ${isScrolled ? 'shadow-sm' : ''}`}>
           <NewGoalFormBullet />
         </div>
       </main>

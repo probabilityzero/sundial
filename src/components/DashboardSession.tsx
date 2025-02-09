@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion'; // Import Framer Motion
+import { motion } from 'framer-motion';
 import { NewSessionTitle } from './shared/NewSessionTitle';
-import { useSessionStore } from '../store/useTaskStore'; // Import the store
+import { useSessionStore } from '../store/useSessionStore';
 
-interface SessionCardProps {
-  // Add any props if needed later
-}
+interface SessionCardProps {}
 
-export function DashboardSession({ }: SessionCardProps) {
+export function DashboardSession({}: SessionCardProps) {
   const [sessionName, setSessionName] = useState(getDefaultSessionName());
+  const { startSession, isSessionActive } = useSessionStore();
 
   function getDefaultSessionName() {
     const currentHour = new Date().getHours();
@@ -23,11 +22,24 @@ export function DashboardSession({ }: SessionCardProps) {
     }
   }
 
-  const handleSaveSessionName = (newSessionName: string) => {
+  const handleSaveSessionName = async (newSessionName: string) => {
     setSessionName(newSessionName);
-    // In a real app, you would save the session name to a database or state management
     console.log("Session name updated:", newSessionName);
-  }; 
+  };
+
+  const handleStartSessionClick = async () => {
+    console.log("DashboardSession: handleStartSessionClick called");
+    if (!isSessionActive) {
+      try {
+        await startSession(sessionName);
+        console.log("DashboardSession: startSession completed successfully");
+      } catch (error) {
+        console.error("DashboardSession: Error starting session:", error);
+      }
+    } else {
+      console.log("DashboardSession: Session already active");
+    }
+  };
 
   return (
     <motion.div
@@ -37,9 +49,10 @@ export function DashboardSession({ }: SessionCardProps) {
       transition={{ duration: 0.5 }}
     >
       <motion.div
-        className="h-64 w-64 rounded-full bg-blue-200 m-4 shadow-md flex items-center justify-center"
+        className="h-64 w-64 rounded-full bg-blue-200 m-4 shadow-md flex items-center justify-center cursor-pointer"
         whileHover={{ scale: 1.1 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
+        onClick={handleStartSessionClick}
       >
         {/* Circle content or icon can go here */}
       </motion.div>
@@ -53,4 +66,4 @@ export function DashboardSession({ }: SessionCardProps) {
       </motion.div>
     </motion.div>
   );
-};
+}

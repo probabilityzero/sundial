@@ -1,0 +1,31 @@
+.radar-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #4CAF50; /* Green color */
+  position: relative;
+  animation: radarAnimation 2s infinite ease-in-out;
+}
+
+.tag-button {
+  padding: 0.25rem;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+@keyframes radarAnimation {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+}

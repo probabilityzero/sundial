@@ -4,6 +4,7 @@ import { Menu } from './Menu';
 import { useSideMenu } from '../../store/useSideMenu';
 import { MenuCompact } from './MenuCompact';
 import { motion } from 'framer-motion';
+import ControlPanel from './ControlPanel';
 
 interface LayoutProps {
   children: React.ReactNode;
