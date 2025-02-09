@@ -19,7 +19,7 @@ function App() {
   const { user, loading, setUser } = useAuthStore();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("App: onAuthStateChange - event:", event, "session:", session);
       if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
         setUser(session?.user || null);

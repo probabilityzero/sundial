@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         password,
       });
       if (error) {
-        console.error("useAuthStore: Error signing in:", error);
+        console.error("useAuthStore: Error signing in:", error, error.message, error.details, error.hint);
         throw error;
       }
       console.log("useAuthStore: signIn success:", data);
@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         password,
       });
       if (error) {
-        console.error("useAuthStore: Error signing up:", error);
+        console.error("useAuthStore: Error signing up:", error, error.message, error.details, error.hint);
         throw error;
       }
       console.log("useAuthStore: signUp success:", data);
@@ -66,7 +66,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
   setUser: (user) => {
-     console.log("useAuthStore: setUser called with user:", user);
+    console.log("useAuthStore: setUser called with user:", user);
     set({ user, loading: false });
   },
 }));
