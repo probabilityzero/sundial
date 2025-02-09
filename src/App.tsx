@@ -19,14 +19,6 @@ function App() {
   const { user, loading, setUser } = useAuthStore();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user: authUser } } = await supabase.auth.getUser();
-      setUser(authUser);
-      console.log("App: onAuthStateChange - authUser:", authUser);
-    };
-
-    fetchUser();
-
     supabase.auth.onAuthStateChange((event, session) => {
       console.log("App: onAuthStateChange - event:", event, "session:", session);
       if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
@@ -49,6 +41,54 @@ function App() {
     return <div>Loading...</div>;
   }
 
+  const homeElement = user ? (
+    <Layout pageTitle="Home">
+      <HomePage />
+    </Layout>
+  ) : (
+    <Navigate to="/auth" />
+  );
+
+  const profileElement = user ? (
+    <Layout pageTitle="Profile">
+      <ProfilePage />
+    </Layout>
+  ) : (
+    <Navigate to="/auth" />
+  );
+
+  const calendarElement = user ? (
+    <Layout pageTitle="Calendar">
+      <CalendarPage />
+    </Layout>
+  ) : (
+    <Navigate to="/auth" />
+  );
+
+  const analyticsElement = user ? (
+    <Layout pageTitle="History">
+      <AnalyticsPage />
+    </Layout>
+  ) : (
+    <Navigate to="/auth" />
+  );
+
+  const tasksElement = user ? (
+    <Layout pageTitle="Tasks">
+      <TasksPage />
+    </Layout>
+  ) : (
+    <Navigate to="/auth" />
+  );
+
+  const settingsElement = user ? (
+    <Layout pageTitle="Settings">
+      <SettingsPage />
+    </Layout>
+  ) : (
+    <Navigate to="/auth" />
+  );
+
   return (
     <Router>
       <React.Suspense
@@ -61,78 +101,12 @@ function App() {
       >
         <Routes>
           <Route path="/auth" element={user ? <Navigate to="/" /> : <Auth />} />
-          <Route
-            path="/"
-            element={
-              user ? (
-                <Layout pageTitle="Home">
-                  <HomePage />
-                </Layout>
-              ) : (
-                <Navigate to="/auth" />
-              )
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              user ? (
-                <Layout pageTitle="Profile">
-                  <ProfilePage />
-                </Layout>
-              ) : (
-                <Navigate to="/auth" />
-              )
-            }
-          />
-          <Route
-            path="/calendar"
-            element={
-              user ? (
-                <Layout pageTitle="Calendar">
-                  <CalendarPage />
-                </Layout>
-              ) : (
-                <Navigate to="/auth" />
-              )
-            }
-          />
-          <Route
-            path="/analytics"
-            element={
-              user ? (
-                <Layout pageTitle="History">
-                  <AnalyticsPage />
-                </Layout>
-              ) : (
-                <Navigate to="/auth" />
-              )
-            }
-          />
-          <Route
-            path="/tasks"
-            element={
-              user ? (
-                <Layout pageTitle="Tasks">
-                  <TasksPage />
-                </Layout>
-              ) : (
-                <Navigate to="/auth" />
-              )
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              user ? (
-                <Layout pageTitle="Settings">
-                  <SettingsPage />
-                </Layout>
-              ) : (
-                <Navigate to="/auth" />
-              )
-            }
-          />
+          <Route path="/" element={homeElement} />
+          <Route path="/profile" element={profileElement} />
+          <Route path="/calendar" element={calendarElement} />
+          <Route path="/analytics" element={analyticsElement} />
+          <Route path="/tasks" element={tasksElement} />
+          <Route path="/settings" element={settingsElement} />
           <Route path="*" element={<Navigate to="/" />} /> {/* Redirect unknown routes to home */}
         </Routes>
       </React.Suspense>

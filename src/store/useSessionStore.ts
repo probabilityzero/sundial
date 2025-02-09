@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { supabase } from '../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
+import type { User } from '@supabase/supabase-js';
 
 interface TimerState {
   sessionId: string | null;
@@ -53,6 +54,12 @@ export const useSessionStore = create<TimerState>()(
         const sessionId = uuidv4();
         const startTime = new Date();
         const dimension = get().dimension;
+        const userId = get().user?.id;
+
+        if (!userId) {
+          console.error("useSessionStore: No user ID found, cannot start session");
+          return;
+        }
 
         // Optimistically update the state
         set({
@@ -72,7 +79,7 @@ export const useSessionStore = create<TimerState>()(
           // Insert the new session into the database
           const { data, error } = await supabase
             .from('sessions')
-            .insert([{ id: sessionId, title: sessionName, start_time: startTime.toISOString(), dimension: dimension }]) // Removed user_id
+            .insert([{ id: sessionId, title: sessionName, start_time: startTime.toISOString(), dimension: dimension, user_id: userId }])
             .select();
 
           if (error) {
