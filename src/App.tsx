@@ -1,8 +1,8 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { useAuthStore } from './store/useAuthStore';
-import { supabase } from './lib/supabase'; // Import supabase
+import { supabase } from './lib/supabase';
 
 // Lazy load pages
 const Auth = lazy(() => import('./pages/Auth'));
@@ -14,12 +14,31 @@ const ProfilePage = lazy(() => import('./pages/Profile'));
 const TasksPage = lazy(() => import('./pages/Tasks'));
 
 function App() {
-  const { user, loading, setUser } = useAuthStore(); // Include setUser
+  const { user, loading, setUser } = useAuthStore();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     async function getSession() {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user || null);
+      setAuthLoading(true);
+      const { data: { session }, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error("Error getting session:", error);
+        setUser(null);
+        setIsAuthenticated(false);
+        setAuthLoading(false);
+        return;
+      }
+
+      if (session) {
+        setUser(session.user);
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+      setAuthLoading(false);
     }
 
     getSession();
@@ -27,18 +46,20 @@ function App() {
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
         setUser(session?.user || null);
+        setIsAuthenticated(true);
       } else if (event === 'SIGNED_OUT') {
         setUser(null);
+        setIsAuthenticated(false);
       }
     });
   }, [setUser]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   const ProtectedRoute = ({ element }: { element: React.ReactElement }) => {
-    return user ? element : <Navigate to="/auth" />;
+    if (authLoading) {
+      return <div>Loading...</div>;
+    }
+
+    return isAuthenticated ? element : <Navigate to="/auth" />;
   };
 
   return (

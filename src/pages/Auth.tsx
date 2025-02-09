@@ -7,6 +7,7 @@ function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false); // Define isSignUp
   const { signIn, signUp, user } = useAuthStore();
   const navigate = useNavigate();
 
