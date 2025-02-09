@@ -1,7 +1,6 @@
 import React from 'react';
 import { User, Mail, Clock } from 'lucide-react';
 import { StatCard } from '../components/ui/StatCard';
-import { ActivityItem } from '../components/ActivityItem';
 
 function Profile() {
   return (
@@ -33,21 +32,15 @@ function Profile() {
       <div className="bg-white rounded-lg shadow p-6">
         <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
         <div className="space-y-4">
-          <ActivityItem
-            title="Mathematics Session"
-            time="2 hours ago"
-            duration="1h 30m"
-          />
-          <ActivityItem
-            title="Physics Session"
-            time="5 hours ago"
-            duration="2h 15m"
-          />
-          <ActivityItem
-            title="Chemistry Session"
-            time="Yesterday"
-            duration="1h 45m"
-          />
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <div>
+                <p className="font-medium">Mathematics Session</p>
+                <p className="text-sm text-gray-600">2 hours ago • 1h 30m</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

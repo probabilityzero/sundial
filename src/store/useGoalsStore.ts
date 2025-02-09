@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
 import { useAuthStore } from './useAuthStore';
+import { useSessionStore } from './useSessionStore';
 
 interface Task {
   id: string;
@@ -8,7 +9,8 @@ interface Task {
   description?: string;
   status: 'created' | 'started' | 'completed' | 'unfinished' | 'migrated';
   created_at: string;
-  user_id: string; // Ensure user_id is present in the Task interface
+  user_id: string;
+  tag?: string | null;
 }
 
 interface GoalsState {
@@ -57,8 +59,11 @@ export const useGoalsStore = create<GoalsState>((set) => ({
   addTask: async (title: string) => {
     try {
       const { user } = useAuthStore.getState();
+      const { tag } = useSessionStore.getState();
+
       if (!user) {
         console.warn("useGoalsStore: No user logged in, cannot add task.");
+        alert('You must be logged in to add tasks.');
         set({ error: 'Not authenticated' });
         return;
       }
@@ -68,12 +73,14 @@ export const useGoalsStore = create<GoalsState>((set) => ({
         .insert({
           title,
           user_id: user.id,
+          tag: tag,
         })
         .select()
         .single();
 
       if (error) {
         console.error("useGoalsStore: Error adding task to Supabase:", error);
+        alert(`Failed to add task: ${error.message}`);
         set({ error: `Supabase error: ${error.message} - ${error.details}` });
         return;
       }
@@ -84,6 +91,7 @@ export const useGoalsStore = create<GoalsState>((set) => ({
       }));
     } catch (error: any) {
       console.error("useGoalsStore: Error in addTask:", error);
+      alert(`Error adding task: ${error.message}`);
       set({ error: `Error adding task: ${error.message}` });
     }
   },
@@ -93,6 +101,7 @@ export const useGoalsStore = create<GoalsState>((set) => ({
       const { user } = useAuthStore.getState();
       if (!user) {
         console.warn("useGoalsStore: No user logged in, cannot update task status.");
+        alert('You must be logged in to update tasks.');
         set({ error: 'Not authenticated' });
         return;
       }
@@ -101,11 +110,12 @@ export const useGoalsStore = create<GoalsState>((set) => ({
         .from('tasks')
         .update({ status })
         .eq('id', taskId)
-        .eq('user_id', user.id) // Ensure user owns the task
+        .eq('user_id', user.id)
         .select()
 
       if (error) {
         console.error(`useGoalsStore: Error updating task status to ${status} in Supabase:`, error);
+        alert(`Failed to update task status: ${error.message}`);
         set({ error: error.message });
         return;
       }
@@ -118,6 +128,7 @@ export const useGoalsStore = create<GoalsState>((set) => ({
       }));
     } catch (error: any) {
       console.error("useGoalsStore: Error in updateTaskStatus:", error);
+      alert(`Error updating task status: ${error.message}`);
       set({ error: error.message });
     }
   },

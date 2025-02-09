@@ -11,13 +11,13 @@ interface TimerState {
   isSessionActive: boolean;
   pauseTime: Date | null;
   totalPausedTime: number;
-  dimension: string | null;
+  tag: string | null;
 
   startSession: (sessionName: string) => Promise<void>;
   pauseSession: () => Promise<void>;
   resumeSession: () => Promise<void>;
   resetSession: () => Promise<void>;
-  setDimension: (dimension: string) => Promise<void>;
+  setTag: (tag: string) => Promise<void>;
 }
 
 export const useTimerStore = create<TimerState>((set, get) => ({
@@ -29,13 +29,13 @@ export const useTimerStore = create<TimerState>((set, get) => ({
   isSessionActive: false,
   pauseTime: null,
   totalPausedTime: 0,
-  dimension: null,
+  tag: null,
 
   startSession: async (sessionName: string) => {
     console.log("useTimerStore: startSession called with name:", sessionName);
     const sessionId = uuidv4();
     const startTime = new Date();
-    const dimension = get().dimension;
+    const tag = get().tag;
 
     // Optimistically update the state
     set({
@@ -55,7 +55,7 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       // Insert the new session into the database
       const { data, error } = await supabase
         .from('sessions')
-        .insert([{ id: sessionId, title: sessionName, start_time: startTime.toISOString(), dimension: dimension }]) // Removed user_id
+        .insert([{ id: sessionId, title: sessionName, start_time: startTime.toISOString(), tag: tag }]) // Removed user_id
         .select();
 
       if (error) {
@@ -70,7 +70,7 @@ export const useTimerStore = create<TimerState>((set, get) => ({
           isSessionActive: false,
           pauseTime: null,
           totalPausedTime: 0,
-          dimension: null,
+          tag: null,
         });
         console.log("useTimerStore: State reverted");
       } else {
@@ -88,7 +88,7 @@ export const useTimerStore = create<TimerState>((set, get) => ({
         isSessionActive: false,
         pauseTime: null,
         totalPausedTime: 0,
-        dimension: null,
+        tag: null,
       });
       console.log("useTimerStore: State reverted");
     }
@@ -160,7 +160,7 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       isSessionActive: false,
       pauseTime: null,
       totalPausedTime: 0,
-      dimension: null,
+      tag: null,
     });
 
     try {
@@ -181,19 +181,19 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       set({ isSessionActive: true, isPaused: false, endTime: null });
     }
   },
-  setDimension: async (dimension: string) => {
-    set({ dimension: dimension });
+  setTag: async (tag: string) => {
+    set({ tag: tag });
     if (get().sessionId) {
       try {
         const { error } = await supabase
           .from('sessions')
-          .update({ dimension: dimension })
+          .update({ tag: tag })
           .eq('id', get().sessionId);
         if (error) {
-          console.error("Error updating dimension:", error);
+          console.error("Error updating tag:", error);
         }
       } catch (error) {
-        console.error("Error updating dimension:", error);
+        console.error("Error updating tag:", error);
       }
     }
   },
