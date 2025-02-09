@@ -13,15 +13,21 @@ const ControlPanelTags: React.FC<ControlPanelTagsProps> = () => {
       : [...availableTags, { name: tagName }];
 
     setAvailableTags(newTags);
+    console.log("EmojiTagSettings: New tags after click:", newTags);
 
     // Update Supabase
     const userId = supabase.auth.currentUser?.id;
     if (userId) {
       try {
-        const { error } = await supabase
+        console.log("EmojiTagSettings: Attempting to update tags for userId:", userId);
+        const { data, error } = await supabase
           .from('user_settings')
           .update({ available_tags: newTags.map(tag => tag.name) })
-          .eq('user_id', userId);
+          .eq('user_id', userId)
+          .select()
+
+        console.log("EmojiTagSettings: Supabase update data:", data);
+        console.log("EmojiTagSettings: Supabase update error:", error);
 
         if (error) {
           console.error("EmojiTagSettings: Error updating available tags:", error);
@@ -33,6 +39,8 @@ const ControlPanelTags: React.FC<ControlPanelTagsProps> = () => {
         // Revert the state on error
         // setAvailableTags(availableTags); //Reverting the state can cause issues
       }
+    } else {
+      console.warn("EmojiTagSettings: No user ID found, cannot update tags.");
     }
   };
 

@@ -14,6 +14,30 @@ CREATE TABLE tasks (
   tag TEXT
 );
 
+-- Enable RLS on the tasks table
+ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow users to insert tasks
+CREATE POLICY "Enable insert for authenticated users" ON tasks
+ON tasks FOR INSERT TO authenticated
+WITH CHECK (auth.uid() = user_id);
+
+-- Create policy to allow users to select tasks they own
+CREATE POLICY "Enable select for users based on user_id" ON tasks
+ON tasks FOR SELECT TO authenticated
+USING (auth.uid() = user_id);
+
+-- Create policy to allow users to update tasks they own
+CREATE POLICY "Enable update for users based on user_id" ON tasks
+ON tasks FOR UPDATE TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+-- Create policy to allow users to delete tasks they own
+CREATE POLICY "Enable delete for users based on user_id" ON tasks
+ON tasks FOR DELETE TO authenticated
+USING (auth.uid() = user_id);
+
 -- Projects Table (Simplified)
 CREATE TABLE projects (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -34,30 +58,46 @@ CREATE TABLE sessions (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Enable RLS on the tasks table
-ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
+-- Enable RLS on the sessions table
+ALTER TABLE sessions ENABLE ROW LEVEL SECURITY;
 
--- Create policy to allow users to insert tasks
-CREATE POLICY "Enable insert for authenticated users" ON tasks
-FOR INSERT
-TO authenticated
+-- Create policy to allow users to insert sessions
+CREATE POLICY "Enable insert for authenticated users" ON sessions
+ON sessions FOR INSERT TO authenticated
 WITH CHECK (auth.uid() = user_id);
 
--- Create policy to allow users to select tasks they own
-CREATE POLICY "Enable select for users based on user_id" ON tasks
-FOR SELECT
-TO authenticated
+-- Create policy to allow users to select sessions they own
+CREATE POLICY "Enable select for users based on user_id" ON sessions
+ON sessions FOR SELECT TO authenticated
 USING (auth.uid() = user_id);
 
--- Create policy to allow users to update tasks they own
-CREATE POLICY "Enable update for users based on user_id" ON tasks
-FOR UPDATE
-TO authenticated
+-- Create policy to allow users to update sessions they own
+CREATE POLICY "Enable update for users based on user_id" ON sessions
+ON sessions FOR UPDATE TO authenticated
 USING (auth.uid() = user_id)
 WITH CHECK (auth.uid() = user_id);
 
--- Create policy to allow users to delete tasks they own
-CREATE POLICY "Enable delete for users based on user_id" ON tasks
-FOR DELETE
-TO authenticated
+-- Create policy to allow users to delete sessions they own
+CREATE POLICY "Enable delete for users based on user_id" ON sessions
+ON sessions FOR DELETE TO authenticated
 USING (auth.uid() = user_id);
+
+-- User Settings Table
+CREATE TABLE user_settings (
+  user_id UUID PRIMARY KEY REFERENCES auth.users NOT NULL,
+  available_tags TEXT[] DEFAULT ARRAY['Working', 'Studying', 'Reading', 'Meeting', 'Research', 'Meditation', 'Writing', 'Coding', 'Designing', 'Editing']::TEXT[]
+);
+
+-- Enable RLS on user_settings table
+ALTER TABLE user_settings ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow users to read their own settings
+CREATE POLICY "Enable read access for users based on user_id" ON user_settings
+ON user_settings FOR SELECT TO authenticated
+USING (auth.uid() = user_id);
+
+-- Create policy to allow users to update their own settings
+CREATE POLICY "Enable update access for users based on user_id" ON user_settings
+ON user_settings FOR UPDATE TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);

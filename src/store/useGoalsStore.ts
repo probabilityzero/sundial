@@ -57,21 +57,21 @@ export const useGoalsStore = create<GoalsState>((set) => ({
   },
 
   addTask: async (title: string) => {
+    const { user } = useAuthStore.getState();
+    const { tag } = useSessionStore.getState();
+
+    console.log('addTask: user = ', user);
+    console.log('addTask: title = ', title);
+    console.log('addTask: tag = ', tag);
+
+    if (!user) {
+      console.warn("useGoalsStore: No user logged in, cannot add task.");
+      alert('You must be logged in to add tasks.');
+      set({ error: 'Not authenticated' });
+      return;
+    }
+
     try {
-      const { user } = useAuthStore.getState();
-      const { tag } = useSessionStore.getState();
-
-      console.log('addTask: user = ', user);
-      console.log('addTask: title = ', title);
-      console.log('addTask: tag = ', tag);
-
-      if (!user) {
-        console.warn("useGoalsStore: No user logged in, cannot add task.");
-        alert('You must be logged in to add tasks.');
-        set({ error: 'Not authenticated' });
-        return;
-      }
-
       const { data, error } = await supabase
         .from('tasks')
         .insert({

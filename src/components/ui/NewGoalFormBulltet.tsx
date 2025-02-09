@@ -15,6 +15,7 @@ export function NewGoalFormBullet({ handleAddTask }: NewGoalFormBulletProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setTaskError('');
+    console.log('handleSubmit: newTask = ', newTask); // Add console log here
     if (newTask.trim()) {
       handleAddTask(e);
       setNewTask('');
@@ -37,6 +38,7 @@ export function NewGoalFormBullet({ handleAddTask }: NewGoalFormBulletProps) {
         <div className="relative w-full">
         <motion.input
           type="text"
+          id="newTaskInput" // Add an ID
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
           placeholder="New entry..."
