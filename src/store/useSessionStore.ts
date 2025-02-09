@@ -13,12 +13,14 @@ interface TimerState {
   pauseTime: Date | null;
   totalPausedTime: number;
   dimension: string | null;
+  availableTags: { name: string; selected: boolean }[];
 
   startSession: (sessionName: string) => Promise<void>;
   pauseSession: () => Promise<void>;
   resumeSession: () => Promise<void>;
   resetSession: () => Promise<void>;
   setDimension: (dimension: string) => Promise<void>;
+  fetchUserSettings: (userId: string) => Promise<void>;
 }
 
 export const useSessionStore = create<TimerState>()(
@@ -32,7 +34,19 @@ export const useSessionStore = create<TimerState>()(
       isSessionActive: false,
       pauseTime: null,
       totalPausedTime: 0,
-      dimension: null,
+      dimension: 'Working',
+      availableTags: [
+        { name: 'Working', selected: true },
+        { name: 'Studying', selected: false },
+        { name: 'Reading', selected: false },
+        { name: 'Meeting', selected: false },
+        { name: 'Research', selected: false },
+        { name: 'Meditation', selected: false },
+        { name: 'Writing', selected: true },
+        { name: 'Coding', selected: true },
+        { name: 'Designing', selected: false },
+        { name: 'Editing', selected: false },
+      ],
 
       startSession: async (sessionName: string) => {
         console.log("useSessionStore: startSession called with name:", sessionName);
@@ -248,12 +262,47 @@ export const useSessionStore = create<TimerState>()(
               .from('sessions')
               .update({ dimension: dimension })
               .eq('id', get().sessionId);
-            if (error) {
-              console.error("useSessionStore: Error updating dimension:", error);
-            }
-          } catch (error) {
+          if (error) {
             console.error("useSessionStore: Error updating dimension:", error);
           }
+        } catch (error) {
+          console.error("useSessionStore: Error updating dimension:", error);
+        }
+      }
+    },
+      fetchUserSettings: async (userId: string) => {
+        try {
+          console.log("useSessionStore: fetchUserSettings called with userId:", userId);
+          const { data, error } = await supabase
+            .from('user_settings')
+            .select('*')
+            .eq('user_id', userId)
+            .single();
+
+          if (error) {
+            console.error("useSessionStore: Error fetching user settings:", error);
+            // If no user settings exist, create default settings
+            if (error.code === 'PGRST116') {
+              console.log("useSessionStore: No user settings found, creating default settings");
+              await supabase
+                .from('user_settings')
+                .insert([{ user_id: userId, available_tags: ['Working', 'Studying', 'Reading', 'Meeting', 'Research', 'Meditation', 'Writing', 'Coding', 'Designing', 'Editing'] }])
+                .select()
+                .single();
+            } else {
+              throw error;
+            }
+          }
+
+          if (data) {
+            set({
+              availableTags: data.available_tags.map(tag => ({ name: tag, selected: true })), // Assuming all fetched tags are selected
+            });
+          }
+        } catch (error) {
+          console.error("useSessionStore: Error in fetchUserSettings:", error);
+        } finally {
+          set({ loading: false });
         }
       },
     }),
