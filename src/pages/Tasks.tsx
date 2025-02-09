@@ -1,6 +1,6 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
-import { ViewGoalToday } from '../components/shared/ViewGoalToday';
+import { ViewGoalToday } from '../components/ui/ViewGoalToday';
 
 function Tasks() {
   const [tasks] = React.useState([

@@ -6,8 +6,8 @@ import { MenuItemIcon } from '../ui/MenuItemIcon';
 import ControlPanel from './ControlPanel';
 import Timer from '../ui/Timer';
 import { useSessionStore } from '../../store/useSessionStore';
-import TagsPopover from '../TagsPopover';
-import EmojiTag from '../EmojiTag';
+import NewSessionTagsPopover from '../ui/NewSessionTagsPopover';
+import SessionTag from './SessionTag';
 import { useUserSettingsStore } from '../../store/useUserSettingsStore';
 
 interface HeaderProps {
@@ -21,7 +21,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const location = useLocation();
   const isDashboard = location.pathname === '/';
   const { toggleMenu } = useSideMenu();
-  const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime, dimension, setDimension, startSession } = useSessionStore();
+  const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime, dimension, startSession } = useSessionStore();
   const { availableTags } = useUserSettingsStore();
   const [isTagsPopoverOpen, setIsTagsPopoverOpen] = useState(false);
 
@@ -83,22 +83,22 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
           {/* Button container */}
           {!isCompact ? (
             !isDashboard ? (
-              <div className="w-14 h-14 flex items-center justify-center">
+              <div className="w-12 h-12 flex items-center justify-center">
                 <MenuItemIcon onClick={handleBackClick} icon={<ArrowLeft className="w-6 h-6" />} />
               </div>
             ) : (
-              <div className="w-14 h-14 flex items-center justify-center">
+              <div className="w-12 h-12 flex items-center justify-center">
                 <MenuItemIcon onClick={handleToggleCompact} icon={<MenuIcon className="w-6 h-6" />} />
               </div>
             )
           ) : (
-            <div className="w-14 h-14 flex items-center justify-center">
+            <div className="w-12 h-12 flex items-center justify-center">
               <MenuItemIcon onClick={handleToggleCompact} icon={<MenuIcon className="w-6 h-6" />} />
             </div>
           )}
           <h1 className="text-xl font-semibold">{displayTitle}</h1>
-          <EmojiTag onClick={handleTagClick} emoji={getEmoji()} />
-          <TagsPopover
+          <SessionTag onClick={handleTagClick} emoji={getEmoji()} />
+          <NewSessionTagsPopover
             isOpen={isTagsPopoverOpen}
             onClose={() => setIsTagsPopoverOpen(false)}
             availableTags={availableTags}
@@ -106,20 +106,21 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
             dimensionEmojis={dimensionEmojis}
           />
         </div>
-        {/* Timer */}
-        {isSessionActive && startTime && (
-          <div className="flex-grow flex justify-end items-center space-x-4">
-            <Timer
-              startTime={startTime}
-              onPause={pauseSession}
-              onResume={resumeSession}
-              isPaused={isPaused}
-              isSessionActive={isSessionActive}
-            />
-          </div>
-        )}
-        {/* Control Panel */}
-        <ControlPanel />
+        {/* Timer and Control Panel */}
+        <div className="flex items-center h-full w-12 h-12 flex items-center justify-center">
+          {isSessionActive && startTime && (
+            <div className="flex-grow flex justify-end items-center space-x-2">
+              <Timer
+                startTime={startTime}
+                onPause={pauseSession}
+                onResume={resumeSession}
+                isPaused={isPaused}
+                isSessionActive={isSessionActive}
+              />
+            </div>
+          )}
+          <ControlPanel />
+        </div>
       </div>
     </header>
   );

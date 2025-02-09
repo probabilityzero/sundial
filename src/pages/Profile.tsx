@@ -1,6 +1,6 @@
 import React from 'react';
 import { User, Mail, Clock } from 'lucide-react';
-import { StatCard } from '../components/shared/StatCard';
+import { StatCard } from '../components/ui/StatCard';
 import { ActivityItem } from '../components/ActivityItem';
 
 function Profile() {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, StopCircle } from 'lucide-react';
+import { RiPauseMiniFill, RiPlayMiniFill, RiStopCircleLine } from "react-icons/ri";
 import './Timer.css';
 
 interface TimerProps {
@@ -47,7 +47,7 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, isPaused, i
           className="p-1 rounded-full hover:bg-red-200 bg-red-500 text-white"
           title="End Session"
         >
-          <StopCircle className="w-4 h-4" />
+          <RiStopCircleLine className="w-4 h-4" />
         </button>
       ) : (
         <div
@@ -58,7 +58,7 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, isPaused, i
       )}
       <span>{formatTime(elapsedTime)}</span>
       <button onClick={isPaused ? onResume : onPause} className="p-1 rounded-full hover:bg-gray-200">
-        {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+        {isPaused ? <RiPlayMiniFill className="w-4 h-4" /> : <RiPauseMiniFill  className="w-4 h-4" />}
       </button>
     </div>
   );

@@ -58,7 +58,7 @@ export function Layout({ children, pageTitle }: LayoutProps) {
       </div>
       {isMenuOpen && (
         <motion.div
-          className="fixed top-0 left-0 w-full h-full bg-black opacity-25 z-40"
+          className="fixed w-full h-full bg-black opacity-25 z-40"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.25 }}
           exit={{ opacity: 0 }}

@@ -24,7 +24,7 @@ export function NewGoalFormBullet({ handleAddTask }: NewGoalFormBulletProps) {
   };
 
   return (
-    <main className='py-2 px-3 gap-2 min-w-full'>
+    <main className='px-1 gap-2 min-w-full'>
       <form onSubmit={handleSubmit} className="flex items-start rounded-md relative">
         <button
           type="button"

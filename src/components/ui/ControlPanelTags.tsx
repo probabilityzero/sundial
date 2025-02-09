@@ -2,9 +2,9 @@ import React from 'react';
 import { useUserSettingsStore } from '../../store/useUserSettingsStore';
 import { supabase } from '../../lib/supabase'; // Import supabase
 
-interface EmojiTagSettingsProps {}
+interface ControlPanelTagsProps {}
 
-const EmojiTagSettings: React.FC<EmojiTagSettingsProps> = () => {
+const ControlPanelTags: React.FC<ControlPanelTagsProps> = () => {
   const { availableTags, setAvailableTags } = useUserSettingsStore();
 
   const handleTagClick = async (tagName: string) => {
@@ -40,12 +40,10 @@ const EmojiTagSettings: React.FC<EmojiTagSettingsProps> = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold">Tag Settings</h3>
-      </div>
-      <div className="mt-4">
-        <h4 className="text-md font-semibold mb-2">Available Tags:</h4>
-        <div className="flex flex-wrap">
+      <div className="p-1">
+        <h4 className="text-md font-semibold pb-1">Choose session tags</h4>
+        <div className="flex border rounded-md bg-gray-100 flex-wrap">
+          <div className='p-1'>
           {allTags.map((tag) => (
             <button
               key={tag}
@@ -55,10 +53,11 @@ const EmojiTagSettings: React.FC<EmojiTagSettingsProps> = () => {
               {tag}
             </button>
           ))}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default EmojiTagSettings;
+export default ControlPanelTags;

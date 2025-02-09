@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { NewSessionTitle } from './shared/NewSessionTitle';
+import { NewSessionTitle } from './ui/NewSessionTitle';
 import { useSessionStore } from '../store/useSessionStore';
 
 interface SessionCardProps {}

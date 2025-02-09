@@ -11,17 +11,18 @@ const CircleColorSettings: React.FC<CircleColorSettingsProps> = () => {
 
   return (
     <div>
-      <h3 className="text-lg font-semibold mb-4">Circle Color Settings</h3>
-      <div className="flex items-center">
-        <label htmlFor="circleColor" className="mr-2">
-          Circle Color:
-        </label>
-        <input
-          type="color"
-          id="circleColor"
-          value={circleColor}
-          onChange={handleColorChange}
-        />
+      <div className="flex p-1 items-center">
+        <div className='flex justify-between w-full'>
+          <label htmlFor="circleColor" className="font-semibold">
+            Circle color
+          </label>
+          <input
+            type="color"
+            id="circleColor"
+            value={circleColor}
+            onChange={handleColorChange}
+          />
+        </div>
       </div>
     </div>
   );

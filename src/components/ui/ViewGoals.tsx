@@ -21,7 +21,7 @@ export function ViewGoals({
   return (
     <>
       {isLoadingTasks ? (
-        <div className="text-gray-600 w-full flex items-center justify-between">
+        <div className="text-gray-600 py-1.5 w-full flex items-center justify-between">
           <button
             type="button"
             className="text-gray-500 focus:outline-none pl-3 mr-2"
@@ -29,7 +29,7 @@ export function ViewGoals({
             <Circle className="h-6 w-6" />
           </button>
 
-          <div className="w-full h-8 bg-gray-200 rounded-md overflow-hidden">
+          <div className="w-full h-6 bg-gray-200 rounded-md overflow-hidden">
             <div className="flex top-0 left-0 w-full h-full shimmer"></div>
           </div>
         </div>

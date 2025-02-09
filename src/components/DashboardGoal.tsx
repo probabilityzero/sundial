@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, Play, Loader2, Circle } from 'lucide-react';
-import { ViewGoalToday } from './shared/ViewGoalToday';
+import { ViewGoalToday } from './ui/ViewGoalToday';
 import { useGoalsStore } from '../store/useGoalsStore'; // Import the store
 import { motion } from 'framer-motion';
-import { ViewGoals } from './shared/ViewGoals';
-import { NewGoalFormBullet } from './shared/NewGoalFormBulltet';
+import { ViewGoals } from './ui/ViewGoals';
+import { NewGoalFormBullet } from './ui/NewGoalFormBulltet';
 
 export function DashboardGoal() {
   const [newTask, setNewTask] = useState('');

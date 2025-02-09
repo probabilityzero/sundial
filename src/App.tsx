@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Layout } from './components/layout/Layout';
 import { useAuthStore } from './store/useAuthStore';
 import { supabase } from './lib/supabase';
+import { Header } from './components/layout/Header';
 
 // Lazy load pages
 const Auth = lazy(() => import('./pages/Auth'));
@@ -56,7 +57,7 @@ function App() {
 
   const ProtectedRoute = ({ element }: { element: React.ReactElement }) => {
     if (authLoading) {
-      return <div>Loading...</div>;
+      return <div> <Header /> </div>;
     }
 
     return isAuthenticated ? element : <Navigate to="/auth" />;

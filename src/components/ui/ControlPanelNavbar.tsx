@@ -1,5 +1,5 @@
 import React from 'react';
-import { Circle, ListChecks } from 'lucide-react';
+import { Image, ListChecks } from 'lucide-react';
 
 interface ControlPanelNavbarProps {
   activeSection: string;
@@ -8,12 +8,12 @@ interface ControlPanelNavbarProps {
 
 const ControlPanelNavbar: React.FC<ControlPanelNavbarProps> = ({ activeSection, setActiveSection }) => {
   return (
-    <nav className="flex border-b">
+    <nav className="flex pb-0 p-1 border-b">
       <button
         className={`p-1 ${activeSection === 'circleColor' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
         onClick={() => setActiveSection('circleColor')}
       >
-        <Circle className="w-5 h-5" />
+        <Image className="w-5 h-5" />
       </button>
       <button
         className={`p-1 ${activeSection === 'emojiTag' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
