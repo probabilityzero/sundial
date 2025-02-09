@@ -6,7 +6,7 @@ interface AuthState {
   user: User | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, name: string) => Promise<void>;
   signOut: () => Promise<void>;
   setUser: (user: User | null) => void;
 }
@@ -32,12 +32,17 @@ export const useAuthStore = create<AuthState>((set) => ({
       throw error;
     }
   },
-  signUp: async (email, password) => {
-    console.log("useAuthStore: signUp called with email:", email);
+  signUp: async (email, password, name) => {
+    console.log("useAuthStore: signUp called with email:", email, "name:", name);
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            name: name,
+          },
+        },
       });
       if (error) {
         console.error("useAuthStore: Error signing up:", error, error.message, error.details, error.hint);
@@ -54,11 +59,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     console.log("useAuthStore: signOut called");
     try {
       const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error("useAuthStore: Error signing out:", error);
-        throw error;
-      }
-      console.log("useAuthStore: signOut success");
+      if (error) throw error;
       set({ user: null, loading: false });
     } catch (error: any) {
       console.error("useAuthStore: Error in signOut:", error);
