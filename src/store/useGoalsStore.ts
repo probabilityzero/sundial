@@ -61,6 +61,10 @@ export const useGoalsStore = create<GoalsState>((set) => ({
       const { user } = useAuthStore.getState();
       const { tag } = useSessionStore.getState();
 
+      console.log('addTask: user = ', user);
+      console.log('addTask: title = ', title);
+      console.log('addTask: tag = ', tag);
+
       if (!user) {
         console.warn("useGoalsStore: No user logged in, cannot add task.");
         alert('You must be logged in to add tasks.');
@@ -77,6 +81,9 @@ export const useGoalsStore = create<GoalsState>((set) => ({
         })
         .select()
         .single();
+
+      console.log('addTask: insert result data = ', data);
+      console.log('addTask: insert result error = ', error);
 
       if (error) {
         console.error("useGoalsStore: Error adding task to Supabase:", error);

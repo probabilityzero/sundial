@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, Play, Loader2, Circle } from 'lucide-react';
-import { useSessionStore } from '../store/useTaskStore'; // Import the store
+import { useSessionStore } from '../store/useSessionStore'; // Import the store
 import { DashboardSession } from '../components/DashboardSession';
 import { DashboardGoal } from '../components/DashboardGoal';
 import { motion } from 'framer-motion';
@@ -14,9 +14,12 @@ function HomePage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+        <div style={{ width: '100%', maxWidth: '1200px' }}>
         <DashboardSession />
-        <DashboardGoal /> 
-        
+        </div>
+        <div style={{ width: '100%', maxWidth: '1200px' }}>
+        <DashboardGoal />
+        </div>
     </motion.div>
   );
 }

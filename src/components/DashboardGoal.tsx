@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, Play, Loader2, Circle } from 'lucide-react';
 import { ViewGoalToday } from './ui/ViewGoalToday';
-import { useGoalsStore } from '../store/useGoalsStore'; // Import the store
+import { useGoalsStore } from '../store/useGoalsStore';
 import { motion } from 'framer-motion';
 import { ViewGoals } from './ui/ViewGoals';
 import { NewGoalFormBullet } from './ui/NewGoalFormBulltet';
@@ -10,7 +10,7 @@ export function DashboardGoal() {
   const [newTask, setNewTask] = useState('');
   const [taskError, setTaskError] = useState('');
   const taskItemRefs = useRef<HTMLElement[]>([]);
-  const { tasks, addTask, updateTaskStatus, fetchTasks } = useGoalsStore(); // Use store actions and state
+  const { tasks, addTask, updateTaskStatus, fetchTasks } = useGoalsStore();
   const [isLoadingTasks, setIsLoadingTasks] = useState(false);
   const [showTick, setShowTick] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -60,10 +60,10 @@ export function DashboardGoal() {
       try {
         await addTask(newTask);
         setNewTask('');
-        setShowTick(true); // Show the tick
+        setShowTick(true);
         setTimeout(() => {
-          setShowTick(false); // Hide the tick after a delay
-        }, 700); // Adjust the delay as needed
+          setShowTick(false);
+        }, 700);
       } catch (error) {
         console.error('DashboardPage: Failed to add task:', error);
         setTaskError('Failed to add task. Please try again later.');
@@ -97,6 +97,19 @@ export function DashboardGoal() {
         style={{
           ...theme => theme('dashboard.goalBox'),
           padding: '0.5rem',
+          minWidth: '100%', // Default minimum width for the smallest screens
+          '@media (min-width: 640px)': { // For medium screens
+            minWidth: '90%',
+          },
+          '@media (min-width: 768px)': { // For large screens
+            minWidth: '75%',
+          },
+          '@media (min-width: 1024px)': { // For laptops
+            minWidth: '60%',
+          },
+          '@media (min-width: 1280px)': { // For large desktops
+            minWidth: '50%',
+          },
         }}
       >
         <div className={`flex justify-between border-b-2 p-2 sticky top-0 bg-gray-100 z-10 ${isScrolled ? 'shadow-sm' : ''}`}>
