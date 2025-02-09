@@ -4,13 +4,12 @@ import { useUserSettingsStore } from '../../store/useUserSettingsStore';
 import { useSessionStore } from '../../store/useSessionStore';
 
 interface SessionTagProps {
-  emoji: string;
 }
 
-const SessionTag: React.FC<SessionTagProps> = ({ emoji }) => {
+const SessionTag: React.FC<SessionTagProps> = () => {
   const [isTagsPopoverOpen, setIsTagsPopoverOpen] = useState(false);
   const { availableTags } = useUserSettingsStore();
-  const { setTag, startSession, isSessionActive } = useSessionStore();
+  const { setTag, startSession, isSessionActive, tag } = useSessionStore();
 
   const handleTagClick = () => {
     setIsTagsPopoverOpen(prev => !prev);
@@ -20,8 +19,25 @@ const SessionTag: React.FC<SessionTagProps> = ({ emoji }) => {
     setTag(newTag);
     setIsTagsPopoverOpen(false);
     if (!isSessionActive) {
-      await startSession('New Session');
+      await startSession('New Session', newTag);
     }
+  };
+
+  const tagEmojis = {
+    'Working': '💼',
+    'Studying': '📚',
+    'Reading': '📖',
+    'Meeting': '🤝',
+    'Research': '🔬',
+    'Meditation': '🧘',
+    'Writing': '✍️',
+    'Coding': '💻',
+    'Designing': '🎨',
+    'Editing': '✏️',
+  };
+
+  const getEmoji = () => {
+    return tag ? tagEmojis[tag] : '⚪';
   };
 
   return (
@@ -30,13 +46,14 @@ const SessionTag: React.FC<SessionTagProps> = ({ emoji }) => {
         className="text-gray-600 p-1 rounded-full focus:outline-none hover:bg-gray-100 active:bg-gray-100"
         onClick={handleTagClick}
       >
-        <span style={{ fontSize: '1.5em' }}>{emoji}</span>
+        <span style={{ fontSize: '1.5em' }}>{getEmoji()}</span>
       </button>
       <NewSessionTagsPopover
         isOpen={isTagsPopoverOpen}
         onClose={() => setIsTagsPopoverOpen(false)}
         availableTags={availableTags}
         onTagClick={handleTagValueClick}
+        tagEmojis={tagEmojis}
       />
     </div>
   );

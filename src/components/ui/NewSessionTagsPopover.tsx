@@ -1,17 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useSessionStore } from '../../store/useSessionStore';
 
 interface NewSessionTagsPopoverProps {
   isOpen: boolean;
   onClose: () => void;
   availableTags: { name: string; }[];
   onTagClick: (tag: string) => void;
+  tagEmojis: { [key: string]: string } | undefined;
 }
 
-const NewSessionTagsPopover: React.FC<NewSessionTagsPopoverProps> = ({ isOpen, onClose, availableTags, onTagClick }) => {
+const NewSessionTagsPopover: React.FC<NewSessionTagsPopoverProps> = ({ isOpen, onClose, availableTags, onTagClick, tagEmojis }) => {
   const tagRef = useRef<HTMLDivElement>(null);
-  const { tagEmojis } = useSessionStore();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -47,6 +46,7 @@ const NewSessionTagsPopover: React.FC<NewSessionTagsPopoverProps> = ({ isOpen, o
             className={`flex items-center justify-start w-full text-left px-3 py-2 text-sm hover:bg-gray-300 hover:scale-105 transition duration-100rounded-none m-0 border-none`}
             onClick={() => onTagClick(tag.name)}
           >
+            <span className="mr-2">{tagEmojis && tagEmojis[tag.name]}</span>
             {tag.name}
           </button>
         ))}

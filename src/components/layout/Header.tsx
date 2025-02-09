@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Menu as MenuIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../../store/useSideMenu';
@@ -19,8 +19,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const location = useLocation();
   const isDashboard = location.pathname === '/';
   const { toggleMenu } = useSideMenu();
-  const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime, tag, startSession } = useSessionStore();
-  const { availableTags } = useUserSettingsStore();
+  const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime } = useSessionStore();
 
   const handleBackClick = () => {
     navigate('/');
@@ -43,23 +42,6 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
 
   const displayTitle = isDashboard ? 'Session' : pageTitle;
 
-  const tagEmojis = {
-    'Working': '💼',
-    'Studying': '📚',
-    'Reading': '📖',
-    'Meeting': '🤝',
-    'Research': '🔬',
-    'Meditation': '🧘',
-    'Writing': '✍️',
-    'Coding': '💻',
-    'Designing': '🎨',
-    'Editing': '✏️',
-  };
-
-  const getEmoji = () => {
-    return tag ? tagEmojis[tag] : '⚪';
-  };
-
   return (
     <header className="backdrop-filter backdrop-blur-md shadow-sm fixed top-0 left-0 w-full z-30">
       <div className="w-full h-12 flex items-center justify-between relative">
@@ -80,7 +62,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
             </div>
           )}
           <h1 className="text-xl font-semibold">{displayTitle}</h1>
-          <SessionTag emoji={getEmoji()} />
+          <SessionTag />
         </div>
         <div className="flex items-center h-full w-12 h-12 flex items-center justify-center">
           {isSessionActive && startTime && (
