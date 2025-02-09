@@ -15,14 +15,9 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   loading: true,
   signIn: async (email, password) => {
-    console.log('useAuthStore: signIn called');
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        console.error('useAuthStore: signIn error:', error);
-        throw error;
-      }
-      console.log('useAuthStore: signIn success:', data);
+      if (error) throw error;
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('*')
@@ -31,16 +26,13 @@ export const useAuthStore = create<AuthState>((set) => ({
       if (profileError) console.error("Error fetching profile:", profileError);
       set({ user: { ...data.user, ...profileData }, loading: false }); // Merge profile data
     } catch (error: any) {
-      console.error('useAuthStore: signIn catch:', error);
+      console.error("Error in signIn:", error);
       throw error;
-    } finally {
-      console.log('useAuthStore: signIn finally');
     }
   },
   signUp: async (email, password, name) => {
-    console.log('useAuthStore: signUp called');
     try {
-      const { user, session, error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -49,44 +41,30 @@ export const useAuthStore = create<AuthState>((set) => ({
           },
         },
       });
-      if (error) {
-        console.error('useAuthStore: signUp error:', error);
-        throw error;
-      }
-      console.log('useAuthStore: signUp success:', user);
+      if (error) throw error;
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .insert([{ id: user.id, name }])
+        .insert([{ id: data.user.id, name }]) // Use data.user.id
         .select()
         .single();
       if (profileError) console.error("Error creating profile:", profileError);
-      set({ user: { ...user, ...profileData }, loading: false }); // Merge profile data
+      set({ user: { ...data.user, ...profileData }, loading: false }); // Merge profile data
     } catch (error: any) {
-      console.error('useAuthStore: signUp catch:', error);
+      console.error("Error in signUp:", error);
       throw error;
-    } finally {
-      console.log('useAuthStore: signUp finally');
     }
   },
   signOut: async () => {
-    console.log('useAuthStore: signOut called');
     try {
       const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error('useAuthStore: signOut error:', error);
-        throw error;
-      }
-      console.log('useAuthStore: signOut success');
+      if (error) throw error;
       set({ user: null, loading: false });
     } catch (error: any) {
-      console.error('useAuthStore: signOut catch:', error);
+      console.error("Error in signOut:", error);
       throw error;
-    } finally {
-      console.log('useAuthStore: signOut finally');
     }
   },
   setUser: (user) => {
-    console.log('useAuthStore: setUser called');
     set({ user, loading: false });
   },
 }));

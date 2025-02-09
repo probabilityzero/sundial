@@ -2,6 +2,7 @@ import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { useAuthStore } from './store/useAuthStore';
+import { supabase } from './lib/supabase'; // Import supabase
 
 // Lazy load pages
 const Auth = lazy(() => import('./pages/Auth'));
@@ -13,7 +14,24 @@ const ProfilePage = lazy(() => import('./pages/Profile'));
 const TasksPage = lazy(() => import('./pages/Tasks'));
 
 function App() {
-  const { user, loading } = useAuthStore();
+  const { user, loading, setUser } = useAuthStore(); // Include setUser
+
+  useEffect(() => {
+    async function getSession() {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user || null);
+    }
+
+    getSession();
+
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
+        setUser(session?.user || null);
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null);
+      }
+    });
+  }, [setUser]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -27,7 +45,7 @@ function App() {
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/auth" element={user ? <Navigate to="/" /> : <Auth />} />
           <Route
             path="/"
             element={
