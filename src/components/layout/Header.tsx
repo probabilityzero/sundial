@@ -6,6 +6,7 @@ import { MenuItemIcon } from './MenuItemIcon';
 import ControlPanel from './ControlPanel';
 import Timer from '../Timer';
 import { useSessionStore } from '../../store/useSessionStore';
+import EmojiTag from '../EmojiTag';
 
 interface HeaderProps {
   pageTitle: string;
@@ -63,6 +64,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
             </div>
           )}
           <h1 className="text-xl font-semibold">{displayTitle}</h1>
+          <EmojiTag />
         </div>
         {/* Dimension and Timer */}
         {isSessionActive && startTime && (

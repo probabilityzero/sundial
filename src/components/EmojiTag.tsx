@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useSessionStore } from '../store/useSessionStore';
 
-interface DimensionPopoverProps {}
+interface EmojiTagProps {}
 
-const DimensionPopover: React.FC<DimensionPopoverProps> = () => {
+const EmojiTag: React.FC<EmojiTagProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
-  const { dimension, setDimension } = useSessionStore();
+  const { dimension, setDimension, startSession, isSessionActive } = useSessionStore();
   const dimensions = ['Working', 'Studying', 'Reading', 'Relaxing', 'Other'];
   const dimensionEmojis: { [key: string]: string } = {
     'Working': '💼',
@@ -25,6 +25,9 @@ const DimensionPopover: React.FC<DimensionPopoverProps> = () => {
   const handleDimensionClick = async (newDimension: string) => {
     setDimension(newDimension);
     setIsOpen(false);
+    if (!isSessionActive) {
+      await startSession('New Session'); // Start a new session with the default name
+    }
   };
 
   // Close popover when clicking outside
@@ -50,6 +53,14 @@ const DimensionPopover: React.FC<DimensionPopoverProps> = () => {
 
   return (
     <div className="relative">
+      {/* Button to open/close the popover */}
+      <button
+        className="text-gray-600 p-2 rounded-md focus:outline-none hover:bg-gray-100 active:bg-gray-200"
+        onClick={togglePopover}
+      >
+        <span style={{ fontSize: '1.5em' }}>{getEmoji()}</span>
+      </button>
+
       {/* Popover */}
       <motion.div
         className="bg-white shadow-xl rounded-md w-48 overflow-hidden absolute top-full right-0 mt-2"
@@ -65,7 +76,7 @@ const DimensionPopover: React.FC<DimensionPopoverProps> = () => {
             className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${dimension === d ? 'bg-gray-200' : ''}`}
             onClick={() => handleDimensionClick(d)}
           >
-            {dimensionEmojis[d] ? dimensionEmojis[d] + ' ' + d : d}
+            {d}
           </button>
         ))}
       </motion.div>
@@ -73,4 +84,4 @@ const DimensionPopover: React.FC<DimensionPopoverProps> = () => {
   );
 };
 
-export default DimensionPopover;
+export default EmojiTag;

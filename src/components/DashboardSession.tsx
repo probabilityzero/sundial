@@ -7,7 +7,7 @@ interface SessionCardProps {}
 
 export function DashboardSession({}: SessionCardProps) {
   const [sessionName, setSessionName] = useState(getDefaultSessionName());
-  const { startSession, isSessionActive } = useSessionStore();
+  const { startSession, isSessionActive, resumeSession, isPaused } = useSessionStore();
 
   function getDefaultSessionName() {
     const currentHour = new Date().getHours();
@@ -29,15 +29,13 @@ export function DashboardSession({}: SessionCardProps) {
 
   const handleStartSessionClick = async () => {
     console.log("DashboardSession: handleStartSessionClick called");
-    if (!isSessionActive) {
+    if (!isSessionActive && isPaused) {
       try {
-        await startSession(sessionName);
-        console.log("DashboardSession: startSession completed successfully");
+        await resumeSession();
+        console.log("DashboardSession: resumeSession completed successfully");
       } catch (error) {
-        console.error("DashboardSession: Error starting session:", error);
+        console.error("DashboardSession: Error resuming session:", error);
       }
-    } else {
-      console.log("DashboardSession: Session already active");
     }
   };
 
@@ -60,7 +58,7 @@ export function DashboardSession({}: SessionCardProps) {
         className="text-center p-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.5 }}
       >
         <NewSessionTitle title={sessionName} onSave={handleSaveSessionName} />
       </motion.div>

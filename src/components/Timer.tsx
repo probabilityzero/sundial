@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Play, Pause, StopCircle } from 'lucide-react';
 import './Timer.css';
-import DimensionPopover from './DimensionPopover';
+import TagsPopover from './TagsPopover';
 
 interface TimerProps {
   startTime: Date | null;
@@ -13,8 +13,7 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, isPaused, isSessionActive }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [showDimensionPopover, setShowDimensionPopover] = useState(false);
-  const timerRef = useRef<HTMLDivElement>(null);
+  const [showTagsPopover, setShowTagsPopover] = useState(false);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -42,16 +41,12 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, isPaused, i
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const handleTagClick = (e: any) => {
-    setShowDimensionPopover(!showDimensionPopover);
+  const handleTagClick = () => {
+    setShowTagsPopover(!showTagsPopover);
   };
 
   return (
-    <div className="flex items-center space-x-2" ref={timerRef}>
-      <span>{formatTime(elapsedTime)}</span>
-      <button onClick={isPaused ? onResume : onPause} className="p-1 rounded-full hover:bg-gray-200">
-        {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
-      </button>
+    <div className="flex items-center rounded-full bg-gray-100 p-2">
       {isSessionActive && isPaused ? (
         <button
           onClick={onPause}
@@ -68,11 +63,15 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, isPaused, i
           >
             <div className="radar-circle"></div>
           </button>
-          {showDimensionPopover && <DimensionPopover />}
+          {showTagsPopover && <TagsPopover />}
         </div>
       )}
+      <span>{formatTime(elapsedTime)}</span>
+      <button onClick={isPaused ? onResume : onPause} className="p-1 rounded-full hover:bg-gray-200">
+        {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+      </button>
     </div>
   );
-};
+}
 
 export default Timer;

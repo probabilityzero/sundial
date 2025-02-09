@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useSessionStore } from '../store/useSessionStore';
 
-interface DimensionPopoverProps {}
+interface TagsPopoverProps {}
 
-const DimensionPopover: React.FC<DimensionPopoverProps> = () => {
+const TagsPopover: React.FC<TagsPopoverProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
   const { dimension, setDimension } = useSessionStore();
@@ -53,7 +53,7 @@ const DimensionPopover: React.FC<DimensionPopoverProps> = () => {
       {/* Popover */}
       <motion.div
         className="bg-white shadow-xl rounded-md w-48 overflow-hidden absolute top-full right-0 mt-2"
-        style={{ zIndex: 50 }}
+        style={{ zIndex: 50, right: 0 }}
         initial={{ y: -10, opacity: 0, scale: 0.9 }}
         animate={{ y: isOpen ? 0 : -10, opacity: isOpen ? 1 : 0, scale: isOpen ? 1 : 0.9 }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
@@ -73,4 +73,4 @@ const DimensionPopover: React.FC<DimensionPopoverProps> = () => {
   );
 };
 
-export default DimensionPopover;
+export default TagsPopover;

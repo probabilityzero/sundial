@@ -175,6 +175,7 @@ export const useSessionStore = create<TimerState>()(
           pauseTime: null,
           startTime: new Date(state.startTime?.getTime() + pausedDuration),
           totalPausedTime: state.totalPausedTime + pausedDuration,
+          isSessionActive: true,
         }));
         console.log("useSessionStore: State updated: isPaused=", false, "pauseTime=", null, "startTime=", new Date((get().startTime?.getTime() || now.getTime()) + pausedDuration));
 
@@ -188,13 +189,13 @@ export const useSessionStore = create<TimerState>()(
           if (error) {
             console.error("useSessionStore: Error resuming session:", error);
             // Revert the state on error
-            set({ isPaused: true, pauseTime: now });
+            set({ isPaused: true, pauseTime: now, isSessionActive: false });
             console.log("useSessionStore: State reverted");
           }
         } catch (error) {
           console.error("useSessionStore: Error resuming session:", error);
           // Revert the state on error
-          set({ isPaused: true, pauseTime: now });
+          set({ isPaused: true, pauseTime: now, isSessionActive: false });
           console.log("useSessionStore: State reverted");
         }
       },
@@ -265,7 +266,7 @@ export const useSessionStore = create<TimerState>()(
           parsed.state.startTime = new Date(parsed.state.startTime);
         }
         if (parsed.state && parsed.state.pauseTime) {
-           parsed.state.pauseTime = new Date(parsed.state.pauseTime);
+          parsed.state.pauseTime = new Date(parsed.state.pauseTime);
         }
         return parsed;
       }
