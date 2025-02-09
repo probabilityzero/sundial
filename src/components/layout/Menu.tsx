@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, User, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, PanelRightOpen, Home } from 'lucide-react';
-import { MenuItemList } from './MenuItemList';
-import { MenuItemIcon } from './MenuItemIcon';
-import { MenuItemIconSecondary } from './MenuItemIconSecondary';
+import { MenuItemList } from '../ui/MenuItemList';
+import { MenuItemIcon } from '../ui/MenuItemIcon';
+import { MenuItemIconSecondary } from '../ui/MenuItemIconSecondary';
 
 interface MenuProps {
   isOpen: boolean;

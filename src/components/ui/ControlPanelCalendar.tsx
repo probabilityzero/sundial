@@ -3,7 +3,7 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval } from 'date-fns';
 
 interface CalendarProps {}
 
-const Calendar: React.FC<CalendarProps> = () => {
+const ControlPanelCalender: React.FC<CalendarProps> = () => {
   const today = new Date();
   const monthStart = startOfMonth(today);
   const monthEnd = endOfMonth(today);
@@ -28,4 +28,4 @@ const Calendar: React.FC<CalendarProps> = () => {
   );
 };
 
-export default Calendar;
+export default ControlPanelCalender;

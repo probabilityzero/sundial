@@ -8,15 +8,15 @@ interface ControlPanelNavbarProps {
 
 const ControlPanelNavbar: React.FC<ControlPanelNavbarProps> = ({ activeSection, setActiveSection }) => {
   return (
-    <nav className="flex space-x-4">
+    <nav className="flex border-b">
       <button
-        className={`p-2 rounded-md ${activeSection === 'circleColor' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+        className={`p-1 ${activeSection === 'circleColor' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
         onClick={() => setActiveSection('circleColor')}
       >
         <Circle className="w-5 h-5" />
       </button>
       <button
-        className={`p-2 rounded-md ${activeSection === 'emojiTag' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+        className={`p-1 ${activeSection === 'emojiTag' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
         onClick={() => setActiveSection('emojiTag')}
       >
         <ListChecks className="w-5 h-5" />

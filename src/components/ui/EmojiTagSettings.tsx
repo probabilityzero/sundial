@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TagDropdown from './TagDropdown';
+import TagDropdown from '../TagDropdown';
 
 interface EmojiTagSettingsProps {}
 
@@ -59,12 +59,3 @@ const EmojiTagSettings: React.FC<EmojiTagSettingsProps> = () => {
 };
 
 export default EmojiTagSettings;
-</boltArtifact>
-```
-
-**Explanation:**
-
-*   **`EmojiTagSettings.tsx`**:
-    *   We add a `div` with the class `flex justify-between items-center mb-4` to wrap the "Tag Settings" title and the `TagDropdown` component. This will position the title and the dropdown on opposite sides of the container.
-
-With these changes, the "Select Tags" dropdown should now be positioned on the right side of the "Tag Settings" title in the `EmojiTagSettings` component.

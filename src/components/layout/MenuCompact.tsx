@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Moon, LayoutList, User, Calendar, BarChart, ListChecks, Settings as SettingIcon, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuItemIcon } from './MenuItemIcon';
-import { MenuItemIconSecondary } from './MenuItemIconSecondary';
+import { MenuItemIcon } from '../ui/MenuItemIcon';
+import { MenuItemIconSecondary } from '../ui/MenuItemIconSecondary';
 
 interface MenuCompactProps {
   isCompact: boolean;

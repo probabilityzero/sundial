@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { ArrowLeft, Menu as MenuIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../../store/useSideMenu';
-import { MenuItemIcon } from './MenuItemIcon';
+import { MenuItemIcon } from '../ui/MenuItemIcon';
 import ControlPanel from './ControlPanel';
-import Timer from '../Timer';
+import Timer from '../ui/Timer';
 import { useSessionStore } from '../../store/useSessionStore';
 import TagsPopover from '../TagsPopover';
 import EmojiTag from '../EmojiTag';
@@ -119,7 +119,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
             onTagClick={handleDimensionClick}
           />
         </div>
-        {/* Dimension and Timer */}
+        {/* Timer */}
         {isSessionActive && startTime && (
           <div className="flex-grow flex justify-end items-center space-x-4">
             <Timer

@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PanelRight } from 'lucide-react';
 import { motion } from 'framer-motion';
-import CircleColorSettings from '../CircleColorSettings';
-import EmojiTagSettings from '../EmojiTagSettings';
-import CalendarComponent from '../Calendar';
-import ControlPanelNavbar from '../ControlPanelNavbar';
+import CircleColorSettings from '../ui/ControlPanelBackground';
+import EmojiTagSettings from '../ui/EmojiTagSettings';
+import CalendarComponent from '../ui/ControlPanelCalendar';
+import ControlPanelNavbar from '../ui/ControlPanelNavbar';
+import { MenuItemIcon } from '../ui/MenuItemIcon';
 
 const ControlPanel = () => {
   const [isControlPanelOpen, setIsControlPanelOpen] = useState(false);
@@ -44,8 +45,12 @@ const ControlPanel = () => {
         className="text-gray-600 p-2 rounded-md focus:outline-none hover:bg-gray-100 active:bg-gray-200"
         onClick={handleClick}
       >
-        <PanelRight className="h-5 w-5" />
+        <PanelRight className="h-6 w-6" />
       </button>
+      <div className="w-14 h-14 flex items-center justify-center">
+        <MenuItemIcon onClick={handleBackClick} icon={<ArrowLeft className="w-6 h-6" />} />
+      </div>
+
 
       {/* Sliding panel */}
       <motion.div
