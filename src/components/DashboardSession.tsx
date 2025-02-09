@@ -53,4 +53,4 @@ export function DashboardSession({ }: SessionCardProps) {
       </motion.div>
     </motion.div>
   );
-}; 
+};
