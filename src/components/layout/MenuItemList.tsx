@@ -16,12 +16,13 @@ export function MenuItemList({ to, label, icon: Icon, onClick, isCompact, darkMo
   const activeClass = isActive ? 'bg-gray-100' : '';
   const hoverClass = isActive ? '' : 'hover:bg-gray-100';
   const textColorClass = isActive ? 'text-blue-600' : 'text-gray-700';
-
+  const baseClass = `p-2 px-3 rounded-md justify-left flex-grow flex transition-colors gap-2`;
+  
 
   return (
     <Link
       to={to}
-      className={`flex ${isCompact ? 'justify-center' : 'gap-2'} p-2 rounded-md transition-colors ${activeClass} ${textColorClass} ${hoverClass} ${isCompact ? 'p-1' : 'px-4 py-2'} ${isCompact ? 'block' : 'flex'}  ${darkMode ? 'border border-gray-700' : ''} ${darkMode && !isActive ? 'hover:border-gray-500 rounded-md' : ''}`}
+      className={`${baseClass} ${activeClass} ${textColorClass} ${hoverClass} ${!isActive ? 'hover:border-gray-500 rounded-md' : ''}`}
       onClick={onClick}
     >
       {Icon && <Icon className="w-6 h-6" />}

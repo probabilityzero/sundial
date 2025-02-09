@@ -29,7 +29,7 @@ export function ViewGoals({
             <Circle className="h-6 w-6" />
           </button>
 
-          <div className="w-full m-w-16 h-8 bg-gray-200 rounded-md overflow-hidden">
+          <div className="w-full h-8 bg-gray-200 rounded-md overflow-hidden">
             <div className="flex top-0 left-0 w-full h-full shimmer"></div>
           </div>
         </div>
