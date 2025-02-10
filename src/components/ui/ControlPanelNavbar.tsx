@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Image, ListChecks } from 'lucide-react';
 
 interface ControlPanelNavbarProps {
@@ -9,18 +10,24 @@ interface ControlPanelNavbarProps {
 const ControlPanelNavbar: React.FC<ControlPanelNavbarProps> = ({ activeSection, setActiveSection }) => {
   return (
     <nav className="flex pb-0 p-1 border-b">
-      <button
-        className={`p-1 ${activeSection === 'circleColor' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+      <motion.button
+        className={`p-1 ${activeSection === 'circleColor' ? 'bg-gray-200' : ''}`}
         onClick={() => setActiveSection('circleColor')}
+        whileHover={{ scale: 1.1 }}  // Scale up on hover
+        whileTap={{ scale: 0.95 }}   // Slightly scale down on click
+        transition={{ duration: 0.3 }} // Smooth transition for scale
       >
         <Image className="w-5 h-5" />
-      </button>
-      <button
-        className={`p-1 ${activeSection === 'emojiTag' ? 'bg-gray-200' : 'hover:bg-gray-100'}`}
+      </motion.button>
+      <motion.button
+        className={`p-1 ${activeSection === 'emojiTag' ? 'bg-gray-200' : ''}`}
         onClick={() => setActiveSection('emojiTag')}
+        whileHover={{ scale: 1.1 }}  // Scale up on hover
+        whileTap={{ scale: 0.95 }}   // Slightly scale down on click
+        transition={{ duration: 0.3 }} // Smooth transition for scale
       >
         <ListChecks className="w-5 h-5" />
-      </button>
+      </motion.button>
     </nav>
   );
 };

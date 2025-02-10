@@ -45,7 +45,7 @@ const ControlPanelTags: React.FC<ControlPanelTagsProps> = () => {
   return (
     <div>
       <div className="p-1">
-        <h4 className="text-md font-semibold pb-1">Choose session tags</h4>
+        <h4 className="text-md font-semibold pb-1">Choose your session tags</h4>
         <div className="flex border rounded-md bg-gray-100 flex-wrap">
           <div className='p-1'>
           {allTags.map((tag) => (

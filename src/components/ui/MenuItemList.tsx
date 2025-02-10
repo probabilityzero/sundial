@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 interface MenuItemListProps {
   to: string;
@@ -10,23 +11,36 @@ interface MenuItemListProps {
   darkMode?: boolean;
 }
 
-export function MenuItemList({ to, label, icon: Icon, onClick, isCompact, darkMode }: MenuItemListProps) {
+export function MenuItemList({
+  to,
+  label,
+  icon: Icon,
+  onClick,
+  isCompact,
+  darkMode,
+}: MenuItemListProps) {
   const location = useLocation();
   const isActive = location.pathname === to;
-  const activeClass = isActive ? 'bg-gray-100' : '';
-  const hoverClass = isActive ? '' : 'hover:bg-gray-100';
-  const textColorClass = isActive ? 'text-blue-600' : 'text-gray-700';
-  const baseClass = `p-2 px-3 rounded-md justify-left flex-grow flex transition-colors gap-2`;
-  
+  const activeClass = isActive ? 'bg-gray-200' : ''; // Active background class
+  const baseClass = 'p-3 flex items-center font-semibold gap-3'; // Adjusted base class for layout
 
   return (
-    <Link
-      to={to}
-      className={`${baseClass} ${activeClass} ${textColorClass} ${hoverClass} ${!isActive ? 'hover:border-gray-500 rounded-md' : ''}`}
-      onClick={onClick}
+    <motion.div
+      style={{ color: 'black', backgroundColor: 'white' }} // Set initial styles in style prop
+      whileHover={{
+        backgroundColor: '#f3f4f6',
+        color: '#3b82f6', // Animate color through style prop
+      }}
+      transition={{ duration: 0.2 }}
     >
-      {Icon && <Icon className="w-6 h-6" />}
-      {!isCompact && <span>{label}</span>}
-    </Link>
+      <Link
+        to={to}
+        className={`${baseClass} ${activeClass}`}
+        onClick={onClick}
+      >
+        {Icon && <Icon className="w-6 h-6 stroke-[1]" />}
+        {!isCompact && <span>{label}</span>}
+      </Link>
+    </motion.div>
   );
 }

@@ -55,9 +55,9 @@ function App() {
     });
   }, [setUser]);
 
-  const ProtectedRoute = ({ element }: { element: React.ReactElement }) => {
+  const ProtectedRoute = ({ element, pageTitle }: { element: React.ReactElement, pageTitle: string }) => {
     if (authLoading) {
-      return <div> <Header /> </div>;
+      return <div><Header pageTitle="Loading..." isCompact={false} toggleCompactMenu={() => {}} /></div>;
     }
 
     return isAuthenticated ? element : <Navigate to="/auth" />;
@@ -65,43 +65,43 @@ function App() {
 
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={loading ? <div>Loading...</div> : <div><Header pageTitle="Loading..." isCompact={false} toggleCompactMenu={() => {}} /></div>}>
         <Routes>
           <Route path="/auth" element={user ? <Navigate to="/" /> : <Auth />} />
           <Route
             path="/"
             element={
-              <ProtectedRoute element={<Layout pageTitle="Home"><HomePage /></Layout>} />
+              <ProtectedRoute pageTitle="Home" element={<Layout pageTitle="Home"><HomePage /></Layout>} />
             }
           />
           <Route
             path="/profile"
             element={
-              <ProtectedRoute element={<Layout pageTitle="Profile"><ProfilePage /></Layout>} />
+              <ProtectedRoute pageTitle="Profile" element={<Layout pageTitle="Profile"><ProfilePage /></Layout>} />
             }
           />
           <Route
             path="/calendar"
             element={
-              <ProtectedRoute element={<Layout pageTitle="Calendar"><CalendarPage /></Layout>} />
+              <ProtectedRoute pageTitle="Calendar" element={<Layout pageTitle="Calendar"><CalendarPage /></Layout>} />
             }
           />
           <Route
             path="/analytics"
             element={
-              <ProtectedRoute element={<Layout pageTitle="History"><AnalyticsPage /></Layout>} />
+              <ProtectedRoute pageTitle="History" element={<Layout pageTitle="History"><AnalyticsPage /></Layout>} />
             }
           />
           <Route
             path="/tasks"
             element={
-              <ProtectedRoute element={<Layout pageTitle="Tasks"><TasksPage /></Layout>} />
+              <ProtectedRoute pageTitle="Tasks" element={<Layout pageTitle="Tasks"><TasksPage /></Layout>} />
             }
           />
           <Route
             path="/settings"
             element={
-              <ProtectedRoute element={<Layout pageTitle="Settings"><SettingsPage /></Layout>} />
+              <ProtectedRoute pageTitle="Settings" element={<Layout pageTitle="Settings"><SettingsPage /></Layout>} />
             }
           />
           <Route path="*" element={<Navigate to="/" />} />

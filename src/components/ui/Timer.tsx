@@ -15,7 +15,7 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, onReset, is
   const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
+    let intervalId: NodeJS.Timeout | null = null;  // Initialize intervalId to null
 
     if (startTime && !isPaused) {
       console.log("Timer: Starting interval with startTime:", startTime);
@@ -24,12 +24,16 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, onReset, is
       }, 1000);
     } else {
       console.log("Timer: Clearing interval");
-      clearInterval(intervalId);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     }
 
     return () => {
       console.log("Timer: Component unmounting, clearing interval");
-      clearInterval(intervalId);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     };
   }, [startTime, isPaused]);
 

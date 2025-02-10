@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { PanelsTopLeft } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { PanelsTopLeft, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import CircleColorSettings from '../ui/ControlPanelBackground';
 import ControlPanelTags from '../ui/ControlPanelTags';
 import CalendarComponent from '../ui/ControlPanelCalendar';
@@ -21,18 +21,13 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ onBackClick }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async () => {
-    // Check if the panel is already open
-    if (isControlPanelOpen) {
-      // Close it if it is open
-      setIsControlPanelOpen(false);
-    } else {
-      // Open it if it's closed
-      setIsControlPanelOpen(true);
-      if (user) {
-        setIsLoading(true);
-        await fetchUserSettings(user.id);
-        setIsLoading(false);
-      }
+    // Toggle panel open/close
+    setIsControlPanelOpen(prev => !prev);
+
+    if (!isControlPanelOpen && user) {
+      setIsLoading(true);
+      await fetchUserSettings(user.id);
+      setIsLoading(false);
     }
   };
 
@@ -53,6 +48,11 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ onBackClick }) => {
     };
   }, [isControlPanelOpen]);
 
+  // Close the panel via the Back button
+  const handleBackClick = () => {
+    setIsControlPanelOpen(false);
+  };
+
   return (
     <div className="relative p-1">
       {/* Button to open/close the panel */}
@@ -63,28 +63,43 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ onBackClick }) => {
         <PanelsTopLeft className="h-6 w-6" />
       </button>
 
-      {/* Sliding panel */}
-      <motion.div
-        className="backdrop-filter backdrop-blur-xl bg-opacity-95 bg-white p-0 shadow-xl rounded-md w-80 overflow-hidden absolute top-full right-0 flex flex-col"
-        style={{ height: 'calc(100vh - 3rem)', zIndex: 50 }}
-        initial={{ x: 200, opacity: 0 }}
-        animate={{ x: isControlPanelOpen ? 0 : 200, opacity: isControlPanelOpen ? 1 : 0 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        ref={panelRef}
-      >
-        <div className="p-3 border-b flex-grow flex flex-col overflow-y-auto">
-          <div className="flex justify-between items-center">
-            <h3 className="text-md font-bold">Control Panel</h3>
-          </div>
-          <ControlPanelNavbar activeSection={activeSection} setActiveSection={setActiveSection} />
-          {activeSection === 'circleColor' && <CircleColorSettings />}
-          {activeSection === 'emojiTag' && <ControlPanelTags />}
-        </div>
+      {/* Use AnimatePresence to handle exit animations */}
+      <AnimatePresence>
+        {isControlPanelOpen && (
+          <motion.div
+            key="controlPanel"
+            className="bg-white p-0 shadow-xl rounded-md w-80 overflow-hidden absolute top-0 right-0 flex flex-col"
+            style={{ height: '100vh', zIndex: 50 }}
+            initial={{ x: 200, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 200, opacity: 0 }}  // Animation for closing
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            ref={panelRef}
+          >
+            <div className="p-2 pb-0 flex justify-between items-center">
+              <h3 className="text-lg font-semibold">Control Panel</h3>
 
-        <div className="p-4 border-t">
-          <CalendarComponent />
-        </div>
-      </motion.div>
+              {/* Back button to close the panel */}
+              <button
+                className="text-gray-600 p-1.5 rounded-md focus:outline-none hover:bg-gray-200 active:bg-gray-300"
+                onClick={handleBackClick}
+              >
+                <ArrowRight className="h-5 w-5 stroke-[1]" />
+              </button>
+            </div>
+
+            <div className="flex-grow flex flex-col overflow-y-auto p-2 pt-0">
+              <ControlPanelNavbar activeSection={activeSection} setActiveSection={setActiveSection} />
+              {activeSection === 'circleColor' && <CircleColorSettings />}
+              {activeSection === 'emojiTag' && <ControlPanelTags />}
+            </div>
+
+            <div className="p-4 border-t">
+              <CalendarComponent />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

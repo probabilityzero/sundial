@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-interface NewSessionTagsPopoverProps {
+interface NewSessionTagPopoverProps {
   isOpen: boolean;
   onClose: () => void;
   availableTags: { name: string; }[];
@@ -9,7 +9,7 @@ interface NewSessionTagsPopoverProps {
   tagEmojis: { [key: string]: string } | undefined;
 }
 
-const NewSessionTagsPopover: React.FC<NewSessionTagsPopoverProps> = ({ isOpen, onClose, availableTags, onTagClick, tagEmojis }) => {
+const NewSessionTagPopover: React.FC<NewSessionTagPopoverProps> = ({ isOpen, onClose, availableTags, onTagClick, tagEmojis }) => {
   const tagRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,25 +34,37 @@ const NewSessionTagsPopover: React.FC<NewSessionTagsPopoverProps> = ({ isOpen, o
         className="backdrop-filter backdrop-blur-sm bg-opacity-75 bg-white shadow-md rounded-md w-48 overflow-hidden absolute top-full"
         style={{ zIndex: 50 }}
         initial={{ y: -10, opacity: 0, scale: 0.9 }}
-        animate={{ y: isOpen ? 0 : -10, opacity: isOpen ? 1 : 0, scale: isOpen ? 1 : 0.9 }}
-        transition={{ duration: 0.1, ease: "easeInOut" }}
+        animate={{ 
+          y: isOpen ? 0 : -10, 
+          opacity: isOpen ? 1 : 0, 
+          scale: isOpen ? 1 : 0.9 
+        }}
         exit={{ opacity: 0 }}
         onClick={e => e.stopPropagation()}
         ref={tagRef}
       >
         {availableTags && availableTags.map((tag) => (
-          <button
+          <motion.button
             key={tag.name}
-            className={`flex items-center justify-start w-full text-left px-3 py-2 text-sm hover:bg-gray-300 hover:scale-105 transition duration-100rounded-none m-0 border-none`}
+            className="flex items-center justify-start w-full text-left px-3 py-2 text-sm transition duration-100 rounded-none m-0 border-none hover:text-blue-500" // Tailwind hover class
             onClick={() => onTagClick(tag.name)}
+            whileHover={{
+              scale: 0.95,  // Slightly scale up when hovering
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 20,
+            }}
           >
             <span className="mr-2">{tagEmojis && tagEmojis[tag.name]}</span>
             {tag.name}
-          </button>
+          </motion.button>
+
         ))}
       </motion.div>
     </div>
   );
 };
 
-export default NewSessionTagsPopover;
+export default NewSessionTagPopover;
