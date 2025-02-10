@@ -203,7 +203,9 @@ export const useSessionStore = create<TimerState>()(
             .from('sessions')
             .select('*')
             .eq('user_id', user.id)
-            .eq('status', 'active')
+            .in('status', ['active', 'paused'])
+            .order('start_time', { ascending: false })
+            .limit(1)
             .single();
 
           console.log("useSessionStore: fetchActiveSession data:", data);
@@ -220,7 +222,7 @@ export const useSessionStore = create<TimerState>()(
               sessionName: data.title,
               startTime: new Date(data.start_time),
               endTime: data.end_time ? new Date(data.end_time) : null,
-              isPaused: false,
+              isPaused: data.status === 'paused',
               isSessionActive: true,
               pauseTime: null,
               totalPausedTime: data.total_duration || 0,
@@ -245,10 +247,13 @@ export const useSessionStore = create<TimerState>()(
         }
         return parsed;
       },
-      onRehydrateStorage: () => (state) => {
-        if (state) {
-          state.fetchActiveSession();
-        }
+      onRehydrateStorage: (state) => {
+        return (state) => {
+          const { user } = useAuthStore.getState();
+          if (user) {
+            state.fetchActiveSession();
+          }
+        };
       },
     }
   )

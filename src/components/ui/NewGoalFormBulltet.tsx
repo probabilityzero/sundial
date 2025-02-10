@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Check, Circle } from 'lucide-react';
-import { useGoalsStore } from '../../store/useGoalsStore'; // Import the store
+import { useGoalsStore } from '../../store/useGoalsStore';
 import { motion } from 'framer-motion';
 
 interface NewGoalFormBulletProps {
@@ -10,15 +10,19 @@ interface NewGoalFormBulletProps {
 export function NewGoalFormBullet({ handleAddTask }: NewGoalFormBulletProps) {
   const [newTask, setNewTask] = useState('');
   const [taskError, setTaskError] = useState('');
-  const [isEditing, setIsEditing] = useState(false); // Track editing state
+  const [isEditing, setIsEditing] = useState(false);
+  const { addTask } = useGoalsStore();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTaskError('');
-    console.log('handleSubmit: newTask = ', newTask); // Add console log here
     if (newTask.trim()) {
-      handleAddTask(e);
-      setNewTask('');
+      try {
+        await addTask(newTask);
+        setNewTask('');
+      } catch (error: any) {
+        setTaskError(`Failed to add task: ${error.message}`);
+      }
     } else {
       setTaskError('This cannot be empty.');
     }
@@ -36,24 +40,23 @@ export function NewGoalFormBullet({ handleAddTask }: NewGoalFormBulletProps) {
         </button>
 
         <div className="relative w-full">
-        <motion.input
-          type="text"
-          id="newTaskInput" // Add an ID
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="New entry..."
-          className="w-full text-gray-700 leading-tight focus:outline-none bg-transparent border-b-2 border-transparent ml-2 pr-6 pb-0.5"
-          onFocus={() => setIsEditing(true)} // Set editing state on focus
-          onBlur={() => setIsEditing(false)} // Reset editing state on blur
-        />
+          <motion.input
+            type="text"
+            id="newTaskInput"
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+            placeholder="New entry..."
+            className="w-full text-gray-700 leading-tight focus:outline-none bg-transparent border-b-2 border-transparent ml-2 pr-6 pb-0.5"
+            onFocus={() => setIsEditing(true)}
+            onBlur={() => setIsEditing(false)}
+          />
 
-          
           <motion.div
-            className="absolute left-0 bottom-0 h-[2px] bg-blue-500 ml-1" // Add margin-left of 1 unit
-            initial={{ width: '0%' }} // Start with width at 0%
-            animate={{ width: isEditing ? '100%' : '0%' }} // Animate width from 0% to 100%
+            className="absolute left-0 bottom-0 h-[2px] bg-blue-500 ml-1"
+            initial={{ width: '0%' }}
+            animate={{ width: isEditing ? '100%' : '0%' }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            style={{ originX: 0.5 }} // Set transform origin to center
+            style={{ originX: 0.5 }}
           />
         </div>
 

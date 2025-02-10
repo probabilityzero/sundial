@@ -5,11 +5,9 @@ import { useAuthStore } from './useAuthStore';
 interface Task {
   id: string;
   title: string;
-  description?: string;
   status: 'created' | 'started' | 'completed' | 'unfinished' | 'migrated';
   created_at: string;
   user_id: string;
-  tag?: string | null;
 }
 
 interface GoalsState {
@@ -21,7 +19,7 @@ interface GoalsState {
   updateTaskStatus: (taskId: string, status: Task['status']) => Promise<void>;
 }
 
-export const useGoalsStore = create<GoalsState>((set) => ({
+export const useGoalsStore = create<GoalsState>((set, get) => ({
   tasks: [],
   isLoading: false,
   error: null,
@@ -56,16 +54,16 @@ export const useGoalsStore = create<GoalsState>((set) => ({
     } catch (error: any) {
       console.error("useGoalsStore: Error in fetchTasks:", error);
       set({ error: error.message, isLoading: false });
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   addTask: async (title: string) => {
     const { user } = useAuthStore.getState();
-    const { tag } = useSessionStore.getState();
 
     console.log('addTask: user = ', user);
     console.log('addTask: title = ', title);
-    console.log('addTask: tag = ', tag);
 
     if (!user) {
       console.warn("useGoalsStore: No user logged in, cannot add task.");
@@ -78,7 +76,7 @@ export const useGoalsStore = create<GoalsState>((set) => ({
       const newTask = {
         title,
         user_id: user.id,
-        tag: tag,
+        status: 'created', // Set the default status here
       };
 
       console.log("useGoalsStore: Attempting to insert task with:", newTask);
@@ -99,7 +97,7 @@ export const useGoalsStore = create<GoalsState>((set) => ({
         return;
       }
 
-      set((state) => ({
+      set(state => ({
         tasks: [...state.tasks, data],
         error: null,
       }));

@@ -1,16 +1,29 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import NewSessionTagPopover from '../ui/NewSessionTagPopover';
 import { useUserSettingsStore } from '../../store/useUserSettingsStore';
 import { useSessionStore } from '../../store/useSessionStore';
+import { useAuthStore } from '../../store/useAuthStore';
 
 interface SessionTagProps {}
 
 const SessionTag: React.FC<SessionTagProps> = ({}) => {
   const [isTagsPopoverOpen, setIsTagsPopoverOpen] = useState(false);
-  const { availableTags } = useUserSettingsStore();
+  const { availableTags, fetchUserSettings } = useUserSettingsStore();
   const { setTag, startSession, isSessionActive, tag } = useSessionStore();
-
   const popoverRef = useRef<HTMLDivElement>(null); // Ref for the popover content
+  const { user } = useAuthStore();
+
+  useEffect(() => {
+    const loadTags = async () => {
+      if (user) {
+        await fetchUserSettings(user.id);
+      }
+    };
+
+    if (isTagsPopoverOpen) {
+      loadTags();
+    }
+  }, [isTagsPopoverOpen, fetchUserSettings, user]);
 
   const handleTagClick = () => {
     setIsTagsPopoverOpen((prev) => !prev);
@@ -46,7 +59,7 @@ const SessionTag: React.FC<SessionTagProps> = ({}) => {
 
   // Close the popover if the cursor moves away from the popover or the button
   const handleMouseLeave = (e: React.MouseEvent) => {
-    if (popoverRef.current && !popoverRef.current.contains(e.relatedTarget as Node)) {
+    if (e.relatedTarget instanceof Node && popoverRef.current && !popoverRef.current.contains(e.relatedTarget)) {
       setIsTagsPopoverOpen(false);
     }
   };

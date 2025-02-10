@@ -54,7 +54,7 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, onReset, is
           >
             <div className="radar-circle"></div>
           </div>
-          <span>{formatTime(elapsedTime)}</span>
+          <span style={{ fontFamily: 'Lato, sans-serif' }}>{formatTime(elapsedTime)}</span>
           <button onClick={onPause} className="p-1 rounded-full hover:bg-gray-200">
             <RiPauseMiniFill className="w-4 h-4" />
           </button>
@@ -68,7 +68,7 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, onReset, is
           >
             <RiStopCircleLine className="w-4 h-4" />
           </button>
-          <span>{formatTime(elapsedTime)}</span>
+          <span style={{ fontFamily: 'Lato, sans-serif' }}>{formatTime(elapsedTime)}</span>
           <button
             onClick={onResume}
             className="p-1 rounded-full hover:bg-gray-200"

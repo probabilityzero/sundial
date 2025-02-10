@@ -37,21 +37,21 @@ export function DashboardGoal() {
   }, []);
 
   useEffect(() => {
-    const loadTasks = async () => {
-      setIsLoadingTasks(true);
-      setTaskError('');
-      try {
-        await fetchTasks();
-      } catch (error) {
-        console.error('DashboardPage: Error fetching tasks:', error);
-        setTaskError('Failed to load tasks. Please try again later.');
-      } finally {
-        setIsLoadingTasks(false);
-      }
-    };
-
     loadTasks();
-  }, [fetchTasks]);
+  }, []);
+
+  const loadTasks = async () => {
+    setIsLoadingTasks(true);
+    setTaskError('');
+    try {
+      await fetchTasks();
+    } catch (error) {
+      console.error('DashboardPage: Error fetching tasks:', error);
+      setTaskError('Failed to load tasks. Please try again later.');
+    } finally {
+      setIsLoadingTasks(false);
+    }
+  };
 
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,6 +64,7 @@ export function DashboardGoal() {
         setTimeout(() => {
           setShowTick(false);
         }, 700);
+        await loadTasks(); // Reload tasks after adding a new one
       } catch (error) {
         console.error('DashboardPage: Failed to add task:', error);
         setTaskError('Failed to add task. Please try again later.');
