@@ -14,10 +14,10 @@ function HomePage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-        <div style={{ width: '100%', maxWidth: '1200px' }}>
+        <div>
         <DashboardSession />
         </div>
-        <div style={{ width: '100%', maxWidth: '1200px' }}>
+        <div>
         <DashboardGoal />
         </div>
     </motion.div>

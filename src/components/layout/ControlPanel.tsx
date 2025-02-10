@@ -21,11 +21,18 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ onBackClick }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async () => {
-    setIsControlPanelOpen((isControlPanelOpen) => !isControlPanelOpen);
-    if (!isControlPanelOpen && user) {
-      setIsLoading(true);
-      await fetchUserSettings(user.id);
-      setIsLoading(false);
+    // Check if the panel is already open
+    if (isControlPanelOpen) {
+      // Close it if it is open
+      setIsControlPanelOpen(false);
+    } else {
+      // Open it if it's closed
+      setIsControlPanelOpen(true);
+      if (user) {
+        setIsLoading(true);
+        await fetchUserSettings(user.id);
+        setIsLoading(false);
+      }
     }
   };
 
