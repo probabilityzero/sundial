@@ -26,12 +26,12 @@ export function MenuItemList({
 
   return (
     <motion.div
-      style={{ color: 'black', backgroundColor: 'white' }} // Set initial styles in style prop
+      style={{ backgroundColor: 'white', color: 'black' }}
       whileHover={{
+        color: '#3b82f6',
         backgroundColor: '#f3f4f6',
-        color: '#3b82f6', // Animate color through style prop
       }}
-      transition={{ duration: 0.2 }}
+      transition={{ backgroundColor: { duration: 0.2 } }}
     >
       <Link
         to={to}

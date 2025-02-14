@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RiPauseMiniFill, RiPlayMiniFill, RiStopCircleLine } from "react-icons/ri";
-import './Timer.css';
+import '../../index.css';
 
 interface TimerProps {
   startTime: Date | null;
