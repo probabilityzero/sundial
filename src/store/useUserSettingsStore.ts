@@ -8,7 +8,7 @@ interface UserSettingsState {
   setAvailableTags: (tags: { name: string; }[]) => void;
 }
 
-const defaultTags = ['Working', 'Studying', 'Reading', 'Meeting', 'Research', 'Meditation', 'Writing', 'Coding', 'Designing', 'Editing'].map(tag => ({ name: tag }));
+const defaultTags = ['Studying', 'Working', 'Reading'].map(tag => ({ name: tag }));
 
 export const useUserSettingsStore = create<UserSettingsState>((set) => ({
   availableTags: defaultTags,
@@ -34,6 +34,7 @@ export const useUserSettingsStore = create<UserSettingsState>((set) => ({
             .insert([{ user_id: userId, available_tags: defaultTags.map(tag => tag.name) }])
             .select()
             .single();
+          set({ availableTags: defaultTags }); // Update the state with default tags
         } else {
           throw error;
         }

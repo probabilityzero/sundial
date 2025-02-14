@@ -1,9 +1,8 @@
-import React, { useEffect, Suspense, lazy, useState } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { useAuthStore } from './store/useAuthStore';
 import { supabase } from './lib/supabase';
-import { Header } from './components/layout/Header';
 
 // Lazy load pages
 const Auth = lazy(() => import('./pages/Auth'));
@@ -14,96 +13,65 @@ const SettingsPage = lazy(() => import('./pages/Settings'));
 const ProfilePage = lazy(() => import('./pages/Profile'));
 const TasksPage = lazy(() => import('./pages/Tasks'));
 
+// Protected Route wrapper
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { user, loading } = useAuthStore();
+
+  if (loading) {
+    return <div>Loading...</div>; // Or a more sophisticated loading indicator
+  }
+  
+  if (!user) {
+    return <Navigate to="/auth" />;
+  }
+
+  return <Layout>{children}</Layout>;
+};
+
 function App() {
-  const { user, loading, setUser } = useAuthStore();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
+  const { setUser } = useAuthStore();
 
   useEffect(() => {
-    async function getSession() {
-      setAuthLoading(true);
+    const initializeAuth = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
-
+      
       if (error) {
         console.error("Error getting session:", error);
         setUser(null);
-        setIsAuthenticated(false);
-        setAuthLoading(false);
         return;
       }
+      
+      setUser(session?.user || null);
+    };
 
-      if (session) {
-        setUser(session.user);
-        setIsAuthenticated(true);
-      } else {
-        setUser(null);
-        setIsAuthenticated(false);
-      }
-      setAuthLoading(false);
-    }
+    initializeAuth();
 
-    getSession();
-
-    supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
         setUser(session?.user || null);
-        setIsAuthenticated(true);
       } else if (event === 'SIGNED_OUT') {
         setUser(null);
-        setIsAuthenticated(false);
       }
     });
+
+    return () => subscription.unsubscribe();
   }, [setUser]);
-
-  const ProtectedRoute = ({ element, pageTitle }: { element: React.ReactElement, pageTitle: string }) => {
-    if (authLoading) {
-      return <div><Header pageTitle="Loading..." isCompact={false} toggleCompactMenu={() => {}} /></div>;
-    }
-
-    return isAuthenticated ? element : <Navigate to="/auth" />;
-  };
 
   return (
     <Router>
-      <Suspense fallback={loading ? <div>Loading...</div> : <div><Header pageTitle="Loading..." isCompact={false} toggleCompactMenu={() => {}} /></div>}>
+      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/auth" element={user ? <Navigate to="/" /> : <Auth />} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute pageTitle="Home" element={<Layout pageTitle="Home"><HomePage /></Layout>} />
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute pageTitle="Profile" element={<Layout pageTitle="Profile"><ProfilePage /></Layout>} />
-            }
-          />
-          <Route
-            path="/calendar"
-            element={
-              <ProtectedRoute pageTitle="Calendar" element={<Layout pageTitle="Calendar"><CalendarPage /></Layout>} />
-            }
-          />
-          <Route
-            path="/analytics"
-            element={
-              <ProtectedRoute pageTitle="History" element={<Layout pageTitle="History"><AnalyticsPage /></Layout>} />
-            }
-          />
-          <Route
-            path="/tasks"
-            element={
-              <ProtectedRoute pageTitle="Tasks" element={<Layout pageTitle="Tasks"><TasksPage /></Layout>} />
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute pageTitle="Settings" element={<Layout pageTitle="Settings"><SettingsPage /></Layout>} />
-            }
-          />
+          {/* Auth route without Layout */}
+          <Route path="/auth" element={<Auth />} />
+          
+          {/* Protected Routes with Layout */}
+          <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
+          <Route path="/analytics" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
+          <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+          
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Suspense>

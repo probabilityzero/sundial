@@ -15,7 +15,7 @@ interface TimerState {
   totalPausedTime: number;
   tag: string | null;
 
-  startSession: ( sessionName: string) => Promise<void>;
+  startSession: (sessionName: string) => Promise<void>;
   pauseSession: () => Promise<void>;
   resumeSession: () => Promise<void>;
   resetSession: () => Promise<void>;
@@ -37,7 +37,7 @@ export const useSessionStore = create<TimerState>()(
       totalPausedTime: 0,
       tag: null,
 
-      startSession: async ( sessionName: string) => {
+      startSession: async (sessionName: string) => {
         const sessionId = uuidv4();
         const startTime = new Date();
         const { user } = useAuthStore.getState();
@@ -62,6 +62,8 @@ export const useSessionStore = create<TimerState>()(
 
           if (error) {
             console.error("useSessionStore: Error starting session:", error);
+          } else {
+            console.log("useSessionStore: Session started successfully in database");
           }
         } catch (error) {
           console.error("useSessionStore: Error starting session:", error);
@@ -84,14 +86,28 @@ export const useSessionStore = create<TimerState>()(
         const sessionId = get().sessionId;
         const pauseTime = new Date();
 
+        console.log("useSessionStore: pauseSession called with sessionId:", sessionId);
+
+        if (!sessionId) {
+          console.error("useSessionStore: No session ID found, cannot pause session");
+          return;
+        }
+
         try {
-          const { error } = await supabase
+          console.log("useSessionStore: Attempting to pause session in database");
+          const { data, error } = await supabase
             .from('sessions')
             .update({ status: 'paused' })
-            .eq('id', sessionId);
+            .eq('id', sessionId)
+            .select();
+
+          console.log("useSessionStore: Supabase pause data:", data);
+          console.log("useSessionStore: Supabase pause error:", error);
 
           if (error) {
             console.error("useSessionStore: Error pausing session:", error);
+          } else {
+            console.log("useSessionStore: Session paused successfully in database");
           }
         } catch (error) {
           console.error("useSessionStore: Error pausing session:", error);
@@ -108,15 +124,29 @@ export const useSessionStore = create<TimerState>()(
         const pausedDuration = now.getTime() - (get().pauseTime?.getTime() || now.getTime());
         const sessionId = get().sessionId;
 
+        console.log("useSessionStore: resumeSession called with sessionId:", sessionId);
+
+        if (!sessionId) {
+          console.error("useSessionStore: No session ID found, cannot resume session");
+          return;
+        }
+
         try {
+          console.log("useSessionStore: Attempting to resume session in database");
           // Update the session status in the database
-          const { error } = await supabase
+          const { data, error } = await supabase
             .from('sessions')
             .update({ status: 'active' })
-            .eq('id', sessionId);
+            .eq('id', sessionId)
+            .select();
+
+          console.log("useSessionStore: Supabase resume data:", data);
+          console.log("useSessionStore: Supabase resume error:", error);
 
           if (error) {
             console.error("useSessionStore: Error resuming session:", error);
+          } else {
+            console.log("useSessionStore: Session resumed successfully in database");
           }
         } catch (error) {
           console.error("useSessionStore: Error resuming session:", error);
@@ -136,15 +166,29 @@ export const useSessionStore = create<TimerState>()(
         const endTime = new Date();
         const duration = endTime.getTime() - (get().startTime?.getTime() || endTime.getTime());
 
+        console.log("useSessionStore: resetSession called with sessionId:", sessionId);
+
+        if (!sessionId) {
+          console.error("useSessionStore: No session ID found, cannot reset session");
+          return;
+        }
+
         try {
+          console.log("useSessionStore: Attempting to reset session in database");
           // Update the session in the database
-          const { error } = await supabase
+          const { data, error } = await supabase
             .from('sessions')
             .update({ end_time: endTime.toISOString(), total_duration: duration, status: 'completed' })
-            .eq('id', sessionId);
+            .eq('id', sessionId)
+            .select();
+
+          console.log("useSessionStore: Supabase reset data:", data);
+          console.log("useSessionStore: Supabase reset error:", error);
 
           if (error) {
             console.error("useSessionStore: Error ending session:", error);
+          } else {
+            console.log("useSessionStore: Session ended successfully in database");
           }
         } catch (error) {
           console.error("useSessionStore: Error ending session:", error);

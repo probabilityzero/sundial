@@ -29,24 +29,24 @@ module.exports = {
       },
       dashboard: {
         goalBox: {
-          minWidth: '90%', // Default minimum width for the smallest screens
-          maxWidth: '90%', // Default maximum width for the smallest screens
+          minWidth: '100%', // Default minimum width for the smallest screens
+          maxWidth: '100%', // Default maximum width for the smallest screens
           height: 'calc(100vh - 12rem - 16rem - 3.25rem)', // 12rem is header height, 16rem is session box height, 3.25rem is the margin-top
           '@media (min-width: 375px)': { // For small screens
-            minWidth: '80%',
-            maxWidth: '80%',
+            minWidth: '100%',
+            maxWidth: '100%',
           },
           '@media (min-width: 768px)': { // For medium screens
-            minWidth: '70%',
-            maxWidth: '70%',
+            minWidth: '100%',
+            maxWidth: '100%',
           },
           '@media (min-width: 1024px)': { // For large screens
-            minWidth: '60%',
-            maxWidth: '60%',
+            minWidth: '100%',
+            maxWidth: '100%',
           },
           '@media (min-width: 1280px)': { // For extra-large screens
-            minWidth: '50%',
-            maxWidth: '50%',
+            minWidth: '100%',
+            maxWidth: '100%',
           },
         },
       },
