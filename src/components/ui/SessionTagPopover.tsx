@@ -9,7 +9,7 @@ interface NewSessionTagPopoverProps {
   tagEmojis: { [key: string]: string } | undefined;
 }
 
-const NewSessionTagPopover: React.FC<NewSessionTagPopoverProps> = ({ isOpen, onClose, availableTags, onTagClick, tagEmojis }) => {
+const SessionTagPopover: React.FC<NewSessionTagPopoverProps> = ({ isOpen, onClose, availableTags, onTagClick, tagEmojis }) => {
   const tagRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -67,4 +67,4 @@ const NewSessionTagPopover: React.FC<NewSessionTagPopoverProps> = ({ isOpen, onC
   );
 };
 
-export default NewSessionTagPopover;
+export default SessionTagPopover;

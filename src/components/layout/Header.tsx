@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../../store/useSideMenu';
 import { MenuItemIcon } from '../ui/MenuItemIcon';
 import ControlPanel from './ControlPanel';
-import Timer from '../ui/Timer';
+import SessionTimer from '../ui/SessionTimer';
 import { useSessionStore } from '../../store/useSessionStore';
 import { useAuthStore } from '../../store/useAuthStore';
 import SessionTag from './SessionTag';
@@ -108,13 +108,13 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
               <MenuItemIcon onClick={handleToggleCompact} icon={<MenuIcon className="w-6 h-6" />} />
             </div>
           )}
-          <h1 className="text-xl font-semibold">{displayTitle}</h1>
+          <h1 className="text-xl">{displayTitle}</h1>
           <SessionTag />
         </div>
         <div className="flex items-center h-full">
           {isSessionActive && (
             <div className="flex-grow flex justify-end items-center space-x-2">
-              <Timer
+              <SessionTimer
                 startTime={startTime}
                 onPause={pauseSession}
                 onResume={resumeSession}

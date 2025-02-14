@@ -11,7 +11,7 @@ interface TimerProps {
   isSessionActive: boolean;
 }
 
-const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, onReset, isPaused, isSessionActive }) => {
+const SessionTimer: React.FC<TimerProps> = ({ startTime, onPause, onResume, onReset, isPaused, isSessionActive }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, onReset, is
           >
             <div className="radar-circle"></div>
           </div>
-          <span style={{ fontFamily: 'Lato, sans-serif' }}>{formatTime(elapsedTime)}</span>
+          <span style={{ fontFamily: 'Lato, sans-serif', fontSize: '14px' }}>{formatTime(elapsedTime)}</span>
           <button onClick={onPause} className="p-1 rounded-full hover:bg-gray-200">
             <RiPauseMiniFill className="w-4 h-4" />
           </button>
@@ -81,4 +81,4 @@ const Timer: React.FC<TimerProps> = ({ startTime, onPause, onResume, onReset, is
   );
 }
 
-export default Timer;
+export default SessionTimer;

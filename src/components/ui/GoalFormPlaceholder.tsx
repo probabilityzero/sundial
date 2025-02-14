@@ -29,7 +29,7 @@ export function NewGoalFormBullet({ handleAddTask }: NewGoalFormBulletProps) {
   };
 
   return (
-    <main className='px-1 gap-2 min-w-full'>
+    <main className='gap-2 min-w-full'>
       <form onSubmit={handleSubmit} className="flex items-start rounded-md relative">
         <button
           type="button"
@@ -39,20 +39,20 @@ export function NewGoalFormBullet({ handleAddTask }: NewGoalFormBulletProps) {
           <Circle className="h-6 w-6" />
         </button>
 
-        <div className="relative w-full">
+        <div className="relative ml-1 w-full">
           <motion.input
             type="text"
             id="newTaskInput"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
             placeholder="New entry..."
-            className="w-full text-gray-700 leading-tight focus:outline-none bg-transparent border-b-2 border-transparent ml-2 pr-6 pb-0.5"
+            className="w-full text-gray-700 leading-tight focus:outline-none bg-transparent border-b-2 border-transparent ml-1 pr-6 pb-0.5"
             onFocus={() => setIsEditing(true)}
             onBlur={() => setIsEditing(false)}
           />
 
           <motion.div
-            className="absolute left-0 bottom-0 h-[2px] bg-blue-500 ml-1"
+            className="absolute left-0 bottom-0 h-0.5 bg-blue-500"
             initial={{ width: '0%' }}
             animate={{ width: isEditing ? '100%' : '0%' }}
             transition={{ duration: 0.2, ease: "easeInOut" }}

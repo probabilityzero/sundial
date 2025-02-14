@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Check, Play, Loader2, Circle } from 'lucide-react';
+import { Target } from 'lucide-react';
 import { ViewGoalToday } from './ui/ViewGoalToday';
 import { useGoalsStore } from '../store/useGoalsStore';
 import { motion } from 'framer-motion';
 import { ViewGoals } from './ui/ViewGoals';
-import { NewGoalFormBullet } from './ui/NewGoalFormBulltet';
+import { NewGoalFormBullet } from './ui/GoalFormPlaceholder';
 
 export function DashboardGoal() {
   const [newTask, setNewTask] = useState('');
@@ -14,13 +14,19 @@ export function DashboardGoal() {
   const [isLoadingTasks, setIsLoadingTasks] = useState(false);
   const [showTick, setShowTick] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isAtEnd, setIsAtEnd] = useState(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       if (scrollContainerRef.current) {
-        setIsScrolled(scrollContainerRef.current.scrollTop > 0);
+        const scrollTop = scrollContainerRef.current.scrollTop;
+        const scrollHeight = scrollContainerRef.current.scrollHeight;
+        const clientHeight = scrollContainerRef.current.clientHeight;
+
+        setIsScrolled(scrollTop > 0);
+        setIsAtEnd(scrollTop + clientHeight >= scrollHeight);
       }
     };
 
@@ -64,7 +70,7 @@ export function DashboardGoal() {
         setTimeout(() => {
           setShowTick(false);
         }, 700);
-        await loadTasks(); // Reload tasks after adding a new one
+        await loadTasks();
       } catch (error) {
         console.error('DashboardPage: Failed to add task:', error);
         setTaskError('Failed to add task. Please try again later.');
@@ -92,17 +98,17 @@ export function DashboardGoal() {
   };
 
   return (
-    <div className="p-4 w-full max-w-full">
+    <div className="p-4 max-w-full  md:px-20 lg:px-60 xl:px-72 2xl:px-80">
       <main
-        className="mx-auto bg-gray-100 rounded-xl flex flex-col w-full sm:max-w-full md:max-w-9/10 lg:max-w-8/10 xl:max-w-7/10 2xl:max-w-6/10"
-        style={{
-          padding: '0.5rem',
-        }}
-      >
-        <div className={`flex justify-between border-b-2 p-2 sticky top-0 bg-gray-100 z-10 ${isScrolled ? 'shadow-sm' : ''}`}>
-          <h2 className="text-xl text-left font-semibold text-gray-800">Goals</h2>
-        </div>
+        className="bg-gray-100 p-2 rounded-xl flex flex-col sm:max-w-full md:max-w-9/10 lg:max-w-8/10 xl:max-w-7/10 2xl:max-w-6/10">
 
+        <div className={`flex justify-between p-1 sticky top-0 bg-gray-100 z-10`}>
+          <h2 className="text-2xl text-left font-semibold text-gray-800">Goals</h2>
+        </div>
+        <div className="bg-gray-300 z-11 sticky h-0.5 w-full" 
+              style={{ boxShadow: isScrolled ? '0 4px 6px rgba(0, 0, 0, 0.1)' : 'none' }} />
+
+        
         <div className="overflow-y-auto pt-2" style={{ maxHeight: 'calc(100vh - 12rem - 16rem - 3.25rem - 6rem)' }} ref={scrollContainerRef}>
           <ViewGoals
             isLoadingTasks={isLoadingTasks}
@@ -112,7 +118,12 @@ export function DashboardGoal() {
             taskItemRefs={taskItemRefs}
           />
         </div>
-        <div className={`sticky bottom-0 bg-gray-100 p-2 z-10 ${isScrolled ? 'shadow-sm' : ''}`}>
+
+        <div className="bg-gray-50 sticky top-0 z-11 h-0.5 w-full" 
+              style={{ boxShadow: isAtEnd ? 'none' : '0 4px 6px rgba(0, 0, 0, 0.1)' }} />
+        <div
+          className={`sticky bottom-0 bg-gray-100 pt-1 px-3 z-10`}
+        >
           <NewGoalFormBullet handleAddTask={handleAddTask} />
         </div>
       </main>

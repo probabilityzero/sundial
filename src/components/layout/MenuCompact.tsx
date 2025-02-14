@@ -30,7 +30,7 @@ export function MenuCompact ({ isCompact, toggleCompact, darkMode, toggleDarkMod
         backdrop-filter backdrop-blur-xl transition-transform duration-300 ease-in-out z-40 flex flex-col ${isCompact ? 'w-14' : 'w-64'}
         rounded-none shadow-md`}
     >
-      <nav className="flex-grow flex flex-col p-2">
+      <nav className="flex-grow flex flex-col items-center">
         <Link to="/" className={MenuItemClass} title="Home">
           <Tooltip text="Home" position="right">
             <div className="flex items-center justify-center">

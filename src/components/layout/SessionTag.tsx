@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import NewSessionTagPopover from '../ui/NewSessionTagPopover';
+import SessionTagPopover from '../ui/SessionTagPopover';
 import { useUserSettingsStore } from '../../store/useUserSettingsStore';
 import { useSessionStore } from '../../store/useSessionStore';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -92,7 +92,7 @@ const SessionTag: React.FC<SessionTagProps> = ({}) => {
           ref={popoverRef}
           onMouseLeave={handleMouseLeave} // Handle when mouse leaves the popover content
         >
-          <NewSessionTagPopover
+          <SessionTagPopover
             isOpen={isTagsPopoverOpen}
             onClose={() => setIsTagsPopoverOpen(false)}
             availableTags={availableTags}

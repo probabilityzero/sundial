@@ -56,7 +56,7 @@ export function Layout({ children }: LayoutProps) {
           flex-grow 
           flex 
           flex-col 
-          ${isCompactMenu ? 'ml-2' : 'ml-0'} 
+          ${isCompactMenu ? 'ml-14' : 'ml-0'} 
           transition-margin 
           duration-300
         `}

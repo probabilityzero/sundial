@@ -66,15 +66,15 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
             </div>
             <h3 className="text-center font-semibold">{getDisplayName(user) || 'User'}</h3>
           </Link>
-
-          <div className="mt-2 border-t"></div>
+          <div className="mt-2"></div>
 
           <nav className="flex flex-col">
             <MenuItemList to="/" label="Home" icon={Home} onClick={onClose} isCompact={isCompact} />
             <MenuItemList to="/calendar" label="Calendar" onClick={onClose} icon={Calendar} isCompact={isCompact} />
             <MenuItemList to="/analytics" label="History" onClick={onClose} icon={BarChart} isCompact={isCompact} />
             <MenuItemList to="/tasks" label="Tasks" onClick={onClose} icon={ListChecks} isCompact={isCompact} />
-            <hr className="border-gray-200 my-1" />
+            <div className="mt-2"></div>
+
           </nav>
         </div>
 

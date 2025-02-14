@@ -21,25 +21,29 @@ export function MenuItemList({
 }: MenuItemListProps) {
   const location = useLocation();
   const isActive = location.pathname === to;
-  const activeClass = isActive ? 'bg-gray-200' : ''; // Active background class
-  const baseClass = 'p-3 flex items-center font-semibold gap-3'; // Adjusted base class for layout
+  
+  const activeClass = isActive
+    ? 'bg-gray-100 text-blue-600'
+    : 'hover:bg-gray-200 hover:text-gray-900'; // Active background and text color
+  
+  const baseClass =
+    'flex p-2 items-center rounded-lg gap-4 transition duration-200 ease-in-out'; // Rounded corners and smooth transitions
 
   return (
-    <motion.div
-      style={{ backgroundColor: 'white', color: 'black' }}
-      whileHover={{
-        color: '#3b82f6',
-        backgroundColor: '#f3f4f6',
-      }}
-      transition={{ backgroundColor: { duration: 0.2 } }}
+    <motion.div className="hover:scale-105 px-3 py-1 transform transition"
+    transition={{
+      type: "spring",
+      stiffness: 300,
+      damping: 20,
+    }}
     >
       <Link
         to={to}
         className={`${baseClass} ${activeClass}`}
         onClick={onClick}
       >
-        {Icon && <Icon className="w-6 h-6 stroke-[1]" />}
-        {!isCompact && <span>{label}</span>}
+        {Icon && <Icon className="w-5 h-5 stroke-[2]" />}
+        {!isCompact && <span className="font-medium">{label}</span>}
       </Link>
     </motion.div>
   );

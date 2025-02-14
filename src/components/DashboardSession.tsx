@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { NewSessionTitle } from './ui/NewSessionTitle';
+import { SessionTitle } from './ui/SessionTitle';
 import { useSessionStore } from '../store/useSessionStore';
 
 interface SessionCardProps {}
 
 export function DashboardSession({}: SessionCardProps) {
-  const { isSessionActive, resumeSession, isPaused, sessionName, setSessionName, startSession, tag } = useSessionStore();
+  const { 
+    isSessionActive, 
+    resumeSession, 
+    isPaused, 
+    sessionName, 
+    setSessionName, 
+    startSession, 
+    tag 
+  } = useSessionStore();
+  
   const [defaultSessionName, setDefaultSessionName] = useState(getDefaultSessionName());
 
   React.useEffect(() => {
@@ -16,6 +25,7 @@ export function DashboardSession({}: SessionCardProps) {
   function getDefaultSessionName() {
     const currentHour = new Date().getHours();
     let timeOfDay = "";
+    
     if (currentHour >= 5 && currentHour < 12) {
       timeOfDay = "Morning";
     } else if (currentHour >= 12 && currentHour < 17) {
@@ -43,7 +53,7 @@ export function DashboardSession({}: SessionCardProps) {
   };
 
   return (
-    <motion.div
+    <motion.main
       className="flex flex-col items-center p-8 pb-4 w-full"
       initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
@@ -55,16 +65,14 @@ export function DashboardSession({}: SessionCardProps) {
         transition={{ duration: 0.3, ease: "easeOut" }}
         onClick={handleStartSessionClick}
       >
-        {/* Circle content or icon can go here */}
+        {/* Circle content */}
       </motion.div>
-      <motion.div
-        className="text-center p-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <NewSessionTitle title={sessionName || defaultSessionName} onSave={handleSaveSessionName} />
-      </motion.div>
-    </motion.div>
+      <div className="transform-none">
+        <SessionTitle 
+          title={sessionName || defaultSessionName} 
+          onSave={handleSaveSessionName} 
+        />
+      </div>
+    </motion.main>
   );
 }
