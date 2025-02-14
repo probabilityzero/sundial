@@ -30,7 +30,7 @@ export function MenuItemList({
     'flex p-2 items-center rounded-lg gap-4 transition duration-200 ease-in-out'; // Rounded corners and smooth transitions
 
   return (
-    <motion.div className="hover:scale-105 px-3 py-1 transform transition"
+    <motion.div className="px-3 py-1 transform transition"
     transition={{
       type: "spring",
       stiffness: 300,

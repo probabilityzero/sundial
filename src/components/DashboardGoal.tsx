@@ -98,7 +98,7 @@ export function DashboardGoal() {
   };
 
   return (
-    <div className="p-4 max-w-full  md:px-20 lg:px-60 xl:px-72 2xl:px-80">
+    <div className="p-4 max-w-full  md:px-20 lg:px-80 xl:px-80 2xl:px-80">
       <main
         className="bg-gray-100 p-2 rounded-xl flex flex-col sm:max-w-full md:max-w-9/10 lg:max-w-8/10 xl:max-w-7/10 2xl:max-w-6/10">
 
@@ -106,7 +106,7 @@ export function DashboardGoal() {
           <h2 className="text-2xl text-left font-semibold text-gray-800">Goals</h2>
         </div>
         <div className="bg-gray-300 z-11 sticky h-0.5 w-full" 
-              style={{ boxShadow: isScrolled ? '0 4px 6px rgba(0, 0, 0, 0.1)' : 'none' }} />
+              style={{ boxShadow: isScrolled ? '0 4px 6px rgba(0, 0, 0, 0.2)' : 'none' }} />
 
         
         <div className="overflow-y-auto pt-2" style={{ maxHeight: 'calc(100vh - 12rem - 16rem - 3.25rem - 6rem)' }} ref={scrollContainerRef}>
@@ -119,7 +119,7 @@ export function DashboardGoal() {
           />
         </div>
 
-        <div className="bg-gray-50 sticky top-0 z-11 h-0.5 w-full" 
+        <div className="sticky top-0 z-11 h-0.5 w-full" 
               style={{ boxShadow: isAtEnd ? 'none' : '0 4px 6px rgba(0, 0, 0, 0.1)' }} />
         <div
           className={`sticky bottom-0 bg-gray-100 pt-1 px-3 z-10`}

@@ -54,13 +54,13 @@ export function DashboardSession({}: SessionCardProps) {
 
   return (
     <motion.main
-      className="flex flex-col items-center p-8 pb-4 w-full"
+      className="flex flex-col items-center p-4 w-full"
       initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <motion.div
-        className="h-64 w-64 rounded-full bg-blue-200 m-4 shadow-md flex items-center justify-center cursor-pointer"
+        className="h-64 w-64 rounded-full bg-blue-200 m-6 shadow-md flex items-center justify-center cursor-pointer"
         whileHover={{ scale: 1.1 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
         onClick={handleStartSessionClick}
