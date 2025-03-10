@@ -11,7 +11,7 @@ interface LayoutProps {
 }
 
 const PAGE_TITLES: Record<string, string> = {
-  '/': 'Session',
+  '/': 'Dashboard',
   '/tasks': 'Tasks',
   '/calendar': 'Calendar',
   '/report': 'Report',
@@ -27,7 +27,7 @@ export function Layout({ children }: LayoutProps) {
 
   const toggleCompactMenu = () => setIsCompactMenu(prev => !prev);
   const toggleDarkMode = () => setDarkMode(prev => !prev);
-  const pageTitle = PAGE_TITLES[location.pathname] || 'Session';
+  const pageTitle = PAGE_TITLES[location.pathname] || 'Dashboard';
 
   return (
     <main className="min-h-screen bg-gray-50 flex">

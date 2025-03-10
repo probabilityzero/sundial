@@ -31,9 +31,9 @@ function Auth() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 w-full h-full">
       {loading ? (
-        <div>Loading...</div>
+        <div> </div>
       ) : (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div> </div>}>
           <AuthForm onSubmit={handleSubmit} />
         </Suspense>
       )}

@@ -45,7 +45,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
     }
   };
 
-  const displayTitle = isDashboard ? 'Session' : pageTitle;
+  const displayTitle = isDashboard ? 'Sundial' : pageTitle;
 
   useEffect(() => {
     // Reset transformation on page change
@@ -108,7 +108,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
               <MenuItemIcon onClick={handleToggleCompact} icon={<MenuIcon className="w-6 h-6" />} />
             </div>
           )}
-          <h1 className="text-xl">{displayTitle}</h1>
+          <h1 className="text-xl font-medium">{displayTitle}</h1>
           <SessionTag />
         </div>
         <div className="flex items-center h-full">
