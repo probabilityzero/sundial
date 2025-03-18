@@ -14,10 +14,10 @@ function HomePage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-        <div className="w-full flex justify-center">
+        <div className="w-full max-w-7xl mx-auto px-4 flex justify-center">
         <DashboardSession />
         </div>
-        <div className="w-full">
+        <div className="w-full max-w-7xl mx-auto px-4">
         <DashboardGoal />
         </div>
     </motion.div>

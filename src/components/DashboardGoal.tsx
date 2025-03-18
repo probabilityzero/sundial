@@ -98,7 +98,6 @@ export function DashboardGoal() {
   };
 
   return (
-    <div className="p-4 max-w-full  md:px-20 lg:px-80 xl:px-80 2xl:px-80">
       <main
         className="bg-gray-100 p-2 rounded-xl flex flex-col sm:max-w-full md:max-w-9/10 lg:max-w-8/10 xl:max-w-7/10 2xl:max-w-6/10">
 
@@ -127,6 +126,5 @@ export function DashboardGoal() {
           <NewGoalFormBullet handleAddTask={handleAddTask} />
         </div>
       </main>
-    </div>
   );
 }
