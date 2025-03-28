@@ -2,7 +2,7 @@ import React from 'react';
 import { Header } from './Header';
 import { Menu } from './Menu';
 import { MenuCompact } from './MenuCompact';
-import { useSideMenu } from '../../store/useSideMenu';
+import { useSideMenu } from '../store/useSideMenu';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -30,7 +30,7 @@ export function Layout({ children }: LayoutProps) {
   const pageTitle = PAGE_TITLES[location.pathname] || 'Dashboard';
 
   return (
-    <main className="min-h-screen bg-gray-50 flex">
+    <main className="min-h-dvh bg-gray-50 flex">
       {/* Menu Components */}
       {isCompactMenu ? (
         <MenuCompact

@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Target } from 'lucide-react';
-import { ViewGoalToday } from './ui/ViewGoalToday';
 import { useGoalsStore } from '../store/useGoalsStore';
-import { motion } from 'framer-motion';
 import { ViewGoals } from './ui/ViewGoals';
 import { NewGoalFormBullet } from './ui/GoalFormPlaceholder';
 
@@ -80,7 +77,7 @@ export function DashboardGoal() {
     }
   };
 
-  const handleStartTask = async (taskId: string, index: number) => {
+  const handleStartTask = async (taskId: string) => {
     try {
       await updateTaskStatus(taskId, 'started');
     } catch (error) {

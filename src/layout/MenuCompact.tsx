@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Moon, LayoutList, User as UserIcon, Calendar, BarChart, ListChecks, Settings as SettingIcon, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuItemIcon } from '../ui/MenuItemIcon';
-import { MenuItemIconSecondary } from '../ui/MenuItemIconSecondary';
-import { useAuthStore } from '../../store/useAuthStore';
-import { getAvatarUrl } from '../../utils/user-helpers';
-import Tooltip from '../ui/Tooltip'; // Import Tooltip
+import { MenuItemIcon } from '../components/ui/MenuItemIcon';
+import { MenuItemIconSecondary } from '../components/ui/MenuItemIconSecondary';
+import { useAuthStore } from '../store/useAuthStore';
+import { getAvatarUrl } from '../utils/user-helpers';
+import Tooltip from '../components/ui/Tooltip'; // Import Tooltip
 
 interface MenuCompactProps {
   isCompact: boolean;

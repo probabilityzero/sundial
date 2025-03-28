@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import SessionTagPopover from '../ui/SessionTagPopover';
-import { useUserSettingsStore } from '../../store/useUserSettingsStore';
-import { useSessionStore } from '../../store/useSessionStore';
-import { useAuthStore } from '../../store/useAuthStore';
+import SessionTagPopover from '../components/ui/SessionTagPopover';
+import { useUserSettingsStore } from '../store/useUserSettingsStore';
+import { useSessionStore } from '../store/useSessionStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 interface SessionTagProps {}
 

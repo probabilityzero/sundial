@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Menu as MenuIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useSideMenu } from '../../store/useSideMenu';
-import { MenuItemIcon } from '../ui/MenuItemIcon';
+import { useSideMenu } from '../store/useSideMenu';
+import { MenuItemIcon } from '../components/ui/MenuItemIcon';
 import ControlPanel from './ControlPanel';
-import SessionTimer from '../ui/SessionTimer';
-import { useSessionStore } from '../../store/useSessionStore';
-import { useAuthStore } from '../../store/useAuthStore';
+import SessionTimer from '../components/ui/SessionTimer';
+import { useSessionStore } from '../store/useSessionStore';
+import { useAuthStore } from '../store/useAuthStore';
 import SessionTag from './SessionTag';
 import { motion } from 'framer-motion';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Layout } from './components/layout/Layout';
+import { Layout } from './layout/Layout';
 import { useAuthStore } from './store/useAuthStore';
 import { supabase } from './lib/supabase';
 
@@ -59,7 +59,7 @@ function App() {
 
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div></div>}>
         <Routes>
           {/* Auth route without Layout */}
           <Route path="/auth" element={<Auth />} />

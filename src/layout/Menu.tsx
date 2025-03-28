@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, User as UserIcon, Calendar, ListChecks, Settings as SettingIcon, BarChart, Moon, PanelRightOpen, Home } from 'lucide-react';
-import { MenuItemList } from '../ui/MenuItemList';
-import { MenuItemIcon } from '../ui/MenuItemIcon';
+import { MenuItemList } from '../components/ui/MenuItemList';
+import { MenuItemIcon } from '../components/ui/MenuItemIcon';
 import { motion } from 'framer-motion';
-import { MenuItemIconSecondary } from '../ui/MenuItemIconSecondary';
-import { useAuthStore } from '../../store/useAuthStore'; // Import useAuthStore
-import { getDisplayName, getAvatarUrl } from '../../utils/user-helpers'; // Import helper functions
+import { MenuItemIconSecondary } from '../components/ui/MenuItemIconSecondary';
+import { useAuthStore } from '../store/useAuthStore'; // Import useAuthStore
+import { getDisplayName, getAvatarUrl } from '../utils/user-helpers'; // Import helper functions
 
 interface MenuProps {
   isOpen: boolean;

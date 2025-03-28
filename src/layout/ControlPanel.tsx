@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PanelsTopLeft, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import CircleColorSettings from '../ui/ControlPanelBackground';
-import ControlPanelTags from '../ui/ControlPanelTags';
-import CalendarComponent from '../ui/ControlPanelCalendar';
-import ControlPanelNavbar from '../ui/ControlPanelNavbar';
-import { useUserSettingsStore } from '../../store/useUserSettingsStore';
-import { useAuthStore } from '../../store/useAuthStore';
-import ControlPanelRecommended from '../ui/ControlPanelRecommended';
+import CircleColorSettings from '../components/ui/ControlPanelBackground';
+import ControlPanelTags from '../components/ui/ControlPanelTags';
+import CalendarComponent from '../components/ui/ControlPanelCalendar';
+import ControlPanelNavbar from '../components/ui/ControlPanelNavbar';
+import { useUserSettingsStore } from '../store/useUserSettingsStore';
+import { useAuthStore } from '../store/useAuthStore';
+import ControlPanelRecommended from '../components/ui/ControlPanelRecommended';
 
 interface ControlPanelProps {
   onBackClick?: () => void; // Add onBackClick prop

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Calendar as CalendarIcon } from 'lucide-react';
 
 function Calendar() {
@@ -8,7 +7,7 @@ function Calendar() {
         <h2 className="text-2xl font-bold text-gray-900">Calendar</h2>
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="rounded-lg shadow p-6">
         <div className="text-center p-12">
           <CalendarIcon className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-2 text-sm font-semibold text-gray-900">Calendar View Coming Soon</h3>

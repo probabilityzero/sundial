@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Lock, User as UserIcon } from 'lucide-react';
 import { FaGoogle, FaGithub, FaDiscord, FaApple } from 'react-icons/fa';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 interface AuthFormProps {
   onSubmit: (email: string, password?: string, name?: string) => Promise<void>;
