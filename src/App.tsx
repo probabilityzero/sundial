@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Layout } from './layout/Layout';
 import { useAuthStore } from './store/useAuthStore';
 import { supabase } from './lib/supabase';
+import { ThemeProvider } from './providers/ThemeProvider';
 
 // Lazy load pages
 const Auth = lazy(() => import('./app/Auth'));
+const Welcome = lazy(() => import('./app/Welcome'));
 const HomePage = lazy(() => import('./app/Home'));
 const CalendarPage = lazy(() => import('./app/Calendar'));
-const AnalyticsPage = lazy(() => import('./app/Report'));
+const HistoryPage = lazy(() => import('./app/History'));
 const SettingsPage = lazy(() => import('./app/Settings'));
 const ProfilePage = lazy(() => import('./app/Profile'));
 const TasksPage = lazy(() => import('./app/Tasks'));
@@ -36,7 +38,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }
   
   if (!user) {
-    return <Navigate to="/auth" />;
+    return <Navigate to="/welcome" />;
   }
 
   return <Layout>{children}</Layout>;
@@ -115,24 +117,27 @@ function App() {
   }
 
   return (
-    <Router>
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          {/* Auth route without Layout */}
-          <Route path="/auth" element={<Auth />} />
-          
-          {/* Protected Routes with Layout */}
-          <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-          <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
-          <Route path="/analytics" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
-          <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
-          <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
-          
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Suspense>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/welcome" element={<Welcome />} />
+            <Route path="/auth" element={<Auth />} />
+            
+            {/* Protected Routes with Layout */}
+            <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
+            <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
+            <Route path="/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+            
+            <Route path="*" element={<Navigate to="/welcome" />} />
+          </Routes>
+        </Suspense>
+      </Router>
+    </ThemeProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
 import { Menu } from './Menu';
 import { MenuCompact } from './MenuCompact';
@@ -14,7 +14,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/': 'Dashboard',
   '/tasks': 'Tasks',
   '/calendar': 'Calendar',
-  '/report': 'Report',
+  '/analytics': 'Analytics',
   '/profile': 'Profile',
   '/settings': 'Settings',
 };
@@ -22,15 +22,30 @@ const PAGE_TITLES: Record<string, string> = {
 export function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const { isMenuOpen, closeMenu } = useSideMenu();
-  const [isCompactMenu, setIsCompactMenu] = React.useState(false);
-  const [darkMode, setDarkMode] = React.useState(false);
+  const [isCompactMenu, setIsCompactMenu] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  
+  // Check system preferences for dark mode on initial load
+  useEffect(() => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setDarkMode(prefersDark);
+    document.body.classList.toggle('dark-theme', prefersDark);
+  }, []);
 
   const toggleCompactMenu = () => setIsCompactMenu(prev => !prev);
-  const toggleDarkMode = () => setDarkMode(prev => !prev);
+  
+  const toggleDarkMode = () => {
+    setDarkMode(prev => {
+      const newMode = !prev;
+      document.body.classList.toggle('dark-theme', newMode);
+      return newMode;
+    });
+  };
+  
   const pageTitle = PAGE_TITLES[location.pathname] || 'Dashboard';
 
   return (
-    <main className="min-h-dvh bg-gray-50 flex">
+    <div className="min-h-dvh bg-background text-text-primary flex">
       {/* Menu Components */}
       {isCompactMenu ? (
         <MenuCompact
@@ -38,6 +53,7 @@ export function Layout({ children }: LayoutProps) {
           toggleCompact={toggleCompactMenu}
           darkMode={darkMode}
           toggleDarkMode={toggleDarkMode}
+          onClose={closeMenu} // Add this missing prop
         />
       ) : (
         <Menu
@@ -51,30 +67,35 @@ export function Layout({ children }: LayoutProps) {
       )}
 
       {/* Main Content Area */}
-      <div
-        className={`
-          flex-grow 
-          flex 
-          flex-col 
-          ${isCompactMenu ? 'ml-14' : 'ml-0'} 
-          transition-margin 
-          duration-300
-        `}
+      <motion.div
+        className="flex-grow flex flex-col"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        style={{ 
+          marginLeft: isCompactMenu ? '4rem' : '0' 
+        }}
       >
         <Header 
           pageTitle={pageTitle} 
           isCompact={isCompactMenu} 
           toggleCompactMenu={toggleCompactMenu} 
         />
-        <main>
-          <div className="mt-12">
+        <main className="mt-14 p-4 md:p-6">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+          >
             {children}
-          </div>
+          </motion.div>
         </main>
-      </div>
+      </motion.div>
 
       {/* Overlay */}
-      {isMenuOpen && (
+      {isMenuOpen && !isCompactMenu && (
         <motion.div
           className="fixed w-full h-full bg-black opacity-25 z-40"
           initial={{ opacity: 0 }}
@@ -84,6 +105,6 @@ export function Layout({ children }: LayoutProps) {
           onClick={closeMenu}
         />
       )}
-    </main>
+    </div>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { BarChart, Clock, Calendar } from 'lucide-react';
 import { StatCard } from '../components/ui/StatCard';
 
-function Analytics() {
+function HistoryPage() {
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -41,4 +41,4 @@ function Analytics() {
   );
 }
 
-export default Analytics;
+export default HistoryPage;

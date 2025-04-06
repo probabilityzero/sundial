@@ -8,7 +8,6 @@ interface MenuItemListProps {
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   onClick?: () => void;
   isCompact?: boolean;
-  darkMode?: boolean;
 }
 
 export function MenuItemList({
@@ -17,32 +16,32 @@ export function MenuItemList({
   icon: Icon,
   onClick,
   isCompact,
-  darkMode,
 }: MenuItemListProps) {
   const location = useLocation();
   const isActive = location.pathname === to;
   
-  const activeClass = isActive
-    ? 'bg-gray-100 text-blue-600'
-    : 'hover:bg-gray-200 hover:text-gray-900'; // Active background and text color
-  
-  const baseClass =
-    'flex p-2 items-center rounded-lg gap-4 transition duration-200 ease-in-out'; // Rounded corners and smooth transitions
-
   return (
-    <motion.div className="px-3 py-1 transform transition"
-    transition={{
-      type: "spring",
-      stiffness: 300,
-      damping: 20,
-    }}
+    <motion.div 
+      className="px-2 py-1"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{
+        type: "spring",
+        stiffness: 500,
+        damping: 30,
+      }}
     >
       <Link
         to={to}
-        className={`${baseClass} ${activeClass}`}
+        className={`
+          flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
+          ${isActive 
+            ? 'bg-primary bg-opacity-10 text-primary' 
+            : 'text-text-secondary hover:bg-background hover:text-text-primary'}
+        `}
         onClick={onClick}
       >
-        {Icon && <Icon className="w-5 h-5 stroke-[2]" />}
+        {Icon && <Icon className={`w-5 h-5 ${isActive ? 'text-primary' : ''}`} />}
         {!isCompact && <span className="font-medium">{label}</span>}
       </Link>
     </motion.div>

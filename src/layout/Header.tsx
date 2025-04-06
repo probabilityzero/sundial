@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Menu as MenuIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSideMenu } from '../store/useSideMenu';
-import { MenuItemIcon } from '../components/ui/MenuItemIcon';
-import ControlPanel from './ControlPanel';
 import SessionTimer from '../components/ui/SessionTimer';
 import { useSessionStore } from '../store/useSessionStore';
 import { useAuthStore } from '../store/useAuthStore';
 import SessionTag from './SessionTag';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import ControlPanel from './ControlPanel';
 
 interface HeaderProps {
   pageTitle: string;
@@ -21,17 +20,15 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const location = useLocation();
   const isDashboard = location.pathname === '/';
   const { toggleMenu } = useSideMenu();
-  const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime, resetSession: onReset } = useSessionStore();
-  const { user } = useAuthStore(); // Get user from AuthStore
-  const cornericon = 'w-14 h-12 flex items-center justify-center px-2';
-
-  const [isTransforming, setIsTransforming] = useState(false); // Track transformation state
+  const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime } = useSessionStore();
+  const { user } = useAuthStore();
+  const [isTransforming, setIsTransforming] = useState(false);
 
   const handleBackClick = () => {
-    setIsTransforming(true); // Start the transformation
+    setIsTransforming(true);
     setTimeout(() => {
-      navigate('/'); // After rotation, navigate to the home page
-    }, 300); // Wait for the transformation to complete before navigation
+      navigate('/');
+    }, 300);
   };
 
   const handleToggleCompact = () => {
@@ -48,82 +45,89 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const displayTitle = isDashboard ? 'Sundial' : pageTitle;
 
   useEffect(() => {
-    // Reset transformation on page change
-    setIsTransforming(false); // Reset transformation state
+    setIsTransforming(false);
   }, [location]);
 
   return (
-    <header className="backdrop-filter backdrop-blur-md shadow-sm fixed top-0 left-0 w-full z-30">
-      <div className="w-full h-12 flex items-center justify-between relative">
-        <div className="flex items-center h-full" style={{ minWidth: '3.5rem' }}>
+    <header className="fixed top-0 left-0 w-full backdrop-blur-md bg-background bg-opacity-80 border-b border-border z-30">
+      <div className="w-full h-14 flex items-center justify-between px-4">
+        <div className="flex items-center gap-3">
           {!isCompact ? (
             !isDashboard ? (
-              <div className={cornericon}>
-                <MenuItemIcon onClick={handleBackClick} icon={
+              <motion.button
+                onClick={handleBackClick}
+                className="w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface transition-all duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.div
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: isTransforming ? 180 : 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="relative w-5 h-5"
+                >
                   <motion.div
-                    initial={{ rotate: 0 }}
-                    animate={{
-                      rotate: isTransforming ? 180 : 0, // Rotate the arrow to 180 degrees when transforming
-                    }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }} // Quick rotation transition
-                    className="relative w-6 h-6"
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: isTransforming ? 0 : 1 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    {/* ArrowLeft icon */}
-                    <motion.svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-6 h-6"
-                      initial={{ opacity: 1 }}
-                      animate={{
-                        opacity: isTransforming ? 0 : 1, // Fade out ArrowLeft when transforming
-                        rotate: isTransforming ? 180 : 0, // Rotate it to 180 degrees
-                      }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ArrowLeft />
-                    </motion.svg>
-
-                    {/* MenuIcon, initially hidden */}
-                    <motion.svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="absolute top-0 left-0 w-6 h-6"
-                      initial={{ opacity: 0, rotate: -180 }} // Start MenuIcon hidden and rotated
-                      animate={{
-                        opacity: isTransforming ? 1 : 0, // Fade in MenuIcon after rotation
-                        rotate: isTransforming ? 0 : -180, // Rotate it to 0 when visible
-                      }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <MenuIcon />
-                    </motion.svg>
+                    <ArrowLeft className="w-5 h-5 absolute" />
                   </motion.div>
-                } />
-              </div>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: isTransforming ? 1 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <MenuIcon className="w-5 h-5 absolute" />
+                  </motion.div>
+                </motion.div>
+              </motion.button>
             ) : (
-              <div className={cornericon}>
-                <MenuItemIcon onClick={handleToggleCompact} icon={<MenuIcon className="w-6 h-6" />} />
-              </div>
+              <motion.button
+                onClick={handleToggleCompact}
+                className="w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface transition-all duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <MenuIcon className="w-5 h-5" />
+              </motion.button>
             )
           ) : (
-            <div className={cornericon}>
-              <MenuItemIcon onClick={handleToggleCompact} icon={<MenuIcon className="w-6 h-6" />} />
-            </div>
+            <motion.button
+              onClick={handleToggleCompact}
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface transition-all duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <MenuIcon className="w-5 h-5" />
+            </motion.button>
           )}
-          <h1 className="text-xl font-medium">{displayTitle}</h1>
-          <SessionTag />
+          <h1 className="text-xl font-semibold text-text-primary">{displayTitle}</h1>
+          <AnimatePresence>
+            {isSessionActive && <SessionTag />}
+          </AnimatePresence>
         </div>
-        <div className="flex items-center h-full">
-          {isSessionActive && (
-            <div className="flex-grow flex justify-end items-center space-x-2">
-              <SessionTimer
-                startTime={startTime}
-                onPause={pauseSession}
-                onResume={resumeSession}
-                onReset={onReset}
-                isPaused={isPaused}
-                isSessionActive={isSessionActive}
-              />
-            </div>
-          )}
+        <div className="flex items-center gap-4">
+          <AnimatePresence>
+            {isSessionActive && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.2 }}
+              >
+                <SessionTimer
+                  startTime={startTime}
+                  onPause={pauseSession}
+                  onResume={resumeSession}
+                  onReset={resetSession}
+                  isPaused={isPaused}
+                  isSessionActive={isSessionActive}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
           {user && <ControlPanel />}
         </div>
       </div>
