@@ -38,10 +38,10 @@ function AuthForm({ onSubmit }: AuthFormProps) {
   return (
     <div className="max-w-md w-full space-y-8">
       <div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sundial
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-text-primary">
+          Sol
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
+        <p className="mt-2 text-center text-sm text-text-secondary">
           {isSignUp ? 'Create a new account' : 'Sign in to track sessions and tasks'}
         </p>
       </div>
@@ -49,35 +49,44 @@ function AuthForm({ onSubmit }: AuthFormProps) {
       <div className="flex justify-center space-x-4">
         <button
           type="button"
-          className="rounded-full p-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="rounded-full p-2 hover:bg-surface focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           onClick={() => handleOAuthSignIn('google')}
         >
-          <FaGoogle className="h-6 w-6 text-gray-900" aria-hidden="true" />
+          <FaGoogle className="h-6 w-6 text-text-primary" aria-hidden="true" />
         </button>
 
         <button
           type="button"
-          className="rounded-full p-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="rounded-full p-2 hover:bg-surface focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           onClick={() => handleOAuthSignIn('github')}
         >
-          <FaGithub className="h-6 w-6 text-gray-900" aria-hidden="true" />
+          <FaGithub className="h-6 w-6 text-text-primary" aria-hidden="true" />
         </button>
 
         <button
           type="button"
-          className="rounded-full p-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="rounded-full p-2 hover:bg-surface focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           onClick={() => handleOAuthSignIn('discord')}
         >
-          <FaDiscord className="h-6 w-6 text-gray-900" aria-hidden="true" />
+          <FaDiscord className="h-6 w-6 text-text-primary" aria-hidden="true" />
         </button>
 
         <button
           type="button"
-          className="rounded-full p-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="rounded-full p-2 hover:bg-surface focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           onClick={() => handleOAuthSignIn('apple')}
         >
-          <FaApple className="h-6 w-6 text-gray-900" aria-hidden="true" />
+          <FaApple className="h-6 w-6 text-text-primary" aria-hidden="true" />
         </button>
+      </div>
+
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-border"></div>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="px-2 bg-background text-text-secondary">Or continue with</span>
+        </div>
       </div>
 
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -89,7 +98,7 @@ function AuthForm({ onSubmit }: AuthFormProps) {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <UserIcon className="h-5 w-5 text-gray-400" />
+                  <UserIcon className="h-5 w-5 text-text-tertiary" />
                 </div>
                 <input
                   id="name"
@@ -97,7 +106,7 @@ function AuthForm({ onSubmit }: AuthFormProps) {
                   type="text"
                   autoComplete="name"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-border placeholder-text-tertiary text-text-primary rounded-t-md bg-surface focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                   placeholder="Your Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -111,7 +120,7 @@ function AuthForm({ onSubmit }: AuthFormProps) {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="h-5 w-5 text-gray-400" />
+                <Mail className="h-5 w-5 text-text-tertiary" />
               </div>
               <input
                 id="email-address"
@@ -119,7 +128,7 @@ function AuthForm({ onSubmit }: AuthFormProps) {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className={`appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-border placeholder-text-tertiary text-text-primary ${isSignUp ? '' : 'rounded-t-md'} bg-surface focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm`}
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -132,7 +141,7 @@ function AuthForm({ onSubmit }: AuthFormProps) {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="h-5 w-5 text-gray-400" />
+                <Lock className="h-5 w-5 text-text-tertiary" />
               </div>
               <input
                 id="password"
@@ -140,7 +149,7 @@ function AuthForm({ onSubmit }: AuthFormProps) {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-border placeholder-text-tertiary text-text-primary rounded-b-md bg-surface focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -149,18 +158,42 @@ function AuthForm({ onSubmit }: AuthFormProps) {
           </div>
         </div>
 
+        <div className="flex items-center justify-between">
+          {!isSignUp && (
+            <div className="flex items-center">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                className="h-4 w-4 text-primary focus:ring-primary border-border rounded bg-surface"
+              />
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-text-secondary">
+                Remember me
+              </label>
+            </div>
+          )}
+
+          {!isSignUp && (
+            <div className="text-sm">
+              <a href="#" className="font-medium text-primary hover:text-primary-dark">
+                Forgot your password?
+              </a>
+            </div>
+          )}
+        </div>
+
         <div>
           <button
             type="submit"
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-primary-contrast bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           >
             {isSignUp ? 'Create a new account' : 'Sign in'}
           </button>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center">
           <button
             type="button"
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+            className="inline-block align-baseline font-medium text-sm text-primary hover:text-primary-dark transition-colors"
             onClick={() => setIsSignUp(!isSignUp)}
           >
             {isSignUp ? 'Already have an account? Sign in here' : "Create a new account"}

@@ -37,22 +37,19 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
     { path: '/insights', label: 'Insights', icon: Sparkles },
   ];
 
+  // Only close menu on navigation for mobile or when explicitly clicking a link
   useEffect(() => {
-    // Close the menu if the user navigates
-    if (isOpen && !isCompact) {
-      onClose();
-    }
-    
-    // Close settings popup when navigating away
+    // Only close settings popup when navigating away
     if (isSettingsOpen) {
       setIsSettingsOpen(false);
     }
-  }, [location, isOpen, onClose, isCompact, isSettingsOpen]);
+  }, [location, isSettingsOpen]);
 
   // Function to handle logout
   const handleLogout = async () => {
     try {
       await signOut();
+      onClose(); // Close menu after logout
     } catch (error) {
       console.error('Error signing out:', error);
     }
@@ -73,6 +70,25 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
   const handleSettingsPopupClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
+
+  // Conditionally include the header section for the full menu
+  const renderFullMenuHeader = () => (
+    <div className="p-4 flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 rounded-full bg-primary bg-opacity-10 flex items-center justify-center">
+          <span className="text-primary font-bold text-lg">S</span>
+        </div>
+        <h2 className="font-semibold text-text-primary">Sundial</h2>
+      </div>
+      <button 
+        onClick={onClose}
+        className="w-8 h-8 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 transition-all duration-200"
+        aria-label="Close menu"
+      >
+        <X className="w-5 h-5" />
+      </button>
+    </div>
+  );
 
   return (
     <>
@@ -149,7 +165,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
             })}
           </nav>
           
-          {/* Controls at bottom, Justifed to corners */}
+          {/* Controls at bottom, Justified to corners */}
           <div className="mt-auto flex flex-col items-center gap-3 pt-4">
             <div className="flex w-full justify-between px-3">
               <Tooltip text={darkMode ? "Light Mode" : "Dark Mode"} position="right">
@@ -199,6 +215,9 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >  
+            {/* Header section */}
+            {renderFullMenuHeader()}
+            
             {/* User Profile - Enhanced and bigger */}
             <div className="px-4 py-5 border-b border-border">
               <Link to="/profile" className="flex flex-col items-center" onClick={onClose}>
@@ -269,6 +288,15 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
                   <Settings className="w-5 h-5" />
                 </Link>
               </div>
+              
+              {/* Logout Button */}
+              <button 
+                onClick={handleLogout}
+                className="w-full flex items-center justify-center gap-2 px-3 py-2 mt-3 rounded-lg text-error hover:bg-error/10 transition-all duration-200"
+              >
+                <LogOut className="w-5 h-5" />
+                <span className="font-medium">Log out</span>
+              </button>
             </div>
           </motion.div>
         )}

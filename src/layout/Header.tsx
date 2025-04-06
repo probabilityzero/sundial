@@ -19,7 +19,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
   const navigate = useNavigate();
   const location = useLocation();
   const isDashboard = location.pathname === '/';
-  const { toggleMenu } = useSideMenu();
+  const { toggleMenu, openMenu } = useSideMenu(); // Make sure openMenu is available
   const { pauseSession, resumeSession, resetSession, isSessionActive, isPaused, startTime } = useSessionStore();
   const { user } = useAuthStore();
   const [isTransforming, setIsTransforming] = useState(false);
@@ -33,16 +33,16 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
 
   const handleToggleCompact = () => {
     if (isCompact) {
-      toggleMenu();
+      toggleCompactMenu(); // First switch to full menu
       setTimeout(() => {
-        toggleCompactMenu();
-      }, 200);
+        openMenu(); // Then open the menu
+      }, 50);
     } else {
-      toggleMenu();
+      toggleMenu(); // Toggle menu visibility
     }
   };
 
-  const displayTitle = isDashboard ? 'Sundial' : pageTitle;
+  const displayTitle = pageTitle;
 
   useEffect(() => {
     setIsTransforming(false);
@@ -89,6 +89,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
                 className="w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface transition-all duration-200"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                aria-label="Toggle menu"
               >
                 <MenuIcon className="w-5 h-5" />
               </motion.button>
@@ -99,6 +100,7 @@ export function Header({ pageTitle, isCompact, toggleCompactMenu }: HeaderProps)
               className="w-9 h-9 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface transition-all duration-200"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              aria-label="Toggle menu"
             >
               <MenuIcon className="w-5 h-5" />
             </motion.button>
