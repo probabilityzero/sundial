@@ -25,7 +25,7 @@ const LoadingFallback = () => (
     width: '100vw',
     backgroundColor: 'var(--color-background)'
   }}>
-    <p style={{ color: 'var(--color-text-primary)' }}>Loading...</p>
+    <p style={{ color: 'var(--color-text-primary)' }}></p>
   </div>
 );
 
@@ -105,7 +105,6 @@ function App() {
             padding: '8px 16px',
             backgroundColor: 'var(--color-primary)',
             color: 'var(--color-primary-contrast)',
-            border: 'none',
             borderRadius: 'var(--radius-md)',
             cursor: 'pointer'
           }}

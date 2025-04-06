@@ -186,11 +186,11 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
         </div>
       )}
 
-      {/* Full Menu - Transparent background */}
+      {/* Full Menu with background color */}
       <AnimatePresence>
         {(!isCompact || isOpen) && !isCompact && (
           <motion.div
-            className="fixed inset-y-0 left-0 w-64 border-r border-border z-50 flex flex-col"
+            className="fixed inset-y-0 left-0 w-64 border-r border-border z-50 flex flex-col bg-background"
             initial={{ x: '-100%' }}
             animate={{ x: isOpen ? 0 : '-100%' }}
             exit={{ x: '-100%' }}
@@ -238,19 +238,23 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
                   </Link>
                 );
               })}
-              <button
-                onClick={toggleDarkMode}
-                className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 hover:text-text-primary transition-all duration-200"
-              >
-                {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
+              
+              {/* Replace button with label + toggle view for dark mode */}
+              <div className="flex items-center justify-between px-3 py-2.5 my-1 rounded-lg text-text-secondary">
+                <span className="font-medium">Dark Mode</span>
+                <div 
+                  onClick={toggleDarkMode}
+                  className="relative w-10 h-5 bg-border/40 rounded-full cursor-pointer"
+                >
+                  <div className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-primary transition-transform ${darkMode ? 'translate-x-5' : ''}`}></div>
+                </div>
+              </div>
             </nav>
             
             {/* Footer with justified controls */}
             <div className="p-3 border-t border-border">
               {/* Controls at bottom, spread to corners */}
               <div className="flex justify-between items-center">
-
                 <Link
                   to="/settings"
                   onClick={handleSettingsClick}

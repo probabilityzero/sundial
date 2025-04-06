@@ -28,7 +28,7 @@ export function MenuCompact ({ isCompact, toggleCompact, darkMode, toggleDarkMod
     <div
       className={`fixed top-12 inset-y-0 left-0 transform ${isCompact || isMainMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
         backdrop-filter backdrop-blur-xl transition-transform duration-300 ease-in-out z-40 flex flex-col ${isCompact ? 'w-14' : 'w-64'}
-        rounded-none shadow-md`}
+        rounded-none`}
     >
       <nav className="flex-grow flex flex-col items-center">
         <Link to="/" className={MenuItemClass} title="Home">
@@ -67,10 +67,10 @@ export function MenuCompact ({ isCompact, toggleCompact, darkMode, toggleDarkMod
           </Tooltip>
         </Link>
 
-        <div className="my-2 border-t"></div>
+        <div className="my-2"></div>
       </nav>
 
-      <div className="flex flex-col border-t">
+      <div className="flex flex-col">
         <Link to="/profile" className="block pb-1 p-2" title="Profile">
           <Tooltip text="Profile" position="right">
             <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex items-center p-2 justify-center">
