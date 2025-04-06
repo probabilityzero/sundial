@@ -198,23 +198,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
             animate={{ x: isOpen ? 0 : '-100%' }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          >
-            {/* Header with close button */}
-            <div className="p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-primary bg-opacity-10 flex items-center justify-center">
-                  <span className="text-primary font-bold text-lg">S</span>
-                </div>
-                <h2 className="font-semibold text-text-primary">Sundial</h2>
-              </div>
-              <button 
-                onClick={onClose}
-                className="w-8 h-8 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 transition-all duration-200"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            
+          >  
             {/* User Profile - Enhanced and bigger */}
             <div className="px-4 py-5 border-b border-border">
               <Link to="/profile" className="flex flex-col items-center" onClick={onClose}>
