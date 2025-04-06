@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Moon, Sun } from 'lucide-react';
 
 // Define proper types for FeatureCard props
@@ -243,29 +243,31 @@ const Welcome = () => {
     <div className="min-h-dvh bg-background text-text-primary">
       {/* Theme toggle button (fixed position) */}
       <motion.div
-        className="fixed bottom-6 right-6 z-50 flex items-center p-1 rounded-full bg-surface/80 backdrop-blur-md border border-border/30 shadow-lg"
+        className="fixed bottom-6 right-6 z-50 flex items-center p-0.5 rounded-full bg-surface/80 backdrop-blur-md border border-border/30 shadow-lg"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.5 }}
       >
         <motion.div 
-          className="absolute w-8 h-8 rounded-full bg-primary z-0"
-          initial={{ x: darkMode ? 32 : 0 }}
-          animate={{ x: darkMode ? 32 : 0 }}
+          className="absolute w-6 h-6 rounded-full bg-primary z-0"
+          initial={{ x: darkMode ? 24 : 0 }}
+          animate={{ x: darkMode ? 24 : 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 25 }}
         />
         
         <button 
-          className={`w-8 h-8 flex items-center justify-center rounded-full z-10 ${!darkMode ? 'text-primary-contrast' : 'text-text-secondary'}`}
-          onClick={toggleDarkMode}
+          className={`w-6 h-6 flex items-center justify-center rounded-full z-10 ${!darkMode ? 'text-primary-contrast' : 'text-text-secondary'}`}
+          onClick={() => toggleDarkMode()}
+          aria-label="Switch to light mode"
         >
-          <Sun className="w-5 h-5" />
+          <Sun className="w-3.5 h-3.5" />
         </button>
         <button 
-          className={`w-8 h-8 flex items-center justify-center rounded-full z-10 ${darkMode ? 'text-primary-contrast' : 'text-text-secondary'}`}
-          onClick={toggleDarkMode}
+          className={`w-6 h-6 flex items-center justify-center rounded-full z-10 ${darkMode ? 'text-primary-contrast' : 'text-text-secondary'}`}
+          onClick={() => toggleDarkMode()}
+          aria-label="Switch to dark mode"
         >
-          <Moon className="w-5 h-5" />
+          <Moon className="w-3.5 h-3.5" />
         </button>
       </motion.div>
       
@@ -332,7 +334,7 @@ const Welcome = () => {
             >
               <Link to="/auth?mode=signup">
                 <motion.button 
-                  className="px-8 py-3.5 bg-primary text-primary-contrast rounded-xl font-medium text-base md:text-lg shadow-lg shadow-primary/20 transition-all duration-300"
+                  className="px-8 py-3.5 bg-primary text-primary-contrast border rounded-xl font-medium text-base md:text-lg shadow-lg shadow-primary/20 transition-all duration-300"
                   whileHover={{ 
                     scale: 1.03,
                     boxShadow: "0 10px 25px -5px rgba(var(--color-primary-rgb), 0.3)"
@@ -413,13 +415,7 @@ const Welcome = () => {
               delay={0.4}
             />
             <FeatureCard 
-              icon="🌓"
-              title="Dark & Light Themes"
-              description="Work comfortably in any environment with beautiful, customizable themes."
-              delay={0.5}
-            />
-            <FeatureCard 
-              icon="🔄"
+              icon=""
               title="Cross-Device Sync"
               description="Access your tasks and sessions from any device, always stay in sync."
               delay={0.6}
@@ -459,7 +455,6 @@ const Welcome = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            Join thousands of professionals who have elevated their work habits with Sundial.
             Start your journey to deeper focus and better time management today.
           </motion.p>
           
@@ -472,7 +467,7 @@ const Welcome = () => {
           >
             <Link to="/auth?mode=signup">
               <motion.button 
-                className="px-8 py-3.5 bg-primary text-primary-contrast rounded-xl font-medium text-lg shadow-lg shadow-primary/20"
+                className="px-8 py-3.5 bg-primary text-primary-contrast rounded-xl border font-medium text-lg shadow-lg shadow-primary/20 border border-border/50 "
                 whileHover={{ 
                   scale: 1.03,
                   boxShadow: "0 10px 25px -5px rgba(var(--color-primary-rgb), 0.3)"
@@ -482,24 +477,15 @@ const Welcome = () => {
                 Get Started
               </motion.button>
             </Link>
-            <Link to="/auth?mode=signin">
-              <motion.button 
-                className="px-8 py-3.5 bg-transparent border border-border/50 text-text-primary rounded-xl font-medium text-lg"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Sign In
-              </motion.button>
-            </Link>
           </motion.div>
         </div>
       </section>
       
       {/* Footer */}
-      <footer className="py-8 border-t border-border/30">
+      <footer className="py-4 text-xs border-t border-border/10">
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center">
           <div className="text-text-secondary mb-4 md:mb-0">
-            © {new Date().getFullYear()} Sundial by Epsilon. All rights reserved.
+            © {new Date().getFullYear()} Sundial. All rights reserved.
           </div>
           <div className="flex space-x-6">
             <a href="#" className="text-text-secondary hover:text-primary transition-colors">Terms</a>

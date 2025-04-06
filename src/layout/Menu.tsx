@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, User, Calendar, ListChecks, Settings, BarChart, Moon, Sun, PanelRightOpen, Home, LogOut, Clock, Book, Target, Trophy, Sparkles } from 'lucide-react';
+import { User, Calendar, ListChecks, Settings, BarChart, Moon, Sun, PanelRightOpen, Home, Clock, Book, Target, Trophy, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../store/useAuthStore';
 import { getDisplayName, getAvatarUrl } from '../utils/user-helpers';
 import Tooltip from '../components/ui/Tooltip';
-import ToggleSwitch from '../components/ui/ToggleSwitch';
 import { SettingsPopup } from '../components/Settings/SettingsPopup';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
@@ -99,7 +98,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
 
       {/* Compact Menu - Transparent background */}
       {isCompact && (
-        <div className="fixed inset-y-0 left-0 w-16 bg-background/80 backdrop-blur-sm border-r border-border z-50 flex flex-col py-4">
+        <div className="fixed inset-y-0 left-0 w-16 border-r border-border z-50 flex flex-col py-4">
           <div className="flex flex-col items-center gap-4">
             {/* App Logo */}
             <div className="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center">
@@ -191,7 +190,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
       <AnimatePresence>
         {(!isCompact || isOpen) && !isCompact && (
           <motion.div
-            className="fixed inset-y-0 left-0 w-64 bg-background border-r border-border z-50 flex flex-col"
+            className="fixed inset-y-0 left-0 w-64 border-r border-border z-50 flex flex-col"
             initial={{ x: '-100%' }}
             animate={{ x: isOpen ? 0 : '-100%' }}
             exit={{ x: '-100%' }}
