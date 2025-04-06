@@ -90,7 +90,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
             animate={{ opacity: 0.3 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black z-40"
+            className="fixed inset-0"
             onClick={onClose}
           />
         )}
@@ -98,7 +98,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
 
       {/* Compact Menu - Transparent background */}
       {isCompact && (
-        <div className="fixed inset-y-0 left-0 w-16 border-r border-border z-50 flex flex-col py-4">
+        <div className="fixed inset-y-0 left-0 w-16 bg-background border-r border-border z-50 flex flex-col py-4">
           <div className="flex flex-col items-center gap-4">
             {/* App Logo */}
             <div className="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center">

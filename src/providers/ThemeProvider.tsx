@@ -23,7 +23,7 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  // Initialize theme based on system preference or stored value
+  // Initialize theme based on stored value or default to light
   const [theme, setTheme] = useState<Theme>(() => {
     // Check local storage first
     const savedTheme = localStorage.getItem('sol-theme');
@@ -31,8 +31,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       return savedTheme as Theme;
     }
     
-    // Fall back to system preference
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Default to light mode regardless of system preference
+    return 'light';
   });
 
   // Apply theme changes to document
@@ -44,22 +44,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     localStorage.setItem('sol-theme', theme);
   }, [theme]);
 
-  // Listen for system theme changes if user hasn't set a preference
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      if (!localStorage.getItem('sol-theme')) {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
-    };
-    
-    // Add event listener for theme changes
-    mediaQuery.addEventListener('change', handleChange);
-    
-    // Clean up
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
+  // We no longer listen for system theme changes since we're defaulting to light
 
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
