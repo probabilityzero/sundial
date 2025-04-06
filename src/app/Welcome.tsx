@@ -313,8 +313,8 @@ const Welcome = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.8 }}
             >
-              Master your time, <br/>
-              <span className="text-primary">elevate your focus</span>
+              Design your day, <br/>
+              <span className="text-primary">find your flow</span>
             </motion.h1>
             
             <motion.p 
@@ -323,8 +323,8 @@ const Welcome = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
-              Sundial helps you achieve deep work through structured focus sessions, 
-              intuitive task management, and insightful analytics.
+              With sundial, immerse yourself in deep work through focused sessions, 
+              intuitively track goals, and analyze your flow state.
             </motion.p>
             
             <motion.div 
