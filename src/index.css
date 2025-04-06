@@ -5,11 +5,258 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Base Colors - Light Theme */
+  --color-primary: #4361ee;
+  --color-primary-light: #748ffc;
+  --color-primary-dark: #3a56d4;
+  --color-primary-contrast: #ffffff;
+  
+  --color-secondary: #4CAF50;
+  --color-secondary-light: #80e27e;
+  --color-secondary-dark: #087f23;
+  --color-secondary-contrast: #ffffff;
+  
+  --color-accent: #ff9800;
+  --color-accent-light: #ffc947;
+  --color-accent-dark: #c66900;
+  --color-accent-contrast: #000000;
+  
+  /* Neutrals - Light Theme */
+  --color-background: #f9fafb;
+  --color-surface: #ffffff;
+  --color-dialog: #ffffff;
+  
+  --color-on-background: #111827;
+  --color-on-surface: #1f2937;
+  --color-on-dialog: #1f2937;
+  
+  /* UI Colors - Light Theme */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+  
+  /* Text Colors - Light Theme */
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #6b7280;
+  --color-text-disabled: #9ca3af;
+  
+  /* Border Colors - Light Theme */
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-border-focus: #93c5fd;
+  
+  /* Shadow Colors - Light Theme */
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow-dark: rgba(0, 0, 0, 0.25);
+  
+  /* Status Colors - Light Theme */
+  --color-active: #4361ee;
+  --color-completed: #22c55e;
+  --color-pending: #f59e0b;
+  --color-overdue: #ef4444;
+  
+  /* Timer Colors - Light Theme */
+  --color-focus: #4361ee;
+  --color-break: #22c55e;
+  --color-long-break: #3b82f6;
+  --color-pause: #f59e0b;
+  
+  /* Forms - Light Theme */
+  --color-input-background: #ffffff;
+  --color-input-border: #d1d5db;
+  --color-input-text: #111827;
+  --color-input-placeholder: #9ca3af;
+  
+  /* Chart Colors - Light Theme */
+  --chart-color-1: #4361ee;
+  --chart-color-2: #3b82f6;
+  --chart-color-3: #0ea5e9;
+  --chart-color-4: #06b6d4;
+  --chart-color-5: #14b8a6;
+  --chart-color-6: #10b981;
+  --chart-color-7: #22c55e;
+  --chart-color-8: #84cc16;
+  
+  /* Animation Durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  
+  /* Border Radius */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
+  
+  /* Spacing Variables */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+}
+
+/* Dark Theme Colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Base Colors - Dark Theme */
+    --color-primary: #748ffc;
+    --color-primary-light: #99b3ff;
+    --color-primary-dark: #2c43c2;
+    --color-primary-contrast: #ffffff;
+    
+    --color-secondary: #66bb6a;
+    --color-secondary-light: #98ee99;
+    --color-secondary-dark: #338a3e;
+    --color-secondary-contrast: #000000;
+    
+    --color-accent: #ffb74d;
+    --color-accent-light: #ffe97d;
+    --color-accent-dark: #c88719;
+    --color-accent-contrast: #000000;
+    
+    /* Neutrals - Dark Theme */
+    --color-background: #111827;
+    --color-surface: #1f2937;
+    --color-dialog: #374151;
+    
+    --color-on-background: #f9fafb;
+    --color-on-surface: #f3f4f6;
+    --color-on-dialog: #f3f4f6;
+    
+    /* UI Colors - Dark Theme */
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --color-error: #f87171;
+    --color-info: #60a5fa;
+    
+    /* Text Colors - Dark Theme */
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #e5e7eb;
+    --color-text-tertiary: #d1d5db;
+    --color-text-disabled: #6b7280;
+    
+    /* Border Colors - Dark Theme */
+    --color-border: #374151;
+    --color-border-light: #4b5563;
+    --color-border-focus: #60a5fa;
+    
+    /* Shadow Colors - Dark Theme */
+    --color-shadow: rgba(0, 0, 0, 0.5);
+    --color-shadow-dark: rgba(0, 0, 0, 0.8);
+    
+    /* Status Colors - Dark Theme */
+    --color-active: #748ffc;
+    --color-completed: #4ade80;
+    --color-pending: #fbbf24;
+    --color-overdue: #f87171;
+    
+    /* Timer Colors - Dark Theme */
+    --color-focus: #748ffc;
+    --color-break: #4ade80;
+    --color-long-break: #60a5fa;
+    --color-pause: #fbbf24;
+    
+    /* Forms - Dark Theme */
+    --color-input-background: #1f2937;
+    --color-input-border: #4b5563;
+    --color-input-text: #f9fafb;
+    --color-input-placeholder: #9ca3af;
+    
+    /* Chart Colors - Dark Theme */
+    --chart-color-1: #748ffc;
+    --chart-color-2: #60a5fa;
+    --chart-color-3: #38bdf8;
+    --chart-color-4: #22d3ee;
+    --chart-color-5: #2dd4bf;
+    --chart-color-6: #34d399;
+    --chart-color-7: #4ade80;
+    --chart-color-8: #a3e635;
+  }
+}
+
+/* Class-based dark mode toggle (for manual theme switching) */
+.dark {
+  /* Same variables as in the dark theme media query */
+  --color-primary: #748ffc;
+  --color-primary-light: #99b3ff;
+  --color-primary-dark: #2c43c2;
+  --color-primary-contrast: #ffffff;
+  
+  --color-secondary: #66bb6a;
+  --color-secondary-light: #98ee99;
+  --color-secondary-dark: #338a3e;
+  --color-secondary-contrast: #000000;
+  
+  --color-accent: #ffb74d;
+  --color-accent-light: #ffe97d;
+  --color-accent-dark: #c88719;
+  --color-accent-contrast: #000000;
+  
+  --color-background: #111827;
+  --color-surface: #1f2937;
+  --color-dialog: #374151;
+  
+  --color-on-background: #f9fafb;
+  --color-on-surface: #f3f4f6;
+  --color-on-dialog: #f3f4f6;
+  
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --color-info: #60a5fa;
+  
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #e5e7eb;
+  --color-text-tertiary: #d1d5db;
+  --color-text-disabled: #6b7280;
+  
+  --color-border: #374151;
+  --color-border-light: #4b5563;
+  --color-border-focus: #60a5fa;
+  
+  --color-shadow: rgba(0, 0, 0, 0.5);
+  --color-shadow-dark: rgba(0, 0, 0, 0.8);
+  
+  --color-active: #748ffc;
+  --color-completed: #4ade80;
+  --color-pending: #fbbf24;
+  --color-overdue: #f87171;
+  
+  --color-focus: #748ffc;
+  --color-break: #4ade80;
+  --color-long-break: #60a5fa;
+  --color-pause: #fbbf24;
+  
+  --color-input-background: #1f2937;
+  --color-input-border: #4b5563;
+  --color-input-text: #f9fafb;
+  --color-input-placeholder: #9ca3af;
+  
+  --chart-color-1: #748ffc;
+  --chart-color-2: #60a5fa;
+  --chart-color-3: #38bdf8;
+  --chart-color-4: #22d3ee;
+  --chart-color-5: #2dd4bf;
+  --chart-color-6: #34d399;
+  --chart-color-7: #4ade80;
+  --chart-color-8: #a3e635;
+}
+
+/* Apply the CSS variables to the body element */
 body {
-  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
   margin: 0;
   padding: 0;
   font-family: 'Inter', 'sans', sans-serif;
+  transition: background-color var(--duration-normal), color var(--duration-normal);
 }
 
 /* Hide scrollbar for all elements */
@@ -22,6 +269,7 @@ body {
   scrollbar-width: none;  /* Firefox */
 }
 
+/* The rest of your existing CSS goes here */
 .shimmer {
   @apply bg-gradient-to-r from-transparent via-white to-transparent;
   background-size: 2000px 100%;
@@ -62,13 +310,14 @@ body {
 
 .tooltip {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 4px;
+  background-color: var(--color-dialog);
+  color: var(--color-on-dialog);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
   font-size: 12px;
   white-space: nowrap;
   z-index: 100;
+  box-shadow: 0 2px 5px var(--color-shadow);
 }
 
 /* Arrow Styles */
@@ -91,7 +340,7 @@ body {
   top: 100%;
   left: 50%;
   margin-left: -5px;
-  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+  border-color: var(--color-dialog) transparent transparent transparent;
 }
 
 .tooltip-bottom {
@@ -105,7 +354,7 @@ body {
   bottom: 100%;
   left: 50%;
   margin-left: -5px;
-  border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+  border-color: transparent transparent var(--color-dialog) transparent;
 }
 
 .tooltip-left {
@@ -119,7 +368,7 @@ body {
   top: 50%;
   left: 100%;
   margin-top: -5px;
-  border-color: transparent transparent transparent rgba(0, 0, 0, 0.8);
+  border-color: transparent transparent transparent var(--color-dialog);
 }
 
 .tooltip-right {
@@ -133,7 +382,7 @@ body {
   top: 50%;
   right: 100%;
   margin-top: -5px;
-  border-color: transparent rgba(0, 0, 0, 0.8) transparent transparent;
+  border-color: transparent var(--color-dialog) transparent transparent;
 }
 
 /* Timer.css */
@@ -141,13 +390,13 @@ body {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #4CAF50; /* Green color */
+  background-color: var(--color-focus); /* Using the focus variable */
   position: relative;
   animation: radarAnimation 2s infinite ease-in-out;
 }
 
 .tag-button {
-  padding: 0.25rem;
+  padding: var(--spacing-xs);
   border-radius: 50%;
   background-color: transparent;
   border: none;
