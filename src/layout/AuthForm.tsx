@@ -38,7 +38,7 @@ function AuthForm({ onSubmit }: AuthFormProps) {
   return (
     <div className="max-w-md w-full space-y-8">
       <div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-text-primary">
+        <h2 className="mt-6 text-center text-3xl justify-center items-center font-extrabold text-text-primary">
           Sol
         </h2>
         <p className="mt-2 text-center text-sm text-text-secondary">
@@ -46,7 +46,7 @@ function AuthForm({ onSubmit }: AuthFormProps) {
         </p>
       </div>
 
-      <div className="flex justify-center space-x-4">
+      <div className="flex justify-center space-x-1">
         <button
           type="button"
           className="rounded-full p-2 hover:bg-surface focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
@@ -80,15 +80,6 @@ function AuthForm({ onSubmit }: AuthFormProps) {
         </button>
       </div>
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border"></div>
-        </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-background text-text-secondary">Or continue with</span>
-        </div>
-      </div>
-
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <div className="rounded-md shadow-sm -space-y-px">
           {isSignUp && (
@@ -107,7 +98,6 @@ function AuthForm({ onSubmit }: AuthFormProps) {
                   autoComplete="name"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-border placeholder-text-tertiary text-text-primary rounded-t-md bg-surface focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                  placeholder="Your Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -129,7 +119,6 @@ function AuthForm({ onSubmit }: AuthFormProps) {
                 autoComplete="email"
                 required
                 className={`appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-border placeholder-text-tertiary text-text-primary ${isSignUp ? '' : 'rounded-t-md'} bg-surface focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm`}
-                placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -150,7 +139,6 @@ function AuthForm({ onSubmit }: AuthFormProps) {
                 autoComplete="current-password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-border placeholder-text-tertiary text-text-primary rounded-b-md bg-surface focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -185,7 +173,7 @@ function AuthForm({ onSubmit }: AuthFormProps) {
         <div>
           <button
             type="submit"
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-primary-contrast bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
+            className="group relative w-full flex justify-center items-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-primary-contrast bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           >
             {isSignUp ? 'Create a new account' : 'Sign in'}
           </button>
