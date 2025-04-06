@@ -372,7 +372,7 @@ const Welcome = () => {
       </section>
       
       {/* Features Section */}
-      <section className="py-20 px-6 md:px-10 relative">
+      <section className="pt-20 px-6 md:px-10 relative">
         <div className="max-w-7xl mx-auto">
           <motion.div 
             className="text-center mb-16"
@@ -415,7 +415,7 @@ const Welcome = () => {
               delay={0.4}
             />
             <FeatureCard 
-              icon=""
+              icon="🔁"
               title="Cross-Device Sync"
               description="Access your tasks and sessions from any device, always stay in sync."
               delay={0.6}
@@ -482,7 +482,7 @@ const Welcome = () => {
       </section>
       
       {/* Footer */}
-      <footer className="py-4 text-xs border-t border-border/10">
+      <footer className="py-4 text-xs">
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center">
           <div className="text-text-secondary mb-4 md:mb-0">
             © {new Date().getFullYear()} Sundial. All rights reserved.

@@ -1,63 +1,32 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../../index.css';
 
 interface TooltipProps {
-  children: React.ReactNode;
   text: string;
+  children: React.ReactNode;
   position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ children, text, position = 'top' }) => {
-  const [visible, setVisible] = useState(false);
-  const tooltipRef = useRef<HTMLSpanElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const calculatePosition = () => {
-    if (containerRef.current && tooltipRef.current) {
-      const containerRect = containerRef.current.getBoundingClientRect();
-      const tooltipRect = tooltipRef.current.getBoundingClientRect();
-
-      const spaceAbove = containerRect.top;
-      const spaceBelow = window.innerHeight - containerRect.bottom;
-      const spaceLeft = containerRect.left;
-      const spaceRight = window.innerWidth - containerRect.right;
-
-      if (position === 'top' && spaceAbove < tooltipRect.height) {
-        return spaceBelow > tooltipRect.height ? 'bottom' : (spaceRight > spaceLeft ? 'right' : 'left');
-      } else if (position === 'bottom' && spaceBelow < tooltipRect.height) {
-        return spaceAbove > tooltipRect.height ? 'top' : (spaceRight > spaceLeft ? 'right' : 'left');
-      } else if (position === 'left' && spaceLeft < tooltipRect.width) {
-        return spaceRight > tooltipRect.width ? 'right' : (spaceAbove > spaceBelow ? 'top' : 'bottom');
-      } else if (position === 'right' && spaceRight < tooltipRect.width) {
-        return spaceLeft > tooltipRect.width ? 'left' : (spaceAbove > spaceBelow ? 'top' : 'bottom');
-      }
-
-      return position;
-    }
-    return position;
+export function Tooltip({ text, children, position = 'top' }: TooltipProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  const positions = {
+    top: "bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 mb-1",
+    bottom: "top-full left-1/2 transform -translate-x-1/2 translate-y-2 mt-1",
+    left: "right-full top-1/2 transform -translate-x-2 -translate-y-1/2 mr-1",
+    right: "left-full top-1/2 transform translate-x-2 -translate-y-1/2 ml-1"
   };
-
-  const arrowPosition = calculatePosition();
-
-  useEffect(() => {
-    // Recalculating tooltip position whenever `visible` or `position` changes
-  }, [visible, position]);
-
+  
   return (
-    <div
-      className="tooltip-container"
-      onMouseEnter={() => setVisible(true)}
-      onMouseLeave={() => setVisible(false)}
-      ref={containerRef}
-    >
-      {children}
-      {visible && (
-        <span className={`tooltip tooltip-${arrowPosition}`} ref={tooltipRef}>
+    <div className="relative inline-block" onMouseEnter={() => setIsVisible(true)} onMouseLeave={() => setIsVisible(false)}>
+      {isVisible && (
+        <div className={`absolute z-50 px-2 py-1 text-xs font-medium text-primary-contrast bg-gray-800/90 rounded pointer-events-none whitespace-nowrap ${positions[position]}`}>
           {text}
-        </span>
+        </div>
       )}
+      {children}
     </div>
   );
-};
+}
 
 export default Tooltip;

@@ -118,26 +118,7 @@ const Auth = () => {
     <div className="min-h-dvh flex flex-col items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8 relative">
       <BackgroundElements />
       
-      <div className="max-w-md w-full relative z-10">
-        <Link to="/" className="absolute top-0 left-0 flex items-center text-text-secondary hover:text-primary transition-colors -mt-12">
-          <ChevronLeft className="w-4 h-4 mr-1" />
-          <span>Back to home</span>
-        </Link>
-        
-        <div className="flex items-center justify-center mb-8">
-          <motion.div 
-            className="flex items-center"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3">
-              <span className="text-primary font-bold text-xl">S</span>
-            </div>
-            <span className="text-2xl font-bold text-text-primary">Sundial</span>
-          </motion.div>
-        </div>
-        
+      <div className="max-w-md w-full relative z-10 mb-10">
         <motion.div 
           className="bg-surface/80 backdrop-blur-md rounded-2xl shadow-xl p-8 relative overflow-hidden border border-border/30"
           initial={{ opacity: 0, y: 20 }}
@@ -177,7 +158,7 @@ const Auth = () => {
             {/* Social sign-in buttons */}
             <div className="grid grid-cols-4 gap-3 mb-6">
               <motion.button
-                className="flex justify-center items-center p-2.5 rounded-lg border border-border/50 hover:bg-background/50 transition-colors"
+                className="flex justify-center items-center hover:bg-background/50 transition-colors"
                 onClick={() => handleOAuthSignIn('google')}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
@@ -187,7 +168,7 @@ const Auth = () => {
               </motion.button>
               
               <motion.button
-                className="flex justify-center items-center p-2.5 rounded-lg border border-border/50 hover:bg-background/50 transition-colors"
+                className="flex justify-center items-center hover:bg-background/50 transition-colors"
                 onClick={() => handleOAuthSignIn('github')}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
@@ -197,7 +178,7 @@ const Auth = () => {
               </motion.button>
               
               <motion.button
-                className="flex justify-center items-center p-2.5 rounded-lg border border-border/50 hover:bg-background/50 transition-colors"
+                className="flex justify-center items-center hover:bg-background/50 transition-colors"
                 onClick={() => handleOAuthSignIn('discord')}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
@@ -207,7 +188,7 @@ const Auth = () => {
               </motion.button>
               
               <motion.button
-                className="flex justify-center items-center p-2.5 rounded-lg border border-border/50 hover:bg-background/50 transition-colors"
+                className="flex justify-center items-center hover:bg-background/50 transition-colors"
                 onClick={() => handleOAuthSignIn('apple')}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
@@ -215,15 +196,6 @@ const Auth = () => {
               >
                 <FaApple className="h-5 w-5 text-text-primary" />
               </motion.button>
-            </div>
-            
-            <div className="relative mb-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-border/50"></div>
-              </div>
-              <div className="relative flex justify-center text-xs">
-                <span className="px-2 bg-surface text-text-tertiary">OR</span>
-              </div>
             </div>
             
             {/* Form */}
