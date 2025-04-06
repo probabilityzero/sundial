@@ -87,28 +87,28 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
         {isOpen && !isCompact && (
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.3 }}
+            animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0"
+            className="fixed inset-0 bg-black"
             onClick={onClose}
           />
         )}
       </AnimatePresence>
 
-      {/* Compact Menu - Transparent background */}
+      {/* Compact Menu - Solid background with subtle gradient */}
       {isCompact && (
-        <div className="fixed inset-y-0 left-0 w-16 bg-background border-r border-border z-50 flex flex-col py-4">
+        <div className="fixed inset-y-0 left-0 w-16 bg-gradient-to-b from-background to-surface border-r border-border z-50 flex flex-col py-4 shadow-lg">
           <div className="flex flex-col items-center gap-4">
             {/* App Logo */}
-            <div className="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-primary bg-opacity-20 flex items-center justify-center shadow-sm">
               <span className="text-primary font-bold text-xl">S</span>
             </div>
             
             {/* User Profile - Moved to top in compact view */}
             <Link 
               to="/profile"
-              className="w-10 h-10 overflow-hidden rounded-full border-2 border-border flex items-center justify-center"
+              className="w-10 h-10 overflow-hidden rounded-full border-2 border-border flex items-center justify-center shadow-sm"
             >
               {getAvatarUrl(user) ? (
                 <img 
@@ -135,8 +135,8 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
                     className={`
                       w-10 h-10 flex items-center justify-center rounded-md transition-all duration-200
                       ${isActive 
-                        ? 'bg-primary text-primary-contrast' 
-                        : 'text-text-secondary hover:bg-surface hover:text-text-primary'}
+                        ? 'bg-primary text-primary-contrast shadow-sm' 
+                        : 'text-text-secondary hover:bg-background hover:text-text-primary'}
                     `}
                   >
                     <Icon className="w-5 h-5" />
@@ -152,7 +152,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
               <Tooltip text={darkMode ? "Light Mode" : "Dark Mode"} position="right">
                 <button 
                   onClick={toggleDarkMode}
-                  className="w-9 h-9 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface hover:text-text-primary transition-all duration-200"
+                  className="w-9 h-9 flex items-center justify-center rounded-md text-text-secondary hover:bg-background hover:text-text-primary transition-all duration-200"
                 >
                   {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </button>
@@ -165,8 +165,8 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
                   className={`
                     w-9 h-9 flex items-center justify-center rounded-md transition-all duration-200
                     ${location.pathname === '/settings' 
-                      ? 'bg-primary text-primary-contrast' 
-                      : 'text-text-secondary hover:bg-surface hover:text-text-primary'}
+                      ? 'bg-primary text-primary-contrast shadow-sm' 
+                      : 'text-text-secondary hover:bg-background hover:text-text-primary'}
                   `}
                 >
                   <Settings className="w-5 h-5" />
@@ -177,7 +177,7 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
             <Tooltip text="Expand Menu" position="right">
               <button 
                 onClick={toggleCompact}
-                className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface hover:text-text-primary transition-all duration-200"
+                className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-background hover:text-text-primary transition-all duration-200"
               >
                 <PanelRightOpen className="w-5 h-5" />
               </button>
@@ -186,20 +186,20 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
         </div>
       )}
 
-      {/* Full Menu with background color */}
+      {/* Full Menu with enhanced background */}
       <AnimatePresence>
         {(!isCompact || isOpen) && !isCompact && (
           <motion.div
-            className="fixed inset-y-0 left-0 w-64 border-r border-border z-50 flex flex-col bg-background"
+            className="fixed inset-y-0 left-0 w-64 border-r border-border z-50 flex flex-col bg-gradient-to-b from-background to-surface shadow-lg"
             initial={{ x: '-100%' }}
             animate={{ x: isOpen ? 0 : '-100%' }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >  
             {/* User Profile - Enhanced and bigger */}
-            <div className="px-4 py-5 border-b border-border">
+            <div className="px-4 py-5 border-b border-border/70 bg-background/40">
               <Link to="/profile" className="flex flex-col items-center" onClick={onClose}>
-                <div className="w-20 h-20 rounded-full bg-surface overflow-hidden border-2 border-border flex items-center justify-center mb-3">
+                <div className="w-20 h-20 rounded-full bg-surface overflow-hidden border-2 border-border flex items-center justify-center mb-3 shadow-sm">
                   {getAvatarUrl(user) ? (
                     <img 
                       src={getAvatarUrl(user)} 
@@ -229,8 +229,8 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
                     className={`
                       flex items-center gap-3 px-3 py-2.5 my-1 rounded-lg transition-all duration-200
                       ${isActive 
-                        ? 'bg-primary/20 text-primary' 
-                        : 'text-text-secondary hover:bg-surface/50 hover:text-text-primary'}
+                        ? 'bg-primary/20 text-primary shadow-sm' 
+                        : 'text-text-secondary hover:bg-background/70 hover:text-text-primary'}
                     `}
                   >
                     <Icon className={`w-5 h-5 ${isActive ? 'text-primary' : ''}`} />
@@ -240,32 +240,32 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
               })}
               
               {/* Replace button with label + toggle view for dark mode */}
-              <div className="flex items-center justify-between px-3 py-2.5 my-1 rounded-lg text-text-secondary">
+              <div className="flex items-center justify-between px-3 py-2.5 my-1 rounded-lg text-text-secondary hover:bg-background/70">
                 <span className="font-medium">Dark Mode</span>
                 <div 
                   onClick={toggleDarkMode}
                   className="relative w-10 h-5 bg-border/40 rounded-full cursor-pointer"
                 >
-                  <div className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-primary transition-transform ${darkMode ? 'translate-x-5' : ''}`}></div>
+                  <div className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-primary shadow-sm transition-transform ${darkMode ? 'translate-x-5' : ''}`}></div>
                 </div>
               </div>
             </nav>
             
             {/* Footer with justified controls */}
-            <div className="p-3 border-t border-border">
+            <div className="p-3 border-t border-border/70 bg-background/40">
               {/* Controls at bottom, spread to corners */}
               <div className="flex justify-between items-center">
                 <Link
                   to="/settings"
                   onClick={handleSettingsClick}
-                  className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 hover:text-text-primary transition-all duration-200"
+                  className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-background/70 hover:text-text-primary transition-all duration-200"
                 >
                   <Settings className="w-5 h-5" />
                 </Link>
 
                 <button
                   onClick={toggleCompact}
-                  className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 hover:text-text-primary transition-all duration-200 md:flex hidden"
+                  className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-background/70 hover:text-text-primary transition-all duration-200 md:flex hidden"
                 >
                   <PanelRightOpen className="w-5 h-5" />
                 </button>
