@@ -5,80 +5,81 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light theme - Soulful pastel palette */
 :root {
   /* Base Colors - Light Theme */
-  --color-primary: #4361ee;
-  --color-primary-light: #748ffc;
-  --color-primary-dark: #3a56d4;
+  --color-primary: #94a3b8; /* Slate-400 - soothing blue-gray */
+  --color-primary-light: #cbd5e1; /* Slate-300 */
+  --color-primary-dark: #64748b; /* Slate-500 */
   --color-primary-contrast: #ffffff;
   
-  --color-secondary: #4CAF50;
-  --color-secondary-light: #80e27e;
-  --color-secondary-dark: #087f23;
+  --color-secondary: #a7c080; /* Soft sage green */
+  --color-secondary-light: #d1dbbc; /* Lighter sage */
+  --color-secondary-dark: #7d9259; /* Darker sage */
   --color-secondary-contrast: #ffffff;
   
-  --color-accent: #ff9800;
-  --color-accent-light: #ffc947;
-  --color-accent-dark: #c66900;
-  --color-accent-contrast: #000000;
+  --color-accent: #e0c097; /* Warm sand */
+  --color-accent-light: #e9d5b9; /* Lighter sand */
+  --color-accent-dark: #c49a6c; /* Darker sand */
+  --color-accent-contrast: #2c2c2c;
   
   /* Neutrals - Light Theme */
-  --color-background: #f9fafb;
-  --color-surface: #ffffff;
+  --color-background: #f8f7f4; /* Soft off-white */
+  --color-surface: #fcfbf8; /* Nearly white */
   --color-dialog: #ffffff;
   
-  --color-on-background: #111827;
-  --color-on-surface: #1f2937;
-  --color-on-dialog: #1f2937;
+  --color-on-background: #2c2c2c;
+  --color-on-surface: #2c2c2c;
+  --color-on-dialog: #2c2c2c;
   
   /* UI Colors - Light Theme */
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-info: #3b82f6;
+  --color-success: #a7c080; /* Same as secondary */
+  --color-warning: #e0c097; /* Same as accent */
+  --color-error: #c17c7c; /* Soft rose */
+  --color-info: #94a3b8; /* Same as primary */
   
   /* Text Colors - Light Theme */
-  --color-text-primary: #111827;
-  --color-text-secondary: #4b5563;
-  --color-text-tertiary: #6b7280;
-  --color-text-disabled: #9ca3af;
+  --color-text-primary: #2c2c2c;
+  --color-text-secondary: #4d4d4d;
+  --color-text-tertiary: #6e6e6e;
+  --color-text-disabled: #9e9e9e;
   
   /* Border Colors - Light Theme */
-  --color-border: #e5e7eb;
-  --color-border-light: #f3f4f6;
-  --color-border-focus: #93c5fd;
+  --color-border: #e5e3dd;
+  --color-border-light: #f2f0ea;
+  --color-border-focus: #cbd5e1;
   
   /* Shadow Colors - Light Theme */
-  --color-shadow: rgba(0, 0, 0, 0.1);
-  --color-shadow-dark: rgba(0, 0, 0, 0.25);
+  --color-shadow: rgba(0, 0, 0, 0.05);
+  --color-shadow-dark: rgba(0, 0, 0, 0.1);
   
   /* Status Colors - Light Theme */
-  --color-active: #4361ee;
-  --color-completed: #22c55e;
-  --color-pending: #f59e0b;
-  --color-overdue: #ef4444;
+  --color-active: #94a3b8;
+  --color-completed: #a7c080;
+  --color-pending: #e0c097;
+  --color-overdue: #c17c7c;
   
   /* Timer Colors - Light Theme */
-  --color-focus: #4361ee;
-  --color-break: #22c55e;
-  --color-long-break: #3b82f6;
-  --color-pause: #f59e0b;
+  --color-focus: #94a3b8;
+  --color-break: #a7c080;
+  --color-long-break: #94a3b8;
+  --color-pause: #e0c097;
   
   /* Forms - Light Theme */
-  --color-input-background: #ffffff;
-  --color-input-border: #d1d5db;
-  --color-input-text: #111827;
-  --color-input-placeholder: #9ca3af;
+  --color-input-background: #fcfbf8;
+  --color-input-border: #e5e3dd;
+  --color-input-text: #2c2c2c;
+  --color-input-placeholder: #9e9e9e;
   
   /* Chart Colors - Light Theme */
-  --chart-color-1: #4361ee;
-  --chart-color-2: #3b82f6;
-  --chart-color-3: #0ea5e9;
-  --chart-color-4: #06b6d4;
-  --chart-color-5: #14b8a6;
-  --chart-color-6: #10b981;
-  --chart-color-7: #22c55e;
-  --chart-color-8: #84cc16;
+  --chart-color-1: #94a3b8;
+  --chart-color-2: #a7c080;
+  --chart-color-3: #e0c097;
+  --chart-color-4: #c17c7c;
+  --chart-color-5: #7d9259;
+  --chart-color-6: #c49a6c;
+  --chart-color-7: #64748b;
+  --chart-color-8: #a39e93;
   
   /* Animation Durations */
   --duration-fast: 150ms;
@@ -102,151 +103,81 @@
   --spacing-2xl: 3rem;
 }
 
-/* Dark Theme Colors */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Base Colors - Dark Theme */
-    --color-primary: #748ffc;
-    --color-primary-light: #99b3ff;
-    --color-primary-dark: #2c43c2;
-    --color-primary-contrast: #ffffff;
-    
-    --color-secondary: #66bb6a;
-    --color-secondary-light: #98ee99;
-    --color-secondary-dark: #338a3e;
-    --color-secondary-contrast: #000000;
-    
-    --color-accent: #ffb74d;
-    --color-accent-light: #ffe97d;
-    --color-accent-dark: #c88719;
-    --color-accent-contrast: #000000;
-    
-    /* Neutrals - Dark Theme */
-    --color-background: #111827;
-    --color-surface: #1f2937;
-    --color-dialog: #374151;
-    
-    --color-on-background: #f9fafb;
-    --color-on-surface: #f3f4f6;
-    --color-on-dialog: #f3f4f6;
-    
-    /* UI Colors - Dark Theme */
-    --color-success: #4ade80;
-    --color-warning: #fbbf24;
-    --color-error: #f87171;
-    --color-info: #60a5fa;
-    
-    /* Text Colors - Dark Theme */
-    --color-text-primary: #f9fafb;
-    --color-text-secondary: #e5e7eb;
-    --color-text-tertiary: #d1d5db;
-    --color-text-disabled: #6b7280;
-    
-    /* Border Colors - Dark Theme */
-    --color-border: #374151;
-    --color-border-light: #4b5563;
-    --color-border-focus: #60a5fa;
-    
-    /* Shadow Colors - Dark Theme */
-    --color-shadow: rgba(0, 0, 0, 0.5);
-    --color-shadow-dark: rgba(0, 0, 0, 0.8);
-    
-    /* Status Colors - Dark Theme */
-    --color-active: #748ffc;
-    --color-completed: #4ade80;
-    --color-pending: #fbbf24;
-    --color-overdue: #f87171;
-    
-    /* Timer Colors - Dark Theme */
-    --color-focus: #748ffc;
-    --color-break: #4ade80;
-    --color-long-break: #60a5fa;
-    --color-pause: #fbbf24;
-    
-    /* Forms - Dark Theme */
-    --color-input-background: #1f2937;
-    --color-input-border: #4b5563;
-    --color-input-text: #f9fafb;
-    --color-input-placeholder: #9ca3af;
-    
-    /* Chart Colors - Dark Theme */
-    --chart-color-1: #748ffc;
-    --chart-color-2: #60a5fa;
-    --chart-color-3: #38bdf8;
-    --chart-color-4: #22d3ee;
-    --chart-color-5: #2dd4bf;
-    --chart-color-6: #34d399;
-    --chart-color-7: #4ade80;
-    --chart-color-8: #a3e635;
-  }
-}
-
-/* Class-based dark mode toggle (for manual theme switching) */
-.dark {
-  /* Same variables as in the dark theme media query */
-  --color-primary: #748ffc;
-  --color-primary-light: #99b3ff;
-  --color-primary-dark: #2c43c2;
-  --color-primary-contrast: #ffffff;
+/* Dark Theme - True dark with soulful accents */
+.dark-theme, .dark {
+  /* Base Colors - Dark Theme */
+  --color-primary: #94a3b8; /* Keep same as light for consistency */
+  --color-primary-light: #cbd5e1;
+  --color-primary-dark: #64748b;
+  --color-primary-contrast: #1a1a1a;
   
-  --color-secondary: #66bb6a;
-  --color-secondary-light: #98ee99;
-  --color-secondary-dark: #338a3e;
-  --color-secondary-contrast: #000000;
+  --color-secondary: #a7c080;
+  --color-secondary-light: #d1dbbc;
+  --color-secondary-dark: #7d9259;
+  --color-secondary-contrast: #1a1a1a;
   
-  --color-accent: #ffb74d;
-  --color-accent-light: #ffe97d;
-  --color-accent-dark: #c88719;
-  --color-accent-contrast: #000000;
+  --color-accent: #e0c097;
+  --color-accent-light: #e9d5b9;
+  --color-accent-dark: #c49a6c;
+  --color-accent-contrast: #1a1a1a;
   
-  --color-background: #111827;
-  --color-surface: #1f2937;
-  --color-dialog: #374151;
+  /* Neutrals - Dark Theme - True dark */
+  --color-background: #0f0f0f; /* Deep true dark */
+  --color-surface: #1a1a1a; /* Dark gray */
+  --color-dialog: #262626;
   
-  --color-on-background: #f9fafb;
-  --color-on-surface: #f3f4f6;
-  --color-on-dialog: #f3f4f6;
+  --color-on-background: #e6e6e6;
+  --color-on-surface: #e6e6e6;
+  --color-on-dialog: #e6e6e6;
   
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-info: #60a5fa;
+  /* UI Colors - Dark Theme */
+  --color-success: #a7c080;
+  --color-warning: #e0c097;
+  --color-error: #c17c7c;
+  --color-info: #94a3b8;
   
-  --color-text-primary: #f9fafb;
-  --color-text-secondary: #e5e7eb;
-  --color-text-tertiary: #d1d5db;
-  --color-text-disabled: #6b7280;
+  /* Text Colors - Dark Theme */
+  --color-text-primary: #e6e6e6;
+  --color-text-secondary: #c2c2c2;
+  --color-text-tertiary: #9e9e9e;
+  --color-text-disabled: #6e6e6e;
   
-  --color-border: #374151;
-  --color-border-light: #4b5563;
-  --color-border-focus: #60a5fa;
+  /* Border Colors - Dark Theme */
+  --color-border: #333333;
+  --color-border-light: #404040;
+  --color-border-focus: #94a3b8;
   
-  --color-shadow: rgba(0, 0, 0, 0.5);
-  --color-shadow-dark: rgba(0, 0, 0, 0.8);
+  /* Shadow Colors - Dark Theme */
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-shadow-dark: rgba(0, 0, 0, 0.5);
   
-  --color-active: #748ffc;
-  --color-completed: #4ade80;
-  --color-pending: #fbbf24;
-  --color-overdue: #f87171;
+  /* Status Colors - Dark Theme */
+  --color-active: #94a3b8;
+  --color-completed: #a7c080;
+  --color-pending: #e0c097;
+  --color-overdue: #c17c7c;
   
-  --color-focus: #748ffc;
-  --color-break: #4ade80;
-  --color-long-break: #60a5fa;
-  --color-pause: #fbbf24;
+  /* Timer Colors - Dark Theme */
+  --color-focus: #94a3b8;
+  --color-break: #a7c080;
+  --color-long-break: #94a3b8;
+  --color-pause: #e0c097;
   
-  --color-input-background: #1f2937;
-  --color-input-border: #4b5563;
-  --color-input-text: #f9fafb;
-  --color-input-placeholder: #9ca3af;
+  /* Forms - Dark Theme */
+  --color-input-background: #1f1f1f;
+  --color-input-border: #333333;
+  --color-input-text: #e6e6e6;
+  --color-input-placeholder: #9e9e9e;
   
-  --chart-color-1: #748ffc;
-  --chart-color-2: #60a5fa;
-  --chart-color-3: #38bdf8;
-  --chart-color-4: #22d3ee;
-  --chart-color-5: #2dd4bf;
-  --chart-color-6: #34d399;
-  --chart-color-7: #4ade80;
-  --chart-color-8: #a3e635;
+  /* Chart Colors - Dark Theme */
+  --chart-color-1: #94a3b8;
+  --chart-color-2: #a7c080;
+  --chart-color-3: #e0c097;
+  --chart-color-4: #c17c7c;
+  --chart-color-5: #7d9259;
+  --chart-color-6: #c49a6c;
+  --chart-color-7: #cbd5e1;
+  --chart-color-8: #a39e93;
 }
 
 /* Apply the CSS variables to the body element */
