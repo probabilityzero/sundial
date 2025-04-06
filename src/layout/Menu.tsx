@@ -71,24 +71,6 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
     e.stopPropagation();
   };
 
-  // Conditionally include the header section for the full menu
-  const renderFullMenuHeader = () => (
-    <div className="p-4 flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 rounded-full bg-primary bg-opacity-10 flex items-center justify-center">
-          <span className="text-primary font-bold text-lg">S</span>
-        </div>
-        <h2 className="font-semibold text-text-primary">Sundial</h2>
-      </div>
-      <button 
-        onClick={onClose}
-        className="w-8 h-8 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 transition-all duration-200"
-        aria-label="Close menu"
-      >
-        <X className="w-5 h-5" />
-      </button>
-    </div>
-  );
 
   return (
     <>
@@ -209,15 +191,12 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
       <AnimatePresence>
         {(!isCompact || isOpen) && !isCompact && (
           <motion.div
-            className="fixed inset-y-0 left-0 w-64 bg-background/80 backdrop-blur-sm border-r border-border z-50 flex flex-col"
+            className="fixed inset-y-0 left-0 w-64 bg-background border-r border-border z-50 flex flex-col"
             initial={{ x: '-100%' }}
             animate={{ x: isOpen ? 0 : '-100%' }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >  
-            {/* Header section */}
-            {renderFullMenuHeader()}
-            
             {/* User Profile - Enhanced and bigger */}
             <div className="px-4 py-5 border-b border-border">
               <Link to="/profile" className="flex flex-col items-center" onClick={onClose}>
@@ -260,25 +239,18 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
                   </Link>
                 );
               })}
+              <button
+                onClick={toggleDarkMode}
+                className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 hover:text-text-primary transition-all duration-200"
+              >
+                {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
             </nav>
             
             {/* Footer with justified controls */}
             <div className="p-3 border-t border-border">
               {/* Controls at bottom, spread to corners */}
               <div className="flex justify-between items-center">
-                <button
-                  onClick={toggleDarkMode}
-                  className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 hover:text-text-primary transition-all duration-200"
-                >
-                  {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                </button>
-
-                <button
-                  onClick={toggleCompact}
-                  className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 hover:text-text-primary transition-all duration-200 md:flex hidden"
-                >
-                  <PanelRightOpen className="w-5 h-5" />
-                </button>
 
                 <Link
                   to="/settings"
@@ -287,16 +259,14 @@ export function Menu({ isOpen, onClose, isCompact, toggleCompact, darkMode, togg
                 >
                   <Settings className="w-5 h-5" />
                 </Link>
+
+                <button
+                  onClick={toggleCompact}
+                  className="w-10 h-10 flex items-center justify-center rounded-md text-text-secondary hover:bg-surface/50 hover:text-text-primary transition-all duration-200 md:flex hidden"
+                >
+                  <PanelRightOpen className="w-5 h-5" />
+                </button>
               </div>
-              
-              {/* Logout Button */}
-              <button 
-                onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-2 px-3 py-2 mt-3 rounded-lg text-error hover:bg-error/10 transition-all duration-200"
-              >
-                <LogOut className="w-5 h-5" />
-                <span className="font-medium">Log out</span>
-              </button>
             </div>
           </motion.div>
         )}
